@@ -4,9 +4,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-/* Layout: one RTL column in Sakoo's light-grey canvas; prose at ~70ch, figures run the full 1160px on white panels. */
+/* Layout: one RTL column on a light-grey canvas; prose at ~70ch, figures run the full 1160px on white panels. */
 :root {
-  --bg: #f4f6f8;          /* Sakoo gray-50, the canvas */
+  --bg: #f4f6f8;
   --surface: #ffffff;
   --sunken: #ebeef2;
   --fg: #151b23;
@@ -14,29 +14,34 @@
   --muted: #5f6978;
   --line: #dde2e8;
   --line-strong: #c4cbd5;
-  --accent: #0078b8;      /* Sakoo blue-600 */
+  --accent: #0078b8;
   --accent-ink: #006194;
   --accent-soft: #eef8fd;
   --accent-line: #b3e0f5;
-  --nexus: #ffe400;       /* Nexus yellow, used only to mark what Nexus already has */
-  --nexus-ink: #17161b;
-  --font-body: "Vazirmatn", "Yekan Bakh", Tahoma, sans-serif;
+  --ok-soft: #ecfdf3;     /* "ready" */
+  --ok-ink: #0a6b3d;
+  --ok-line: #a6f2c4;
+  --warn-soft: #fff8eb;   /* "ready, needs changes" */
+  --warn-ink: #9a4307;
+  --warn-line: #fdd98a;
+  --font-body: "Vazirmatn", Tahoma, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --radius: 10px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0c1117; --surface: #151b23; --sunken: #10161d; --fg: #ebeef2; --fg-2: #c4cbd5;
     --muted: #99a3b1; --line: #262f3b; --line-strong: #3d4757; --accent: #3aaee6;
     --accent-ink: #8fd0f0; --accent-soft: #0b2a3e; --accent-line: #145a85;
-    --nexus: #ffe400; --nexus-ink: #17161b; color-scheme: dark;
+    --ok-soft: #0b2a1b; --ok-ink: #7fe0aa; --ok-line: #1c5a38;
+    --warn-soft: #33210a; --warn-ink: #fdc66b; --warn-line: #6b4410; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0c1117; --surface: #151b23; --sunken: #10161d; --fg: #ebeef2; --fg-2: #c4cbd5;
   --muted: #99a3b1; --line: #262f3b; --line-strong: #3d4757; --accent: #3aaee6;
   --accent-ink: #8fd0f0; --accent-soft: #0b2a3e; --accent-line: #145a85;
-  --nexus: #ffe400; --nexus-ink: #17161b; color-scheme: dark;
+  --ok-soft: #0b2a1b; --ok-ink: #7fe0aa; --ok-line: #1c5a38;
+  --warn-soft: #33210a; --warn-ink: #fdc66b; --warn-line: #6b4410; color-scheme: dark;
 }
 
 body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.85; }
@@ -53,8 +58,6 @@ h2 { font-size: 22px; font-weight: 800; }
 h3 { font-size: 15px; font-weight: 700; }
 p { margin: 0; }
 .prose { max-width: 70ch; color: var(--fg-2); }
-.code { font-family: var(--font-mono); font-size: 0.86em; direction: ltr; unicode-bidi: isolate; }
-a { color: var(--accent-ink); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
 /* header */
@@ -67,8 +70,8 @@ a { color: var(--accent-ink); }
 
 /* tags */
 .tag { display: inline-flex; align-items: center; height: 22px; padding-inline: 9px; border-radius: 999px; font-size: 11.5px; font-weight: 500; white-space: nowrap; line-height: 1; }
-.tag-nexus { background: var(--nexus); color: var(--nexus-ink); }
-.tag-sakoo { background: var(--accent-soft); color: var(--accent-ink); box-shadow: inset 0 0 0 1px var(--accent-line); }
+.tag-ready { background: var(--ok-soft); color: var(--ok-ink); box-shadow: inset 0 0 0 1px var(--ok-line); }
+.tag-adapt { background: var(--warn-soft); color: var(--warn-ink); box-shadow: inset 0 0 0 1px var(--warn-line); }
 .tag-new { color: var(--muted); border: 1px dashed var(--line-strong); }
 
 /* sections */
@@ -101,14 +104,14 @@ figcaption { padding: 12px 20px 18px; color: var(--muted); font-size: 13.5px; ma
 .ah-m { fill: var(--muted); }
 .div { stroke: var(--line-strong); stroke-width: 1; stroke-dasharray: 3 4; }
 .pill { fill: var(--surface); stroke: var(--line); stroke-width: 1; }
-.chip-nexus { fill: var(--nexus); }
+.chip-ready { fill: var(--ok-soft); stroke: var(--ok-line); stroke-width: 1; }
 .chip-lock { fill: var(--sunken); }
 .chip-new { fill: none; stroke: var(--line-strong); stroke-dasharray: 4 3; }
 .t { fill: var(--fg); }
 .t2 { fill: var(--fg-2); }
 .tm { fill: var(--muted); }
 .ta { fill: var(--accent-ink); }
-.tn { fill: var(--nexus-ink); }
+.tok { fill: var(--ok-ink); }
 .f11 { font-size: 11px; } .f12 { font-size: 12px; } .f13 { font-size: 13px; } .f14 { font-size: 14px; } .f16 { font-size: 16px; }
 .b { font-weight: 700; } .xb { font-weight: 800; } .m { font-weight: 500; }
 
@@ -140,7 +143,7 @@ td.part { color: var(--fg-2); }
 td.none { color: var(--muted); }
 .table-note { color: var(--muted); font-size: 13.5px; max-width: 92ch; }
 
-/* reuse */
+/* readiness */
 .reuse { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .reuse > div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
 .reuse ul { margin: 0; padding-inline-start: 18px; color: var(--fg-2); font-size: 13.5px; display: grid; gap: 6px; }
@@ -153,7 +156,7 @@ td.none { color: var(--muted); }
 /* phases */
 .phases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; counter-reset: ph; }
 .phases li { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 6px; align-content: start; counter-increment: ph; min-width: 0; }
-.phases li::before { content: "فاز " counter(ph, persian); font-size: 12.5px; font-weight: 700; color: var(--accent-ink); }
+.phases li::before { content: "مرحله " counter(ph, persian); font-size: 12.5px; font-weight: 700; color: var(--accent-ink); }
 .phases p { color: var(--muted); font-size: 13.5px; }
 
 .assume { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 14px; padding: 18px 20px; display: grid; gap: 8px; }
@@ -177,10 +180,10 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
   <header class="masthead">
     <div class="brand"><span class="brand-mark">KLS</span><span>طرح اولیه سامانه · آبان ۱۴۰۵</span></div>
     <h1>نقشه سامانه KLS</h1>
-    <p class="lead">یک سامانه با دو در. همکاران مؤسسه از پنل اداری ترم‌ها، کلاس‌ها، مالی و کار روزانه را می‌گردانند و دانش‌آموزان از سایت ثبت‌نام می‌کنند، سر کلاس می‌روند و کتاب می‌خرند. هر دو در به یک API و یک پایگاه داده می‌رسند. کلاسی که اداره آموزش می‌چیند همان لحظه در سایت دیده می‌شود و پولی که دانش‌آموز می‌پردازد همان لحظه در دفتر مالی ثبت می‌شود.</p>
+    <p class="lead">یک سامانه با دو در. همکاران مؤسسه از پنل اداری ترم‌ها، کلاس‌ها، مالی و کار روزانه را می‌گردانند و دانش‌آموزان از سایت ثبت‌نام می‌کنند، سر کلاس می‌روند و کتاب می‌خرند. بخش بزرگی از سامانه آماده است. کار تازه بیشتر روی ترم و کلاس حضوری، حضور و غیاب، کارنامه و حساب والدین است.</p>
     <div class="legend" aria-label="راهنمای برچسب‌ها">
-      <span><span class="tag tag-nexus">Nexus</span> آماده در مخزن nexus</span>
-      <span><span class="tag tag-sakoo">Sakoo</span> آماده در مخزن sakoo</span>
+      <span><span class="tag tag-ready">آماده</span> ساخته شده و آزموده</span>
+      <span><span class="tag tag-adapt">با تغییر</span> آماده، با چند افزوده برای مؤسسه</span>
       <span><span class="tag tag-new">ساخت تازه</span> باید ساخته شود</span>
     </div>
   </header>
@@ -189,11 +192,11 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
   <section aria-labelledby="arch">
     <div class="section-head">
       <span class="eyebrow">معماری</span>
-      <h2 id="arch">دو در، یک API</h2>
+      <h2 id="arch">دو در، یک سامانه</h2>
     </div>
     <figure>
       <div class="scroll">
-        <svg viewBox="0 0 1120 776" role="img" aria-label="کارکنان از پنل اداری و دانش‌آموزان از پورتال وارد می‌شوند. هر دو از Caddy به یک API می‌رسند. کارکنان به هر سه گروه ماژول دسترسی دارند و دانش‌آموز فقط به هسته آموزشی و فروش. پرداخت‌ها در دفتر مالی Nexus ثبت می‌شوند. سه اتصال بیرونی وجود دارد: درگاه بانکی، پیامک و سرویس ویدیو.">
+        <svg viewBox="0 0 1120 776" role="img" aria-label="کارکنان از پنل اداری و دانش‌آموزان از سایت وارد می‌شوند و هر دو به یک سامانه می‌رسند. سامانه سه بخش دارد: یادگیری آنلاین و فروش (آماده)، ترم و کلاس حضوری (ساخت تازه) و اداره مؤسسه (آماده). کارکنان به هر سه بخش دسترسی دارند و دانش‌آموز به دو بخش اول. همه پرداخت‌ها در دفتر مالی ثبت می‌شوند. اتصال به درگاه پرداخت، کلاس آنلاین، میزبان ویدیو و پیامک از یک لایه می‌گذرد.">
           <defs>
             <marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah"/></marker>
             <marker id="ah1a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah-a"/></marker>
@@ -218,79 +221,86 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
           <!-- doors -->
           <rect class="box-door" x="600" y="100" width="500" height="84" rx="12"/>
           <text class="t xb f16" x="850" y="128" text-anchor="middle">۱ · پنل اداری</text>
-          <text class="t2 f12 m" x="850" y="150" text-anchor="middle">زیردامنه اداری · کد Nexus با پوسته Sakoo</text>
+          <text class="t2 f12 m" x="850" y="150" text-anchor="middle">زیردامنه اداری · هر همکار بخش‌های نقش خودش را می‌بیند</text>
           <text class="tm f12" x="850" y="170" text-anchor="middle">ورود با رمز و تأیید دومرحله‌ای · فقط همکاران</text>
           <rect class="box-door-a" x="20" y="100" width="500" height="84" rx="12"/>
           <text class="t xb f16" x="270" y="128" text-anchor="middle">۲ · سایت و پورتال دانش‌آموز</text>
-          <text class="ta f12 m" x="270" y="150" text-anchor="middle">دامنه اصلی · Next.js با طراحی Sakoo</text>
-          <text class="tm f12" x="270" y="170" text-anchor="middle">ورود با کد ملی، موبایل و کد یک‌بارمصرف</text>
+          <text class="ta f12 m" x="270" y="150" text-anchor="middle">دامنه اصلی · سایت، پنل دانش‌آموز و والدین</text>
+          <text class="tm f12" x="270" y="170" text-anchor="middle">ورود با شماره موبایل و کد یک‌بارمصرف</text>
 
           <line class="ar" x1="850" y1="184" x2="850" y2="204" marker-end="url(#ah1)"/>
           <line class="ar-a" x1="270" y1="184" x2="270" y2="204" marker-end="url(#ah1a)"/>
 
-          <!-- proxy -->
+          <!-- front door -->
           <rect class="well" x="20" y="206" width="1080" height="24" rx="6"/>
-          <text class="t2 f11 m" x="560" y="222" text-anchor="middle">Caddy · HTTPS · هر دو دامنه به یک API می‌رسند</text>
+          <text class="t2 f11 m" x="560" y="222" text-anchor="middle">HTTPS · هر دو دامنه به یک سامانه می‌رسند</text>
 
-          <!-- API container -->
+          <!-- platform container -->
           <rect class="well" x="20" y="262" width="1080" height="312" rx="14"/>
-          <text class="t xb f14" x="560" y="286" text-anchor="middle">API یکپارچه (Django)</text>
-          <text class="tm f11" x="560" y="304" text-anchor="middle">هر درخواست از بررسی نقش و لاگ ممیزی می‌گذرد</text>
+          <text class="t xb f14" x="560" y="286" text-anchor="middle">سامانه یکپارچه</text>
+          <text class="tm f11" x="560" y="304" text-anchor="middle">بررسی نقش و ثبت در لاگ ممیزی</text>
 
-          <!-- requests into module groups -->
-          <line class="ar" x1="930" y1="230" x2="930" y2="316" marker-end="url(#ah1)"/>
-          <rect class="pill" x="874" y="237" width="112" height="18" rx="9"/>
-          <text class="t2 f11" x="930" y="250" text-anchor="middle">حضور، مالی، جلسه</text>
-          <line class="ar" x1="730" y1="230" x2="730" y2="316" marker-end="url(#ah1)"/>
-          <rect class="pill" x="660" y="237" width="140" height="18" rx="9"/>
-          <text class="t2 f11" x="730" y="250" text-anchor="middle">ترم، کلاس، ثبت‌نام حضوری</text>
-          <line class="ar-a" x1="420" y1="230" x2="420" y2="316" marker-end="url(#ah1a)"/>
-          <rect class="pill" x="356" y="237" width="128" height="18" rx="9"/>
-          <text class="t2 f11" x="420" y="250" text-anchor="middle">ثبت‌نام، کلاس، کارنامه</text>
-          <line class="ar-a" x1="200" y1="230" x2="200" y2="316" marker-end="url(#ah1a)"/>
-          <rect class="pill" x="146" y="237" width="108" height="18" rx="9"/>
-          <text class="t2 f11" x="200" y="250" text-anchor="middle">پرداخت، خرید کتاب</text>
+          <!-- requests into the three parts -->
+          <line class="ar" x1="945" y1="230" x2="945" y2="316" marker-end="url(#ah1)"/>
+          <rect class="pill" x="889" y="237" width="112" height="18" rx="9"/>
+          <text class="t2 f11" x="945" y="250" text-anchor="middle">حضور، مالی، جلسه</text>
+          <line class="ar" x1="700" y1="230" x2="700" y2="316" marker-end="url(#ah1)"/>
+          <rect class="pill" x="630" y="237" width="140" height="18" rx="9"/>
+          <text class="t2 f11" x="700" y="250" text-anchor="middle">ترم، کلاس، ثبت‌نام حضوری</text>
+          <line class="ar-a" x1="440" y1="230" x2="440" y2="316" marker-end="url(#ah1a)"/>
+          <rect class="pill" x="381" y="237" width="118" height="18" rx="9"/>
+          <text class="t2 f11" x="440" y="250" text-anchor="middle">ثبت‌نام ترم، کارنامه</text>
+          <line class="ar" x1="280" y1="230" x2="280" y2="316" marker-end="url(#ah1)"/>
+          <rect class="pill" x="217" y="281" width="126" height="18" rx="9"/>
+          <text class="t2 f11" x="280" y="294" text-anchor="middle">مدیریت دوره و فروشگاه</text>
+          <line class="ar-a" x1="130" y1="230" x2="130" y2="316" marker-end="url(#ah1a)"/>
+          <rect class="pill" x="78" y="237" width="104" height="18" rx="9"/>
+          <text class="t2 f11" x="130" y="250" text-anchor="middle">دوره، آزمون، خرید</text>
 
-          <!-- commerce -->
-          <rect class="box-new" x="40" y="318" width="320" height="200" rx="12"/>
-          <text class="t xb f14" x="200" y="344" text-anchor="middle">فروش و پرداخت</text>
-          <rect class="chip-new" x="160" y="354" width="80" height="20" rx="10"/>
-          <text class="tm f11" x="200" y="368" text-anchor="middle">ساخت تازه</text>
-          <text class="t2 f12" x="200" y="398" text-anchor="middle">شهریه، قسط، تخفیف</text>
-          <text class="t2 f12" x="200" y="420" text-anchor="middle">سفارش و انبار کتاب</text>
-          <text class="t2 f12" x="200" y="442" text-anchor="middle">اتصال به درگاه بانکی</text>
-          <text class="t2 f12" x="200" y="464" text-anchor="middle">بازپرداخت با تأیید مالی</text>
+          <!-- online learning and sales (ready) -->
+          <rect class="box-ready" x="40" y="318" width="290" height="200" rx="12"/>
+          <text class="t xb f14" x="185" y="344" text-anchor="middle">یادگیری آنلاین و فروش</text>
+          <rect class="chip-ready" x="153" y="354" width="64" height="20" rx="10"/>
+          <text class="tok f11 m" x="185" y="368" text-anchor="middle">آماده</text>
+          <text class="t2 f12" x="185" y="398" text-anchor="middle">دوره ضبط‌شده، کلاس آنلاین، آزمون</text>
+          <text class="t2 f12" x="185" y="420" text-anchor="middle">کتاب، پکیج، کد تخفیف</text>
+          <text class="t2 f12" x="185" y="442" text-anchor="middle">پرداخت نقدی و قسطی، کیف پول</text>
+          <text class="t2 f12" x="185" y="464" text-anchor="middle">صفحه اصلی، بلاگ، نظرات</text>
+          <text class="t2 f12" x="185" y="486" text-anchor="middle">پشتیبانی و تیکت</text>
 
-          <!-- education core -->
-          <rect class="box-new" x="400" y="318" width="340" height="200" rx="12"/>
-          <text class="t xb f14" x="570" y="344" text-anchor="middle">هسته آموزشی</text>
+          <!-- terms and in-person classes (new) -->
+          <rect class="box-new" x="410" y="318" width="320" height="200" rx="12"/>
+          <text class="t xb f14" x="570" y="344" text-anchor="middle">ترم و کلاس حضوری</text>
           <rect class="chip-new" x="530" y="354" width="80" height="20" rx="10"/>
           <text class="tm f11" x="570" y="368" text-anchor="middle">ساخت تازه</text>
-          <text class="t2 f12" x="570" y="398" text-anchor="middle">ترم، دوره، سطح</text>
-          <text class="t2 f12" x="570" y="420" text-anchor="middle">کلاس: استاد، اتاق یا لینک، ساعت</text>
-          <text class="t2 f12" x="570" y="442" text-anchor="middle">ثبت‌نام، تعیین سطح، حضور و غیاب</text>
-          <text class="t2 f12" x="570" y="464" text-anchor="middle">تکلیف، آزمون، کارنامه، گواهی</text>
-          <text class="t2 f12" x="570" y="486" text-anchor="middle">دوره ضبط‌شده و منابع</text>
+          <text class="t2 f12" x="570" y="398" text-anchor="middle">ترم، سطح، تقویم آموزشی</text>
+          <text class="t2 f12" x="570" y="420" text-anchor="middle">اتاق، چینش و هشدار تداخل</text>
+          <text class="t2 f12" x="570" y="442" text-anchor="middle">ثبت‌نام حضوری، لیست انتظار</text>
+          <text class="t2 f12" x="570" y="464" text-anchor="middle">حضور و غیاب، تکلیف</text>
+          <text class="t2 f12" x="570" y="486" text-anchor="middle">کارنامه، گواهی، حساب والدین</text>
 
-          <!-- nexus modules -->
-          <rect class="box-ready" x="780" y="318" width="300" height="200" rx="12"/>
-          <text class="t xb f14" x="930" y="344" text-anchor="middle">ماژول‌های Nexus</text>
-          <rect class="chip-nexus" x="880" y="354" width="100" height="20" rx="10"/>
-          <text class="tn f11 m" x="930" y="368" text-anchor="middle">آماده در Nexus</text>
-          <text class="t2 f12" x="930" y="398" text-anchor="middle">کارکنان، نقش‌ها، لاگ ممیزی</text>
-          <text class="t2 f12" x="930" y="420" text-anchor="middle">حضور، مرخصی، حقوق</text>
-          <text class="t2 f12" x="930" y="442" text-anchor="middle">فاکتور، پرداخت، دفتر مالی</text>
-          <text class="t2 f12" x="930" y="464" text-anchor="middle">گفتگو، جلسه، اسناد، وظایف</text>
-          <rect class="chip-lock" x="840" y="480" width="180" height="22" rx="11"/>
-          <text class="t2 f11 m" x="930" y="495" text-anchor="middle">فقط همکاران، نه دانش‌آموز</text>
+          <!-- institute operations (ready) -->
+          <rect class="box-ready" x="810" y="318" width="270" height="200" rx="12"/>
+          <text class="t xb f14" x="945" y="344" text-anchor="middle">اداره مؤسسه</text>
+          <rect class="chip-ready" x="913" y="354" width="64" height="20" rx="10"/>
+          <text class="tok f11 m" x="945" y="368" text-anchor="middle">آماده</text>
+          <text class="t2 f12" x="945" y="398" text-anchor="middle">کارکنان، نقش‌ها، لاگ ممیزی</text>
+          <text class="t2 f12" x="945" y="420" text-anchor="middle">حضور، مرخصی، حقوق</text>
+          <text class="t2 f12" x="945" y="442" text-anchor="middle">دفتر مالی، هزینه‌ها، تأییدها</text>
+          <text class="t2 f12" x="945" y="464" text-anchor="middle">گفتگو، جلسه، اسناد، وظایف</text>
+          <rect class="chip-lock" x="855" y="480" width="180" height="22" rx="11"/>
+          <text class="t2 f11 m" x="945" y="495" text-anchor="middle">فقط همکاران، نه دانش‌آموز</text>
 
-          <!-- cross links inside the API -->
-          <path class="ar" d="M700 518 V534 H880 V520" marker-end="url(#ah1)"/>
-          <rect class="pill" x="728" y="525" width="124" height="18" rx="9"/>
-          <text class="t2 f11" x="790" y="538" text-anchor="middle">ساعت تدریس برای حقوق</text>
-          <path class="ar" d="M200 518 V554 H1000 V520" marker-end="url(#ah1)"/>
-          <rect class="pill" x="410" y="545" width="300" height="18" rx="9"/>
-          <text class="t2 f11" x="560" y="558" text-anchor="middle">هر پرداخت شهریه یا کتاب در دفتر مالی Nexus ثبت می‌شود</text>
+          <!-- links between the parts -->
+          <line class="ar" x1="334" y1="430" x2="406" y2="430" marker-start="url(#ah1)" marker-end="url(#ah1)"/>
+          <rect class="pill" x="332" y="402" width="76" height="18" rx="9"/>
+          <text class="t2 f11" x="370" y="415" text-anchor="middle">کلاس و آزمون</text>
+          <line class="ar" x1="732" y1="430" x2="806" y2="430" marker-end="url(#ah1)"/>
+          <rect class="pill" x="735" y="402" width="70" height="18" rx="9"/>
+          <text class="t2 f11" x="770" y="415" text-anchor="middle">ساعت تدریس</text>
+          <path class="ar" d="M185 518 V548 H990 V520" marker-end="url(#ah1)"/>
+          <rect class="pill" x="415" y="539" width="290" height="18" rx="9"/>
+          <text class="t2 f11" x="560" y="552" text-anchor="middle">هر پرداخت دوره، کلاس یا کتاب در دفتر مالی ثبت می‌شود</text>
 
           <!-- services bus -->
           <line class="ar" x1="491" y1="574" x2="491" y2="590"/>
@@ -305,27 +315,27 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
           <rect class="pill" x="601" y="581" width="84" height="18" rx="9"/>
           <text class="t2 f11" x="643" y="594" text-anchor="middle">خواندن و نوشتن</text>
 
-          <!-- infrastructure -->
+          <!-- shared services on the institute's server -->
           <rect class="box" x="40" y="606" width="142" height="56" rx="8"/>
-          <text class="t b f12" x="111" y="629" text-anchor="middle">Gotenberg</text>
-          <text class="tm f11" x="111" y="648" text-anchor="middle">PDF کارنامه و فاکتور</text>
+          <text class="t b f12" x="111" y="629" text-anchor="middle">ساخت PDF</text>
+          <text class="tm f11" x="111" y="648" text-anchor="middle">کارنامه، گواهی، فاکتور</text>
           <rect class="box" x="192" y="606" width="142" height="56" rx="8"/>
           <text class="t b f12" x="263" y="629" text-anchor="middle">فایل‌ها</text>
-          <text class="tm f11" x="263" y="648" text-anchor="middle">ویدیو، جزوه، صوت</text>
-          <rect class="box" x="344" y="606" width="142" height="56" rx="8"/>
-          <text class="t b f12" x="415" y="629" text-anchor="middle">LiveKit + TURN</text>
-          <text class="tm f11" x="415" y="648" text-anchor="middle">کلاس آنلاین زنده</text>
+          <text class="tm f11" x="263" y="648" text-anchor="middle">جزوه، صوت، تصویر</text>
+          <rect class="box-sys" x="344" y="606" width="142" height="56" rx="8"/>
+          <text class="ta b f12" x="415" y="629" text-anchor="middle">لایه اتصال بیرونی</text>
+          <text class="tm f11" x="415" y="648" text-anchor="middle">همه سرویس‌های بیرونی</text>
           <rect class="box" x="496" y="606" width="142" height="56" rx="8"/>
-          <text class="t b f12" x="567" y="629" text-anchor="middle">RabbitMQ + Celery</text>
+          <text class="t b f12" x="567" y="629" text-anchor="middle">صف کارها</text>
           <text class="tm f11" x="567" y="648" text-anchor="middle">پیامک، ایمیل، یادآوری</text>
           <rect class="box" x="648" y="606" width="142" height="56" rx="8"/>
-          <text class="t b f12" x="719" y="629" text-anchor="middle">Redis</text>
-          <text class="tm f11" x="719" y="648" text-anchor="middle">نشست‌ها و محدودیت‌ها</text>
+          <text class="t b f12" x="719" y="629" text-anchor="middle">نشست‌ها</text>
+          <text class="tm f11" x="719" y="648" text-anchor="middle">ورود و محدودیت تلاش</text>
           <rect class="box" x="800" y="606" width="142" height="56" rx="8"/>
-          <text class="t b f12" x="871" y="629" text-anchor="middle">MongoDB</text>
-          <text class="tm f11" x="871" y="648" text-anchor="middle">لاگ ممیزی</text>
+          <text class="t b f12" x="871" y="629" text-anchor="middle">لاگ ممیزی</text>
+          <text class="tm f11" x="871" y="648" text-anchor="middle">چه کسی چه چیزی را تغییر داد</text>
           <rect class="box" x="952" y="606" width="142" height="56" rx="8"/>
-          <text class="t b f12" x="1023" y="629" text-anchor="middle">PostgreSQL</text>
+          <text class="t b f12" x="1023" y="629" text-anchor="middle">پایگاه داده</text>
           <text class="tm f11" x="1023" y="648" text-anchor="middle">همه داده‌های اصلی</text>
 
           <!-- internet boundary -->
@@ -334,27 +344,26 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
           <text class="tm f11" x="1010" y="702" text-anchor="middle">بیرون از سرور، از راه اینترنت</text>
 
           <!-- external services -->
-          <path class="ar-d" d="M40 442 H28 V732 H38" marker-start="url(#ah1m)" marker-end="url(#ah1m)"/>
+          <line class="ar-d" x1="415" y1="662" x2="415" y2="706" marker-end="url(#ah1m)"/>
+          <line class="ar-d" x1="111" y1="694" x2="567" y2="694"/>
+          <line class="ar-d" x1="111" y1="694" x2="111" y2="706" marker-end="url(#ah1m)"/>
+          <line class="ar-d" x1="263" y1="694" x2="263" y2="706" marker-end="url(#ah1m)"/>
+          <line class="ar-d" x1="567" y1="694" x2="567" y2="706" marker-end="url(#ah1m)"/>
           <rect class="box-ext" x="40" y="708" width="142" height="48" rx="8"/>
-          <text class="t b f12" x="111" y="728" text-anchor="middle">درگاه پرداخت بانکی</text>
-          <text class="tm f11" x="111" y="746" text-anchor="middle">رفت و برگشت پرداخت</text>
-
-          <line class="ar-d" x1="263" y1="662" x2="263" y2="706" marker-end="url(#ah1m)"/>
-          <rect class="pill" x="223" y="675" width="80" height="18" rx="9"/>
-          <text class="t2 f11" x="263" y="688" text-anchor="middle">انتشار ویدیو</text>
+          <text class="t b f12" x="111" y="728" text-anchor="middle">درگاه پرداخت</text>
+          <text class="tm f11" x="111" y="746" text-anchor="middle">نقدی و قسطی</text>
           <rect class="box-ext" x="192" y="708" width="142" height="48" rx="8"/>
-          <text class="t b f12" x="263" y="728" text-anchor="middle">سرویس ویدیو</text>
-          <text class="tm f11" x="263" y="746" text-anchor="middle">اختیاری، برای دوره ضبط‌شده</text>
-
-          <line class="ar-d" x1="567" y1="662" x2="567" y2="706" marker-end="url(#ah1m)"/>
-          <rect class="pill" x="527" y="675" width="80" height="18" rx="9"/>
-          <text class="t2 f11" x="567" y="688" text-anchor="middle">ارسال پیامک</text>
+          <text class="t b f12" x="263" y="728" text-anchor="middle">سرویس کلاس آنلاین</text>
+          <text class="tm f11" x="263" y="746" text-anchor="middle">کلاس زنده دانش‌آموزان</text>
+          <rect class="box-ext" x="344" y="708" width="142" height="48" rx="8"/>
+          <text class="t b f12" x="415" y="728" text-anchor="middle">میزبان ویدیو</text>
+          <text class="tm f11" x="415" y="746" text-anchor="middle">پخش امن دوره‌ها</text>
           <rect class="box-ext" x="496" y="708" width="142" height="48" rx="8"/>
           <text class="t b f12" x="567" y="728" text-anchor="middle">پنل پیامک</text>
           <text class="tm f11" x="567" y="746" text-anchor="middle">کد ورود، یادآوری، غیبت</text>
         </svg>
       </div>
-      <figcaption>کارکنان به هر سه گروه ماژول می‌رسند و دانش‌آموز فقط به هسته آموزشی و فروش. ماژول‌های Nexus پشت نقش «همکار» می‌مانند. شهریه و فروش کتاب دفتر مالی جداگانه‌ای ندارند و در همان دفتر مالی Nexus ثبت می‌شوند. ساعت‌های تدریس هم به حقوق استاد می‌رسد. Nexus بدون اینترنت کار می‌کند؛ KLS فقط سه اتصال بیرونی دارد که با خط‌چین کشیده شده‌اند.</figcaption>
+      <figcaption>خط آبی راه دانش‌آموز است و خط تیره راه همکاران. همکاران به هر سه بخش می‌رسند و دانش‌آموز فقط به یادگیری آنلاین و بخش ترم. دو بخش کناری آماده‌اند. بخش وسط تازه ساخته می‌شود و آن دو را به هم وصل می‌کند: کلاس‌ها و آزمون‌های آماده را در ترم و سطح می‌چیند و ساعت تدریس را به حقوق استاد می‌رساند. همه سرویس‌های بیرونی از یک لایه می‌گذرند، پس اگر اینترنت قطع شود کار داخلی مؤسسه متوقف نمی‌شود.</figcaption>
     </figure>
   </section>
 
@@ -375,36 +384,41 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
         <div class="group">
           <span class="group-title">آموزش</span>
           <ul class="mods">
-            <li><strong>ترم‌ها و تقویم آموزشی</strong><span class="tag tag-new">ساخت تازه</span><p>شروع و پایان ترم، مهلت ثبت‌نام و انصراف. تعطیلات رسمی از تقویم Nexus خوانده می‌شود تا جلسه روی تعطیلی نیفتد.</p></li>
-            <li><strong>دوره‌ها و سطح‌ها</strong><span class="tag tag-new">ساخت تازه</span><p>سرفصل، پیش‌نیاز، تعداد جلسه، شهریه پایه و کتاب‌های هر سطح.</p></li>
-            <li><strong>چینش کلاس</strong><span class="tag tag-new">ساخت تازه</span><p>استاد، اتاق یا لینک آنلاین، روز و ساعت و ظرفیت. هشدار تداخل استاد و اتاق پیش از ذخیره.</p></li>
-            <li><strong>استادها</strong><span class="tag tag-nexus">Nexus</span><p>پرونده همکار از Nexus، به‌اضافه زمان‌های آزاد، سطح‌هایی که درس می‌دهد و ساعت تدریس.</p></li>
-            <li><strong>دانش‌آموزان</strong><span class="tag tag-new">ساخت تازه</span><p>مشخصات، والدین، سابقه ترم‌ها و نمره‌ها، پرداخت‌ها و یادداشت‌های پشتیبانی در یک پرونده.</p></li>
+            <li><strong>ترم‌ها و تقویم آموزشی</strong><span class="tag tag-new">ساخت تازه</span><p>شروع و پایان ترم، مهلت ثبت‌نام و انصراف. تعطیلات رسمی خودکار کنار گذاشته می‌شود تا جلسه روی تعطیلی نیفتد.</p></li>
+            <li><strong>دوره‌ها، کلاس‌ها و سطح‌ها</strong><span class="tag tag-adapt">با تغییر</span><p>تعریف دوره و کلاس با سرفصل، قیمت، ظرفیت، تیزر و تصویر آماده است. سطح، پیش‌نیاز و اتصال به ترم اضافه می‌شود.</p></li>
+            <li><strong>چینش کلاس و اتاق</strong><span class="tag tag-adapt">با تغییر</span><p>برنامه هفتگی جلسه‌ها با استاد هر جلسه و ورود از اکسل آماده است. اتاق‌های حضوری و هشدار تداخل استاد و اتاق اضافه می‌شود.</p></li>
+            <li><strong>استادها و مصحح‌ها</strong><span class="tag tag-ready">آماده</span><p>پرونده استاد، نقش، کلاس‌ها و آزمون‌هایی که با او است و سهم او از فروش.</p></li>
+            <li><strong>دانش‌آموزان</strong><span class="tag tag-adapt">با تغییر</span><p>فهرست کاربران، وضعیت، خریدها و خروجی اکسل آماده است. پرونده کامل با والدین، سابقه ترم‌ها و نمره‌ها اضافه می‌شود.</p></li>
             <li><strong>پذیرش و ثبت‌نام حضوری</strong><span class="tag tag-new">ساخت تازه</span><p>ثبت‌نام پشت باجه، جابه‌جایی کلاس، انصراف و لیست انتظار وقتی کلاس پر است.</p></li>
-            <li><strong>آزمون و کارنامه</strong><span class="tag tag-sakoo">Sakoo</span><p>بانک سؤال و موتور آزمون Sakoo برای تعیین سطح و آزمون‌های ترم، با نمره‌دهی و کارنامه.</p></li>
+            <li><strong>حضور و غیاب کلاس</strong><span class="tag tag-new">ساخت تازه</span><p>استاد حضور هر جلسه را ثبت می‌کند و غیبت به والدین پیامک می‌شود.</p></li>
+            <li><strong>آزمون‌ها</strong><span class="tag tag-ready">آماده</span><p>بانک سؤال، زمان و امتیاز هر سؤال، درجه سختی، مصحح‌ها، تأیید نتایج، جدول امتیاز و پاسخ‌نامه.</p></li>
+            <li><strong>کارنامه و گواهی</strong><span class="tag tag-new">ساخت تازه</span><p>نمره‌های ترم، حضور و نظر استاد در یک کارنامه PDF، و گواهی پایان دوره.</p></li>
           </ul>
         </div>
 
         <div class="group">
           <span class="group-title">مالی و فروش</span>
           <ul class="mods">
-            <li><strong>شهریه، قسط و تخفیف</strong><span class="tag tag-new">ساخت تازه</span><p>شهریه هر کلاس، برنامه قسط، تخفیف خواهر و برادر یا ترم بعد، کد تخفیف.</p></li>
-            <li><strong>فاکتور، دفتر مالی، هزینه‌ها</strong><span class="tag tag-nexus">Nexus</span><p>فاکتور با PDF فارسی، ثبت پرداخت، دفتر دریافتنی، هزینه‌ها و سود و زیان.</p></li>
-            <li><strong>حقوق</strong><span class="tag tag-nexus">Nexus</span><p>حقوق ماهانه از حضور و مرخصی. حقوق استاد از ساعت‌های تدریس هسته آموزشی.</p></li>
-            <li><strong>انبار و سفارش کتاب</strong><span class="tag tag-new">ساخت تازه</span><p>موجودی، سفارش‌های سایت، تحویل سر کلاس یا ارسال پستی.</p></li>
+            <li><strong>فروش و فاکتورها</strong><span class="tag tag-ready">آماده</span><p>فاکتورهای خرید با پرداخت نقدی، قسطی یا دستی از چند درگاه، و فروش هر دوره، کلاس و آزمون.</p></li>
+            <li><strong>کد تخفیف و پکیج</strong><span class="tag tag-ready">آماده</span><p>کد تخفیف با تاریخ انقضا، قیمت با کد معرف، و پکیج چند دوره با تخفیف.</p></li>
+            <li><strong>کیف پول و تسویه استادها</strong><span class="tag tag-ready">آماده</span><p>سهم هر استاد یا مصحح از فروش، موجودی قابل برداشت و تسویه.</p></li>
+            <li><strong>شهریه ترمی و قسط</strong><span class="tag tag-adapt">با تغییر</span><p>پرداخت قسطی آماده است. شهریه هر ترم، برنامه قسط خود مؤسسه و تخفیف خواهر و برادر اضافه می‌شود.</p></li>
+            <li><strong>دفتر مالی، هزینه‌ها و حقوق</strong><span class="tag tag-ready">آماده</span><p>دفتر دریافتنی، هزینه‌ها با رسید، حقوق ماهانه از حضور و مرخصی، و سود و زیان.</p></li>
+            <li><strong>فروشگاه و انبار کتاب</strong><span class="tag tag-ready">آماده</span><p>کتاب با موجودی، ناشر، نویسنده و وزن برای ارسال، و فروش هر کتاب.</p></li>
           </ul>
         </div>
 
         <div class="group">
           <span class="group-title">کار تیمی و اداره</span>
           <ul class="mods">
-            <li><strong>وظایف و پروژه‌ها</strong><span class="tag tag-nexus">Nexus</span><p>برای کارهایی مثل برگزاری آزمون پایان ترم یا آماده‌سازی ترم بعد.</p></li>
-            <li><strong>حضور و مرخصی همکاران</strong><span class="tag tag-nexus">Nexus</span><p>ورود و خروج، شیفت، اضافه‌کار و درخواست مرخصی.</p></li>
-            <li><strong>گفتگو، جلسه، اسناد</strong><span class="tag tag-nexus">Nexus</span><p>کانال‌های تیم، پیام مستقیم، جلسه تصویری و اسناد با تاریخچه نسخه.</p></li>
-            <li><strong>صندوق تأییدها</strong><span class="tag tag-nexus">Nexus</span><p>همان صندوق Nexus، با چند نوع تازه: تخفیف ویژه، بازپرداخت و جابه‌جایی کلاس.</p></li>
-            <li><strong>گزارش‌ساز</strong><span class="tag tag-nexus">Nexus</span><p>گزارش ثبت‌نام، پرشدن کلاس‌ها، بدهی‌ها و حضور، با خروجی Excel و PDF.</p></li>
-            <li><strong>مدیریت سایت</strong><span class="tag tag-new">ساخت تازه</span><p>اخبار، صفحه‌ها، بنر و معرفی استادها، بدون نیاز به برنامه‌نویس.</p></li>
-            <li><strong>کاربران، نقش‌ها، لاگ ممیزی</strong><span class="tag tag-nexus">Nexus</span><p>دعوت همکار، نقش و دسترسی، و ثبت اینکه چه کسی چه چیزی را تغییر داد.</p></li>
+            <li><strong>وظایف و پروژه‌ها</strong><span class="tag tag-ready">آماده</span><p>برای کارهایی مثل برگزاری آزمون پایان ترم یا آماده‌سازی ترم بعد.</p></li>
+            <li><strong>حضور و مرخصی همکاران</strong><span class="tag tag-ready">آماده</span><p>ورود و خروج، شیفت، اضافه‌کار و درخواست مرخصی.</p></li>
+            <li><strong>گفتگو، جلسه، اسناد</strong><span class="tag tag-ready">آماده</span><p>کانال‌های تیم، پیام مستقیم، جلسه تصویری و اسناد با تاریخچه نسخه.</p></li>
+            <li><strong>صندوق تأییدها</strong><span class="tag tag-adapt">با تغییر</span><p>تأیید مرخصی، هزینه و ساعت کار آماده است. تخفیف ویژه، بازپرداخت و جابه‌جایی کلاس اضافه می‌شود.</p></li>
+            <li><strong>پشتیبانی و تیکت</strong><span class="tag tag-ready">آماده</span><p>تیکت با اولویت و وضعیت، گفتگو با دانش‌آموز، میانگین زمان پاسخ و رضایت.</p></li>
+            <li><strong>گزارش‌ساز</strong><span class="tag tag-ready">آماده</span><p>گزارش فروش، ثبت‌نام، بدهی‌ها و حضور، با خروجی Excel و PDF.</p></li>
+            <li><strong>صفحه اصلی و بلاگ</strong><span class="tag tag-ready">آماده</span><p>محتوای صفحه اصلی و مطالب بلاگ، با بررسی پیش از انتشار.</p></li>
+            <li><strong>کاربران، نقش‌ها، لاگ ممیزی</strong><span class="tag tag-ready">آماده</span><p>دعوت همکار، نقش و دسترسی، ورود دومرحله‌ای و ثبت اینکه چه کسی چه چیزی را تغییر داد.</p></li>
           </ul>
         </div>
       </div>
@@ -418,25 +432,27 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
         <div class="group">
           <span class="group-title">سایت عمومی</span>
           <ul class="mods">
-            <li><strong>معرفی دوره‌ها و استادها</strong><span class="tag tag-new">ساخت تازه</span><p>فهرست دوره‌ها با سطح، زمان، ظرفیت باقی‌مانده و شهریه، از همان داده‌ای که اداره آموزش می‌چیند.</p></li>
-            <li><strong>تقویم ترم و اخبار</strong><span class="tag tag-new">ساخت تازه</span><p>تاریخ‌های ثبت‌نام و شروع ترم، اطلاعیه‌ها.</p></li>
-            <li><strong>تعیین سطح آنلاین</strong><span class="tag tag-sakoo">Sakoo</span><p>موتور آزمون Sakoo با زمان‌سنج، ادامه پس از قطع اتصال و قفل یک‌نشستی.</p></li>
-            <li><strong>فروشگاه کتاب</strong><span class="tag tag-new">ساخت تازه</span><p>کتاب‌های هر سطح، سبد خرید، پرداخت و پیگیری سفارش.</p></li>
+            <li><strong>صفحه اصلی و بلاگ</strong><span class="tag tag-ready">آماده</span><p>معرفی مؤسسه، مطالب و اطلاعیه‌ها.</p></li>
+            <li><strong>معرفی دوره‌ها، کلاس‌ها و استادها</strong><span class="tag tag-ready">آماده</span><p>با تیزر، سرفصل، پیش‌نیاز، قیمت و نظرات دانش‌آموزان.</p></li>
+            <li><strong>تقویم ترم</strong><span class="tag tag-new">ساخت تازه</span><p>تاریخ‌های ثبت‌نام، شروع ترم و کلاس‌هایی که هنوز جا دارند.</p></li>
+            <li><strong>تعیین سطح آنلاین</strong><span class="tag tag-adapt">با تغییر</span><p>روی همان آزمون‌های آماده. نتیجه به یک سطح و کلاس پیشنهادی تبدیل می‌شود.</p></li>
+            <li><strong>فروشگاه کتاب و پکیج‌ها</strong><span class="tag tag-ready">آماده</span><p>کتاب‌ها و پکیج‌ها، سبد خرید و کد تخفیف.</p></li>
           </ul>
         </div>
 
         <div class="group">
           <span class="group-title">پنل دانش‌آموز</span>
           <ul class="mods">
-            <li><strong>ورود با موبایل</strong><span class="tag tag-sakoo">Sakoo</span><p>کد ملی با کنترل رقم آخر، شماره موبایل و کد یک‌بارمصرف. بدون رمز.</p></li>
-            <li><strong>ثبت‌نام و پرداخت آنلاین</strong><span class="tag tag-new">ساخت تازه</span><p>انتخاب کلاس، پرداخت کامل یا قسطی از درگاه بانکی، فاکتور و رسید.</p></li>
-            <li><strong>کلاس آنلاین زنده</strong><span class="tag tag-nexus">Nexus</span><p>جلسه‌های Nexus: اتاق انتظار، صدا و تصویر، اشتراک صفحه و گفتگوی کلاس. ورود فقط برای ثبت‌نام‌شده‌ها.</p></li>
-            <li><strong>دوره آنلاین</strong><span class="tag tag-new">ساخت تازه</span><p>دوره ضبط‌شده درس به درس، با پیشرفت، آزمونک و گواهی پایان.</p></li>
-            <li><strong>منابع</strong><span class="tag tag-nexus">Nexus</span><p>جزوه، فایل صوتی و ضبط جلسه‌ها برای هر کلاس، روی کتابخانه فایل Nexus.</p></li>
-            <li><strong>تکلیف و آزمون</strong><span class="tag tag-sakoo">Sakoo</span><p>تحویل تکلیف، آزمون آنلاین با همان موتور آزمون، و گزارش ایراد سؤال.</p></li>
+            <li><strong>ورود با موبایل</strong><span class="tag tag-ready">آماده</span><p>شماره موبایل و کد یک‌بارمصرف. بدون رمز.</p></li>
+            <li><strong>ثبت‌نام و پرداخت آنلاین</strong><span class="tag tag-adapt">با تغییر</span><p>خرید آنلاین با پرداخت نقدی یا قسطی آماده است. انتخاب کلاس در ترم و نگه داشتن صندلی تا پرداخت اضافه می‌شود.</p></li>
+            <li><strong>کلاس آنلاین زنده</strong><span class="tag tag-ready">آماده</span><p>ورود به کلاس زنده از پنل، فقط برای ثبت‌نام‌شده‌ها.</p></li>
+            <li><strong>دوره آنلاین</strong><span class="tag tag-ready">آماده</span><p>دوره ضبط‌شده فصل به فصل، با جلسه‌های رایگان و پخش امن.</p></li>
+            <li><strong>آزمون آنلاین</strong><span class="tag tag-ready">آماده</span><p>زمان‌دار، با نمره، رتبه در جدول امتیاز و پاسخ‌نامه تشریحی یا ویدیویی.</p></li>
+            <li><strong>منابع کلاس</strong><span class="tag tag-adapt">با تغییر</span><p>فایل‌های هر دوره آماده است. جزوه و ضبط جلسه‌های هر کلاس ترمی اضافه می‌شود.</p></li>
+            <li><strong>تکلیف</strong><span class="tag tag-new">ساخت تازه</span><p>استاد تکلیف می‌دهد، دانش‌آموز تحویل می‌دهد و نمره و بازخورد می‌گیرد.</p></li>
             <li><strong>کارنامه و گواهی</strong><span class="tag tag-new">ساخت تازه</span><p>نمره‌ها، حضور، کارنامه PDF و گواهی پایان دوره.</p></li>
-            <li><strong>پرداخت‌ها و فاکتورها</strong><span class="tag tag-nexus">Nexus</span><p>مثل فاکتورهای پورتال مشتری Nexus: قسط‌های پیش رو، پرداخت‌شده‌ها و PDF.</p></li>
-            <li><strong>پیام و اعلان</strong><span class="tag tag-nexus">Nexus</span><p>پیام به پشتیبانی یا استاد و اعلان‌ها، با پیامک برای موارد مهم.</p></li>
+            <li><strong>پرداخت‌ها و قسط‌ها</strong><span class="tag tag-ready">آماده</span><p>فاکتورها، قسط‌های پیش رو و پرداخت‌شده‌ها.</p></li>
+            <li><strong>پشتیبانی و نظرات</strong><span class="tag tag-ready">آماده</span><p>تیکت و گفتگو با پشتیبانی، و نظر دادن درباره دوره و کلاس.</p></li>
             <li><strong>حساب والدین</strong><span class="tag tag-new">ساخت تازه</span><p>والد حضور، نمره و پرداخت‌های فرزند را می‌بیند و پیامک غیبت می‌گیرد.</p></li>
           </ul>
         </div>
@@ -597,56 +613,57 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
           <tr><th scope="row">ترم، دوره، چینش کلاس</th><td class="full">کامل</td><td class="part">خواندن</td><td class="part">خواندن</td><td class="part">کلاس‌های خودش</td><td class="part">فهرست عمومی</td><td class="part">فهرست عمومی</td></tr>
           <tr><th scope="row">ثبت‌نام و جابه‌جایی</th><td class="full">کامل</td><td class="full">کامل</td><td class="part">خواندن</td><td class="none">ندارد</td><td class="part">ثبت‌نام خودش</td><td class="part">ثبت‌نام فرزند</td></tr>
           <tr><th scope="row">شهریه، تخفیف، بازپرداخت</th><td class="part">تأیید تخفیف ویژه</td><td class="part">پیشنهاد تخفیف</td><td class="full">کامل</td><td class="none">ندارد</td><td class="part">پرداخت خودش</td><td class="part">پرداخت فرزند</td></tr>
-          <tr><th scope="row">دفتر مالی و حقوق</th><td class="none">ندارد</td><td class="none">ندارد</td><td class="full">کامل</td><td class="part">فیش خودش</td><td class="none">ندارد</td><td class="none">ندارد</td></tr>
+          <tr><th scope="row">دفتر مالی و حقوق</th><td class="none">ندارد</td><td class="none">ندارد</td><td class="full">کامل</td><td class="part">فیش و کیف پول خودش</td><td class="none">ندارد</td><td class="none">ندارد</td></tr>
           <tr><th scope="row">حضور و غیاب، نمره</th><td class="full">کامل</td><td class="part">خواندن</td><td class="none">ندارد</td><td class="part">کلاس‌های خودش</td><td class="part">خودش، خواندن</td><td class="part">فرزند، خواندن</td></tr>
           <tr><th scope="row">منابع و تکلیف</th><td class="part">خواندن</td><td class="none">ندارد</td><td class="none">ندارد</td><td class="part">کلاس‌های خودش</td><td class="part">کلاس‌های خودش</td><td class="part">فرزند، خواندن</td></tr>
           <tr><th scope="row">گفتگو، جلسه، وظایف تیم</th><td class="full">کامل</td><td class="full">کامل</td><td class="full">کامل</td><td class="full">کامل</td><td class="none">ندارد</td><td class="none">ندارد</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="table-note">همه این قاعده‌ها در همان تابع <span class="code">can()</span> در Nexus نوشته می‌شوند. «مدیر سامانه» همه چیز را دارد و در جدول نیامده. نقش «مشتری» در Nexus همین حالا فقط چیزهایی را می‌بیند که با پرونده خودش به اشتراک گذاشته شده؛ دانش‌آموز و والد همان مرز را با چند نوع داده تازه می‌گیرند.</p>
+    <p class="table-note">این قاعده‌ها یک جا نوشته می‌شوند و هم صفحه‌ها و هم سرور از همان قاعده پیروی می‌کنند. «مدیر سامانه» همه چیز را دارد و در جدول نیامده. دانش‌آموز و والد فقط پرونده خودشان یا فرزندشان را می‌بینند.</p>
   </section>
 
-  <!-- 5. Where each piece comes from -->
-  <section aria-labelledby="reuse">
+  <!-- 5. Readiness -->
+  <section aria-labelledby="ready">
     <div class="section-head">
-      <span class="eyebrow">منشأ</span>
-      <h2 id="reuse">از هر مخزن چه برمی‌داریم</h2>
+      <span class="eyebrow">وضعیت</span>
+      <h2 id="ready">چقدر از سامانه آماده است</h2>
     </div>
     <div class="reuse">
       <div>
-        <span class="tag tag-nexus" style="justify-self:start">nexus · بخش مدیریتی</span>
+        <span class="tag tag-ready" style="justify-self:start">آماده</span>
         <ul>
-          <li>ورود، تأیید دومرحله‌ای، نشست‌ها و محدودیت تلاش</li>
-          <li>نقش‌ها و <span class="code">can()</span>، لاگ ممیزی</li>
-          <li>فارسی و انگلیسی، تقویم جلالی و تعطیلات رسمی</li>
-          <li>مالی: فاکتور، پرداخت، دفتر مالی، PDF، حقوق</li>
-          <li>صندوق تأییدها و گزارش‌ساز</li>
-          <li>جلسه‌ها با LiveKit و TURN برای کلاس زنده</li>
-          <li>گفتگو، اسناد، فایل‌ها، اعلان‌ها</li>
-          <li>استقرار با Docker، پشتیبان‌گیری و پایش</li>
+          <li>دوره ضبط‌شده، کلاس آنلاین زنده، آزمون و بانک سؤال</li>
+          <li>فروشگاه کتاب، پکیج، کد تخفیف</li>
+          <li>پرداخت نقدی و قسطی، فاکتور، کیف پول و تسویه استاد</li>
+          <li>صفحه اصلی، بلاگ، نظرات، پشتیبانی و تیکت</li>
+          <li>کارکنان، حضور، مرخصی، حقوق، دفتر مالی، هزینه‌ها</li>
+          <li>گفتگو، جلسه، اسناد، وظایف، گزارش‌ساز</li>
+          <li>ورود، نقش‌ها، ورود دومرحله‌ای، لاگ ممیزی</li>
         </ul>
       </div>
       <div>
-        <span class="tag tag-sakoo" style="justify-self:start">sakoo · طراحی</span>
+        <span class="tag tag-adapt" style="justify-self:start">با تغییر</span>
         <ul>
-          <li>توکن‌های رنگ، اندازه و گوشه‌گرد Sakoo</li>
-          <li>تایپ فارسی راست‌به‌چپ و ارقام فارسی</li>
-          <li>ورود با کد ملی، موبایل و کد یک‌بارمصرف</li>
-          <li>موتور آزمون: زمان‌سنج، مهلت اضافه، ادامه پس از قطع، یک نشست در هر زمان</li>
-          <li>یک واژه‌نامه وضعیت برای همه پنل‌ها (مثلاً «منقضی» محاسبه می‌شود، ذخیره نمی‌شود)</li>
-          <li>جدول‌هایی که در موبایل کارت می‌شوند</li>
+          <li>دوره و کلاس: سطح، پیش‌نیاز و ترم</li>
+          <li>برنامه هفتگی: اتاق و هشدار تداخل</li>
+          <li>پرونده دانش‌آموز: والدین و سابقه ترم‌ها</li>
+          <li>ثبت‌نام آنلاین: نگه داشتن صندلی در ترم</li>
+          <li>تعیین سطح: تبدیل نتیجه آزمون به سطح</li>
+          <li>شهریه ترمی و برنامه قسط مؤسسه</li>
+          <li>صندوق تأییدها: تخفیف ویژه، بازپرداخت، جابه‌جایی</li>
+          <li>منابع هر کلاس ترمی</li>
         </ul>
       </div>
       <div>
         <span class="tag tag-new" style="justify-self:start">ساخت تازه</span>
         <ul>
-          <li>هسته آموزشی: ترم، دوره، کلاس، ثبت‌نام، حضور، نمره</li>
-          <li>شهریه و قسط، فروشگاه و انبار کتاب</li>
-          <li>اتصال به درگاه بانکی و پنل پیامک</li>
-          <li>پخش دوره ضبط‌شده</li>
+          <li>ترم و تقویم آموزشی، و تقویم ترم در سایت</li>
+          <li>ثبت‌نام حضوری و لیست انتظار</li>
+          <li>حضور و غیاب کلاس و پیامک غیبت</li>
+          <li>تکلیف</li>
+          <li>کارنامه و گواهی</li>
           <li>حساب والدین</li>
-          <li>مدیریت محتوای سایت</li>
         </ul>
       </div>
     </div>
@@ -660,28 +677,28 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
     </div>
     <div class="decisions">
       <div class="decision">
-        <h3>یک پایگاه داده برای هر دو بخش</h3>
-        <p>اگر سایت و پنل اداری دو سامانه جدا باشند، باید ظرفیت کلاس و پرداخت‌ها را بین آن‌ها همگام کرد و همین‌جا خطا پیش می‌آید. با یک API، ظرفیتی که سایت نشان می‌دهد همان عددی است که پذیرش می‌بیند.</p>
+        <h3>ظرفیت، ثبت‌نام و پرداخت فقط یک جا ثبت می‌شوند</h3>
+        <p>سایت و پنل اداری یک عدد ظرفیت را می‌بینند. اگر هر بخش ظرفیت را جدا نگه دارد، کلاس بیش از اندازه پر می‌شود یا پرداختی گم می‌شود.</p>
       </div>
       <div class="decision">
-        <h3>پنل اداری همان Nexus با پوسته Sakoo</h3>
-        <p>Nexus فقط از کلاس‌های مبتنی بر توکن استفاده می‌کند و تست‌هایش رنگ خام را رد می‌کنند. پس با عوض کردن فایل توکن‌ها به مقادیر Sakoo، همه صفحه‌ها یک‌جا ظاهر Sakoo می‌گیرند.</p>
+        <h3>بخش‌های آماده بازنویسی نمی‌شوند</h3>
+        <p>بخش ترم و کلاس حضوری کنار آن‌ها ساخته می‌شود و از همان کلاس‌ها، آزمون‌ها و پرداخت‌های آماده استفاده می‌کند. این‌طور زمان ساخت صرف چیزهای تازه می‌شود.</p>
       </div>
       <div class="decision">
-        <h3>پورتال روی همان پشته</h3>
-        <p>Sakoo با Vite و HeroUI ساخته شده و Nexus با Next.js. پورتال روی Next.js ساخته می‌شود تا کد مشترک (تاریخ، پول، دسترسی) یک‌بار نوشته شود، و منطق آزمون و ورود Sakoo به آن منتقل می‌شود.</p>
+        <h3>یک ظاهر برای همه پنل‌ها</h3>
+        <p>همه پنل‌ها یک مجموعه رنگ، نوشتار و اجزای فارسی و راست‌به‌چپ می‌گیرند تا همکار و دانش‌آموز حس دو سامانه جدا نداشته باشند.</p>
       </div>
       <div class="decision">
-        <h3>اینترنت فقط برای سه کار</h3>
-        <p>Nexus بدون اینترنت کار می‌کند. KLS برای درگاه بانکی، پیامک و (اختیاری) ویدیو به اینترنت نیاز دارد. این سه پشت یک لایه اتصال می‌مانند تا اگر اینترنت قطع شد، کار داخلی مؤسسه متوقف نشود.</p>
+        <h3>سرویس‌های بیرونی از یک لایه</h3>
+        <p>درگاه پرداخت، کلاس آنلاین، ویدیو و پیامک به اینترنت نیاز دارند. همه از یک لایه می‌گذرند تا با قطع اینترنت یا یکی از سرویس‌ها کار داخلی ادامه پیدا کند، و عوض کردن یک سرویس فقط همان لایه را تغییر دهد.</p>
       </div>
       <div class="decision">
         <h3>پرداخت فقط با تأیید بانک قطعی می‌شود</h3>
         <p>ثبت‌نام وقتی قطعی است که پرداخت از سمت بانک تأیید شود، نه وقتی کاربر به سایت برمی‌گردد. هر تأیید فقط یک‌بار ثبت می‌شود، حتی اگر بانک دوبار خبر بدهد.</p>
       </div>
       <div class="decision">
-        <h3>کلاس زنده روی جلسه‌های Nexus</h3>
-        <p>اتاق انتظار، اشتراک صفحه، گفتگو و یادداشت مشترک در Nexus ساخته و آزموده شده. برای کلاس فقط ضبط جلسه و اتصال آن به منابع کلاس اضافه می‌شود.</p>
+        <h3>دانش‌آموز به بخش اداری راه ندارد</h3>
+        <p>حقوق، دفتر مالی و گفتگوهای تیم پشت نقش همکار می‌مانند. دانش‌آموز و والد فقط پرونده خودشان را می‌بینند و هر تغییر در لاگ ممیزی ثبت می‌شود.</p>
       </div>
     </div>
   </section>
@@ -691,13 +708,13 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
     <div class="section-head">
       <span class="eyebrow">ترتیب ساخت</span>
       <h2 id="phases">چهار مرحله</h2>
-      <p class="prose">ترتیب طوری چیده شده که مؤسسه از پایان مرحله اول با سامانه کار کند و هر مرحله روی داده واقعی مرحله قبل ساخته شود.</p>
+      <p class="prose">بیشتر بخش‌ها آماده‌اند، پس مرحله اول وصل کردن آن‌هاست. بعد کار تازه شروع می‌شود و هر مرحله روی داده واقعی مرحله قبل ساخته می‌شود.</p>
     </div>
     <ol class="phases">
-      <li><h3>هسته و پنل اداری</h3><p>ترم، دوره، چینش کلاس، پرونده دانش‌آموز، ثبت‌نام حضوری و شهریه، روی Nexus با پوسته Sakoo.</p></li>
-      <li><h3>پورتال دانش‌آموز</h3><p>سایت عمومی، ورود با موبایل، ثبت‌نام و پرداخت آنلاین، کارنامه و حساب والدین.</p></li>
-      <li><h3>یادگیری آنلاین</h3><p>کلاس زنده، منابع، تکلیف و آزمون، و تعیین سطح آنلاین.</p></li>
-      <li><h3>فروشگاه و دوره ضبط‌شده</h3><p>فروشگاه و انبار کتاب، دوره‌های ضبط‌شده با پیشرفت و گواهی.</p></li>
+      <li><h3>یکپارچه کردن بخش‌های آماده</h3><p>ورود و نقش‌های مشترک، یک ظاهر برای همه پنل‌ها، و ثبت همه فروش‌ها در دفتر مالی.</p></li>
+      <li><h3>ترم و کلاس حضوری</h3><p>ترم، سطح، اتاق و چینش، ثبت‌نام حضوری، حضور و غیاب و شهریه ترمی.</p></li>
+      <li><h3>پورتال ترمی</h3><p>ثبت‌نام آنلاین در ترم با نگه داشتن صندلی، تعیین سطح، کارنامه و حساب والدین.</p></li>
+      <li><h3>تکلیف و گزارش‌ها</h3><p>تکلیف، منابع هر کلاس، گواهی و گزارش‌های مدیریتی ترم.</p></li>
     </ol>
   </section>
 
@@ -707,9 +724,9 @@ footer { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--lin
       <li>بعضی دانش‌آموزان زیر ۱۸ سال‌اند، پس حساب والدین لازم است.</li>
       <li>مؤسسه هم کلاس حضوری دارد و هم آنلاین.</li>
       <li>فعلاً یک شعبه. اگر چند شعبه باشد، شعبه به ترم، کلاس، اتاق و همکاران اضافه می‌شود.</li>
-      <li>پرداخت با درگاه بانکی ایران و پیامک با یک پنل پیامکی ایرانی.</li>
+      <li>بخش‌های آماده یا در یک کد ادغام می‌شوند یا کنار هم می‌مانند و به هم وصل می‌شوند. انتخاب به فناوری هر کدام بستگی دارد.</li>
     </ul>
   </aside>
 
-  <footer>منابع این نقشه: مخزن <span class="code">moeamani/nexus</span> (README، PLAN.md، GUI.md، docker-compose.yml) و مخزن <span class="code">moeamani/sakoo</span> (README و src/styles/globals.css).</footer>
+  <footer>نسخه ۲ · آبان ۱۴۰۵</footer>
 </main>
