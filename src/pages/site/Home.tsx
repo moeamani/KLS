@@ -1,38 +1,23 @@
-import { ArrowLeft, Calendar } from '@gravity-ui/icons';
-import { Button, Card, cn } from '@heroui/react';
+import { ArrowLeft, BookOpen, Briefcase, Calendar, GraduationCap, Headphones, Microphone, Pencil, Ticket } from '@gravity-ui/icons';
+import { Button, Card } from '@heroui/react';
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Stagger, StaggerItem } from '@/components/motion';
-import { PracticeCard } from '@/components/PracticeCard';
-import { Wave } from '@/components/Wave';
 import { CLASS_FORMATS, SERVICES_MENU } from '@/data/site';
 import { termState } from '@/data/status';
 import { formatDate, formatDay } from '@/lib/dates';
 import { faNumber } from '@/lib/format';
 import { useApp } from '@/store/app';
-import { mockSessionState } from '@/store/selectors';
+import { mockSessionState, openTerm } from '@/store/selectors';
 import { Container, MockSessionCard, SiteSection } from './parts';
 
-const SECTIONS = [
-  { name: 'Listening', time: "30'" },
-  { name: 'Reading', time: "60'" },
-  { name: 'Writing', time: "60'" },
-  { name: 'Speaking', time: "14'" },
-];
-
-// Each service group gets its own block of the palette.
-const GROUP_STYLE = [
-  'bg-cream text-ink',
-  'bg-ink text-cream',
-  'bg-peri-mid text-ink',
-  'bg-beige text-ink',
-];
+const GROUP_ICON = [GraduationCap, Ticket, Briefcase, BookOpen];
 
 const MOCK_STEPS = [
-  { title: 'رزرو و پرداخت', text: 'تاریخ، ماژول و نوع برگزاری را انتخاب می‌کنید و زمان اسپیکینگ همان لحظه تعیین می‌شود.' },
-  { title: 'سه بخش کتبی', text: 'لیسنینگ، ریدینگ و رایتینگ، کامپیوتری و با زمان‌بندی آزمون واقعی.' },
-  { title: 'اسپیکینگ با ممتحن', text: 'گفت‌وگوی ۱۱ تا ۱۴ دقیقه‌ای در سه بخش، رودررو یا آنلاین.' },
-  { title: 'کارنامه با بازخورد', text: 'نمره هر مهارت با چهار معیار رسمی، تحلیل پاسخ‌ها و پیشنهاد برای نمره بالاتر.' },
+  { icon: Ticket, title: 'رزرو و پرداخت آنلاین', text: 'تاریخ، ماژول آکادمیک یا جنرال و نوع برگزاری را انتخاب می‌کنید و زمان اسپیکینگ همان لحظه تعیین می‌شود.' },
+  { icon: Headphones, title: 'لیسنینگ، ریدینگ و رایتینگ', text: 'کامپیوتری و با زمان‌بندی آزمون واقعی؛ در سایت آموزشگاه یا آنلاین از خانه.' },
+  { icon: Microphone, title: 'اسپیکینگ با ممتحن', text: 'گفت‌وگوی ۱۱ تا ۱۴ دقیقه‌ای در سه بخش، با ممتحن آیلتس آموزشگاه.' },
+  { icon: Pencil, title: 'کارنامه با بازخورد', text: 'نمره هر مهارت و نمره کل، بازخورد رایتینگ و اسپیکینگ بر اساس چهار معیار، و تحلیل پاسخ‌ها.' },
 ];
 
 export function HomePage() {
@@ -40,115 +25,104 @@ export function HomePage() {
   const navigate = useNavigate();
   useEffect(() => { document.title = 'KLS School · خانه زبان کرمانشاه'; }, []);
   const upcoming = useMemo(() => state.mockSessions.filter((m) => ['open', 'full'].includes(mockSessionState(state, m))).sort((a, b) => a.at.localeCompare(b.at)).slice(0, 3), [state]);
-  const term = state.terms.find((t) => termState(t) === 'registration');
+  const term = openTerm(state);
   const runningClasses = state.classes.filter((c) => state.terms.find((t) => t.id === c.termId && termState(t) === 'running') && !c.cancelled).length;
 
   return (
     <>
-      <section className="ground overflow-hidden">
-        <Container className="grid gap-12 pt-10 pb-16 sm:pt-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
+      <section className="border-b border-border bg-surface">
+        <Container className="grid gap-10 py-10 sm:py-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center">
           <div className="min-w-0">
-            <p className="serif text-[26px] leading-9 text-ink-2 sm:text-[30px]">فراتر از تمرین معمولی</p>
-            <h1 className="display mt-1 text-[56px] leading-[1.08] text-balance sm:text-[88px]">آزمون ماک آیلتس، دقیقاً مثل روز آزمون</h1>
-            <p className="mt-6 max-w-[52ch] text-[16.5px] leading-8 text-ink-2">
-              لیسنینگ، ریدینگ و رایتینگ با همان زمان‌بندی؛ اسپیکینگ رودررو با ممتحن؛ و کارنامه‌ای که دقیقاً می‌گوید نمره کجا از دست رفته است.
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-3 py-1 text-[13px] font-semibold text-ink-2">
+              <span className="size-1.5 rounded-full bg-success" />
+              خانه زبان کرمانشاه · {faNumber(24)} سال آموزش زبان
+            </div>
+            <h1 className="text-[32px] leading-[1.35] font-extrabold text-balance sm:text-[44px]">آزمون آزمایشی آیلتس، با همان زمان‌بندی و سخت‌گیری روز آزمون</h1>
+            <p className="mt-5 max-w-[56ch] text-[16px] leading-8 text-ink-2">
+              لیسنینگ، ریدینگ و رایتینگ کامپیوتری، اسپیکینگ رودررو با ممتحن، و کارنامه‌ای که دقیقاً می‌گوید کجا نمره از دست رفته است.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button size="lg" onPress={() => navigate('/ielts/mock')}>رزرو آزمون ماک<ArrowLeft /></Button>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Button size="lg" onPress={() => navigate('/ielts/mock')}>
+                رزرو آزمون ماک
+                <ArrowLeft />
+              </Button>
               <Button size="lg" variant="secondary" onPress={() => navigate('/courses/adults')}>دوره‌های زبان</Button>
             </div>
-            <dl className="ltr mt-10 flex flex-wrap gap-2">
-              {SECTIONS.map((s) => (
-                <div key={s.name} className="flex items-baseline gap-2 rounded-full bg-cream/70 px-4 py-2">
-                  <dt className="mono text-[12px] text-ink-2">{s.name}</dt>
-                  <dd className="display text-[20px] leading-6">{s.time}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
-          <PracticeCard className="lg:-rotate-2" />
-        </Container>
-      </section>
-
-      <section className="bg-cream">
-        <Container className="py-12">
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="serif text-[21px] leading-8 text-ink-2">صندلی‌ها محدود است</p>
-              <h2 className="display text-[34px] leading-[1.2] sm:text-[42px]">نزدیک‌ترین آزمون‌های ماک</h2>
+          <div className="grid gap-3">
+            <div className="flex items-baseline justify-between">
+              <h2 className="text-sm font-bold">نزدیک‌ترین آزمون‌های ماک</h2>
+              <button type="button" onClick={() => navigate('/ielts/mock')} className="text-[13px] font-semibold text-link hover:underline">همه تاریخ‌ها</button>
             </div>
-            <Button variant="secondary" onPress={() => navigate('/ielts/mock')}>همه تاریخ‌ها<ArrowLeft /></Button>
+            {upcoming.length ? upcoming.map((session) => <MockSessionCard key={session.id} session={session} compact />) : <Card className="p-6 text-center text-sm text-muted">تاریخ آزمون‌های بعدی به‌زودی اعلام می‌شود.</Card>}
           </div>
-          {upcoming.length ? <div className="grid gap-4 md:grid-cols-[repeat(auto-fill,minmax(320px,1fr))]">{upcoming.map((session) => <MockSessionCard key={session.id} session={session} />)}</div> : <Card className="p-6 text-center text-sm text-muted">تاریخ آزمون‌های بعدی به‌زودی اعلام می‌شود.</Card>}
         </Container>
       </section>
 
-      <SiteSection title="خدمات آموزشی" lead="از اولین کلاس کودکان تا تربیت مدرس">
+      <SiteSection title="خدمات آموزشی" lead="از اولین کلاس کودکان تا آمادگی آیلتس و تربیت مدرس.">
         <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICES_MENU.map((group, index) => (
-            <StaggerItem key={group.title}>
-              <div className={cn('flex h-full flex-col gap-5 rounded-[28px] p-6', GROUP_STYLE[index])}>
-                <div className={cn('kicker', index === 1 && 'text-cream/70')} data-dot={index === 1 ? 'sky' : undefined}>{faNumber(index + 1).padStart(2, '۰')}</div>
-                <h3 className="display text-[30px] leading-[1.2]">{group.title}</h3>
-                <ul className="mt-auto grid gap-1">
-                  {group.links.map((link) => (
-                    <li key={link.to}>
-                      <button type="button" onClick={() => navigate(link.to)} className={cn('flex w-full items-center justify-between gap-2 rounded-full py-1.5 text-start text-[14px] outline-none focus-visible:ring-2 focus-visible:ring-focus', index === 1 ? 'text-cream/85 hover:text-cream' : 'text-ink-2 hover:text-ink')}>
-                        {link.label}
-                        <ArrowLeft className="size-3.5 opacity-60" />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </StaggerItem>
-          ))}
+          {SERVICES_MENU.map((group, index) => {
+            const Icon = GROUP_ICON[index];
+            return (
+              <StaggerItem key={group.title}>
+                <Card className="h-full gap-3 p-5">
+                  <span className="grid size-10 place-items-center rounded-xl bg-accent-soft text-accent"><Icon className="size-5" /></span>
+                  <h3 className="text-base font-bold">{group.title}</h3>
+                  <ul className="grid gap-1.5">
+                    {group.links.map((link) => (
+                      <li key={link.to}>
+                        <button type="button" onClick={() => navigate(link.to)} className="flex w-full items-center justify-between gap-2 rounded-md py-1 text-start text-[13.5px] text-ink-2 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-focus">
+                          {link.label}
+                          <ArrowLeft className="size-3.5 text-ink-3" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </StaggerItem>
+            );
+          })}
         </Stagger>
       </SiteSection>
 
       {term ? (
-        <section className="bg-ink text-cream">
-          <Container className="flex flex-wrap items-center justify-between gap-6 py-10">
-            <div className="flex items-center gap-5">
-              <span className="grid size-14 place-items-center rounded-full bg-cream/10"><Calendar className="size-6" /></span>
+        <section className="bg-accent text-accent-foreground">
+          <Container className="flex flex-wrap items-center justify-between gap-6 py-8">
+            <div className="flex items-center gap-4">
+              <span className="grid size-12 place-items-center rounded-2xl bg-white/15"><Calendar className="size-6" /></span>
               <div>
-                <p className="serif text-[20px] leading-7 text-cream/75">شروع کلاس‌ها {formatDate(term.start)}</p>
-                <div className="display text-[34px] leading-[1.2] sm:text-[44px]">ثبت‌نام {term.title} باز است</div>
-                <div className="mono text-[12px] text-cream/60">مهلت ثبت‌نام تا {formatDay(term.regClose)}</div>
+                <div className="text-lg font-extrabold">ثبت‌نام {term.title} باز است</div>
+                <div className="text-[14px] opacity-90">شروع کلاس‌ها {formatDate(term.start)} · مهلت ثبت‌نام تا {formatDay(term.regClose)}</div>
               </div>
             </div>
             <div className="flex gap-2">
-              <Button className="bg-cream text-ink" onPress={() => navigate('/portal/enroll')}>ثبت‌نام آنلاین</Button>
-              <Button variant="ghost" className="text-cream hover:bg-cream/10" onPress={() => navigate('/calendar')}>تقویم آموزشی</Button>
+              <Button variant="secondary" onPress={() => navigate('/portal/enroll')}>ثبت‌نام آنلاین</Button>
+              <Button variant="ghost" className="text-white hover:bg-white/10" onPress={() => navigate('/calendar')}>تقویم آموزشی</Button>
             </div>
           </Container>
         </section>
       ) : null}
 
-      <SiteSection title="از رزرو تا کارنامه" lead="آزمون ماک در خانه زبان">
-        <div className="grid gap-4 lg:grid-cols-[1fr_1.3fr] lg:items-stretch">
-          <div className="flex flex-col justify-between gap-6 rounded-[28px] bg-cream p-7">
-            <Wave height={140} live />
-            <p className="serif text-[22px] leading-9 text-ink-2">ممتحن‌های آیلتس آموزشگاه، رایتینگ و اسپیکینگ شما را با همان چهار معیار رسمی نمره می‌دهند و برای هر معیار توضیح می‌نویسند.</p>
-          </div>
-          <ol className="grid gap-3 sm:grid-cols-2">
-            {MOCK_STEPS.map((step, index) => (
-              <li key={step.title} className="rounded-[28px] bg-cream p-6">
-                <div className="display text-[56px] leading-none text-peri">{faNumber(index + 1)}</div>
-                <h3 className="mt-3 text-[16px] font-bold">{step.title}</h3>
-                <p className="mt-1.5 text-[13.5px] leading-7 text-muted">{step.text}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
+      <SiteSection title="آزمون ماک در آموزشگاه ما" lead="چهار مرحله، از رزرو تا کارنامه.">
+        <ol className="grid gap-4 md:grid-cols-4">
+          {MOCK_STEPS.map((step, index) => (
+            <li key={step.title} className="relative rounded-2xl border border-border bg-surface p-5">
+              <div className="mb-3 flex items-center gap-3">
+                <span className="grid size-9 place-items-center rounded-full bg-foreground text-sm font-bold text-surface tabular">{faNumber(index + 1)}</span>
+                <step.icon className="size-5 text-accent" />
+              </div>
+              <h3 className="text-[15px] font-bold">{step.title}</h3>
+              <p className="mt-1.5 text-[13px] leading-6 text-muted">{step.text}</p>
+            </li>
+          ))}
+        </ol>
       </SiteSection>
 
-      <SiteSection title="الگوهای کلاسی" lead="هر کس به شیوه خودش یاد می‌گیرد" className="pt-0">
+      <SiteSection title="الگوهای کلاسی" lead="هر کس به شیوه‌ای بهتر یاد می‌گیرد." className="pt-0">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {CLASS_FORMATS.map((format) => (
-            <div key={format.title} className="rounded-[24px] bg-cream/70 p-5">
-              <div className="kicker" data-dot="peri">{format.facts[0]}</div>
-              <div className="mt-2 text-[15px] font-bold">{format.title}</div>
+            <div key={format.title} className="rounded-2xl border border-border bg-surface p-4">
+              <div className="text-sm font-bold">{format.title}</div>
               <p className="mt-1 text-[12.5px] leading-6 text-muted">{format.text}</p>
             </div>
           ))}
@@ -157,23 +131,24 @@ export function HomePage() {
 
       <SiteSection className="pt-0">
         <div className="grid gap-4 lg:grid-cols-[1fr_1.2fr]">
-          <div className="grid grid-cols-2 gap-3">
-            {[[24, 'سال آموزش زبان'], [runningClasses, 'کلاس در حال برگزاری'], [3, 'گروه سنی'], [upcoming.length, 'آزمون ماک پیش رو']].map(([value, label], i) => (
-              <div key={label as string} className={cn('rounded-[24px] p-5', i === 0 ? 'bg-ink text-cream' : 'bg-cream')}>
-                <div className="display text-[52px] leading-[60px] tabular">{faNumber(value as number)}</div>
-                <div className={cn('kicker', i === 0 && 'text-cream/70')}>{label as string}</div>
-              </div>
-            ))}
-          </div>
-          <div className="rounded-[28px] bg-cream p-6">
-            <div className="kicker mb-2" data-dot>تازه‌ها</div>
+          <Card className="gap-4 p-6">
+            <div className="text-sm font-bold text-muted">آموزشگاه در یک نگاه</div>
+            <dl className="grid grid-cols-2 gap-5">
+              <div><dt className="text-xs text-muted">سال آموزش</dt><dd className="text-[30px] font-extrabold tabular">{faNumber(24)}</dd></div>
+              <div><dt className="text-xs text-muted">کلاس در حال برگزاری</dt><dd className="text-[30px] font-extrabold tabular">{faNumber(runningClasses)}</dd></div>
+              <div><dt className="text-xs text-muted">گروه سنی</dt><dd className="text-[30px] font-extrabold tabular">{faNumber(3)}</dd></div>
+              <div><dt className="text-xs text-muted">آزمون ماک در ماه آینده</dt><dd className="text-[30px] font-extrabold tabular">{faNumber(upcoming.length)}</dd></div>
+            </dl>
+          </Card>
+          <Card className="gap-1 p-6">
+            <div className="mb-2 text-sm font-bold text-muted">تازه‌ها</div>
             {state.news.map((item) => (
-              <div key={item.id} className="border-b border-border py-3.5 last:border-0">
-                <div className="text-[15px] font-bold">{item.title}</div>
+              <div key={item.id} className="border-b border-separator py-3 last:border-0">
+                <div className="text-[14.5px] font-bold">{item.title}</div>
                 <div className="text-[13px] leading-6 text-muted">{item.body} · {formatDay(item.at)}</div>
               </div>
             ))}
-          </div>
+          </Card>
         </div>
       </SiteSection>
     </>

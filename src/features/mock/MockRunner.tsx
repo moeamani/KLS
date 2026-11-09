@@ -3,7 +3,6 @@ import { Alert, Button, Card, Chip, cn, Spinner, Switch } from '@heroui/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { LogoMark } from '@/components/Logo';
-import { Wave } from '@/components/Wave';
 import { ConfirmDialog } from '@/components/ui/Dialog';
 import { SAMPLE_WRITING } from '@/data/mockTests';
 import { MODULE_LABEL } from '@/data/status';
@@ -59,10 +58,9 @@ function ExamIntro({ exam, booking, test }: { exam: MockExam; booking: MockBooki
   return (
     <div className="mx-auto grid max-w-[760px] gap-5 px-4 py-8 sm:px-8">
       <div>
-        <div className="serif text-[22px] leading-8 text-ink-2">آزمون ماک · {MODULE_LABEL[booking.module]} · کد {booking.code}</div>
-        <h1 className="display mt-1 text-[44px] leading-[56px]">{resume ? 'ادامه آزمون' : 'پیش از شروع آزمون'}</h1>
+        <div className="text-[13px] font-semibold text-accent">آزمون ماک · {MODULE_LABEL[booking.module]} · کد {booking.code}</div>
+        <h1 className="mt-1 text-[24px] font-extrabold">{resume ? 'ادامه آزمون' : 'پیش از شروع آزمون'}</h1>
       </div>
-      <Wave height={72} bars={22} barWidth={8} gap={5} className="justify-start" />
       {resume ? (
         <Alert status="warning">
           <Alert.Indicator><TriangleExclamation /></Alert.Indicator>
@@ -134,7 +132,7 @@ function DoneScreen({ booking, test }: { booking: MockBooking; test: MockTest })
   return (
     <div className="mx-auto grid max-w-[640px] justify-items-center gap-4 px-6 py-16 text-center">
       <span className="grid size-14 place-items-center rounded-full bg-success-soft text-success"><CircleCheck className="size-7" /></span>
-      <h1 className="display text-[44px] leading-[56px]">آزمون کتبی ثبت شد</h1>
+      <h1 className="text-[22px] font-extrabold">آزمون کتبی ثبت شد</h1>
       <p className="max-w-md text-sm leading-7 text-muted">رایتینگ شما برای ممتحن ارسال شد. نمره کامل پس از آزمون اسپیکینگ و تصحیح رایتینگ منتشر می‌شود و پیامک دریافت می‌کنید.</p>
       {instant && live.attempt ? (
         <div className="grid w-full max-w-sm grid-cols-2 gap-3">
@@ -143,7 +141,7 @@ function DoneScreen({ booking, test }: { booking: MockBooking; test: MockTest })
             return (
               <div key={name as string} className="rounded-xl border border-border p-4">
                 <div className="ltr text-[13px] text-muted">{name as string}</div>
-                <div className="display text-[48px] leading-[60px] tabular">{formatBand(sc.band)}</div>
+                <div className="text-[30px] font-extrabold tabular">{formatBand(sc.band)}</div>
                 <div className="text-xs text-muted">{faNumber(sc.raw)} از {faNumber(sc.total)} پاسخ درست</div>
               </div>
             );
@@ -158,7 +156,7 @@ function DoneScreen({ booking, test }: { booking: MockBooking; test: MockTest })
 function Timer({ seconds }: { seconds: number }) {
   const level = seconds <= 60 ? 'danger' : seconds <= 300 ? 'warning' : null;
   return (
-    <div role="timer" aria-label={`زمان باقی‌مانده ${clock(seconds)}`} className={cn('flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[15px] font-bold tabular', level === 'danger' ? 'bg-danger-soft text-danger' : level === 'warning' ? 'bg-warning-soft text-warning-soft-foreground' : 'bg-beige text-foreground')}>
+    <div role="timer" aria-label={`زمان باقی‌مانده ${clock(seconds)}`} className={cn('flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[15px] font-bold tabular', level === 'danger' ? 'bg-danger-soft text-danger' : level === 'warning' ? 'bg-warning-soft text-warning-soft-foreground' : 'bg-default text-foreground')}>
       <Clock className="size-4" />
       {clock(seconds)}
     </div>
@@ -189,7 +187,7 @@ function ExamStage({ exam, booking, test, student }: { exam: MockExam; booking: 
   };
 
   return (
-    <div className="flex h-dvh flex-col bg-cream">
+    <div className="flex h-dvh flex-col bg-canvas">
       <header className="flex flex-wrap items-center gap-3 border-b border-border bg-surface px-3 py-2 sm:px-5">
         <LogoMark className="size-7" />
         <div className="min-w-0 leading-tight">
@@ -198,7 +196,7 @@ function ExamStage({ exam, booking, test, student }: { exam: MockExam; booking: 
         </div>
         <nav aria-label="بخش‌های آزمون" className="mx-auto flex items-center gap-1">
           {SECTIONS.map((s) => (
-            <span key={s} className={cn('ltr rounded-full px-3 py-1 text-xs font-bold', s === section ? 'bg-ink text-cream' : SECTIONS.indexOf(s) < SECTIONS.indexOf(section) ? 'bg-peri-soft text-peri-deep' : 'bg-beige text-ink-3')}>{SECTION_LABEL[s]}</span>
+            <span key={s} className={cn('ltr rounded-full px-3 py-1 text-xs font-bold', s === section ? 'bg-accent text-white' : SECTIONS.indexOf(s) < SECTIONS.indexOf(section) ? 'bg-success-soft text-success-soft-foreground' : 'bg-default text-ink-3')}>{SECTION_LABEL[s]}</span>
           ))}
         </nav>
         <ConnectionChip state={exam.connection} />
@@ -280,7 +278,7 @@ function BetweenSections({ section, onOpen, minutes }: { section: Section; onOpe
     <div className="grid flex-1 place-items-center px-6">
       <div className="grid max-w-md justify-items-center gap-3 text-center">
         <span className="ltr text-[13px] font-bold text-accent">{SECTION_LABEL[section]}</span>
-        <h2 className="display text-[40px] leading-[52px]">بخش بعد آماده است</h2>
+        <h2 className="text-xl font-extrabold">بخش بعد آماده است</h2>
         <p className="text-sm leading-7 text-muted">بخش قبل ثبت شد. زمان {SECTION_LABEL[section]} ({faNumber(minutes)} دقیقه) با شروع این بخش آغاز می‌شود.</p>
         <Button size="lg" onPress={onOpen}>شروع {SECTION_LABEL[section]}</Button>
       </div>
@@ -302,17 +300,15 @@ function ListeningBody({ exam, test, transcript }: { exam: MockExam; test: MockT
   return (
     <div className="h-full overflow-y-auto">
       <div className="exam-text mx-auto grid max-w-[860px] gap-6 px-4 py-6 sm:px-8">
-        <div className="grid justify-items-center gap-4 rounded-[28px] bg-beige/60 px-6 py-7 text-center">
-          <div className="text-[13px] font-semibold text-ink-3">{part.title}</div>
-          <p className="max-w-md text-[18px] leading-7 text-ink">{part.context}</p>
-          <Wave live={playing} height={110} className={cn('transition-opacity', !playing && 'opacity-60')} />
-          <div className="flex items-center gap-3">
-            <Button size="lg" isDisabled={played && !playing && !transcript} onPress={playing ? () => { window.speechSynthesis?.cancel(); setPlaying(false); } : play}>
-              {playing ? <Stop /> : <PlayFill />}
-              {playing ? 'Stop' : played ? 'Play again' : 'Play recording'}
-            </Button>
-            <span className="mono text-[12px] text-ink-3">{playing ? 'Playing…' : played ? 'Recording played' : 'You will hear the recording once.'}</span>
+        <div className="flex flex-wrap items-center gap-4 rounded-xl border border-border bg-surface p-4">
+          <Button isIconOnly size="lg" aria-label={playing ? 'Stop' : 'Play recording'} isDisabled={played && !playing && !transcript} onPress={playing ? () => { window.speechSynthesis?.cancel(); setPlaying(false); } : play}>
+            {playing ? <Stop /> : <PlayFill />}
+          </Button>
+          <div className="min-w-[180px] flex-1">
+            <div className="text-[15px] font-bold">{part.title}</div>
+            <div className="text-[13px] text-ink-2">{part.context}</div>
           </div>
+          <span className="w-full text-xs text-muted sm:w-auto">{playing ? 'Playing…' : played ? 'Recording played' : 'You will hear the recording once.'}</span>
         </div>
         {transcript ? <div className="rounded-xl border border-dashed border-line-strong bg-surface-secondary p-4 text-[14px] leading-7 text-ink-2">{part.script}</div> : null}
         {part.groups.map((group, i) => <GroupView key={i} group={group} answers={state.answers} onAnswer={exam.setAnswer} flags={state.flags} onFlag={exam.toggleFlag} />)}

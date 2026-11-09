@@ -46,19 +46,19 @@ export function SidebarNav({ panel, onNavigate }: { panel: Panel; onNavigate?: (
           const showGroup = item.group && item.group !== items[index - 1]?.group;
           return (
             <Fragment key={item.to}>
-              {showGroup ? <div className="kicker px-3.5 pt-4 pb-1 text-ink-3">{item.group}</div> : null}
+              {showGroup ? <div className="px-3 pt-4 pb-1 text-[11px] font-bold text-ink-3">{item.group}</div> : null}
               <NavLink
                 to={item.to}
                 end={item.end}
                 onClick={onNavigate}
-                className={({ isActive }) => cn('relative flex h-10 items-center gap-3 rounded-full px-3.5 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-focus', isActive ? 'font-semibold text-foreground' : 'text-ink-2 hover:bg-cream/50 hover:text-foreground')}
+                className={({ isActive }) => cn('relative flex h-10 items-center gap-3 rounded-[10px] px-3 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-focus', isActive ? 'text-foreground' : 'text-ink-2 hover:bg-black/[0.04] hover:text-foreground')}
               >
                 {({ isActive }) => (
                   <>
-                    {isActive ? <motion.span layoutId="nav-active" className="absolute inset-0 rounded-full bg-surface shadow-[0_1px_2px_rgb(25_19_7/0.06)]" transition={{ type: 'spring', stiffness: 520, damping: 40 }} /> : null}
-                    <item.icon className={cn('relative size-4 shrink-0', isActive ? 'text-foreground' : 'text-ink-3')} />
+                    {isActive ? <motion.span layoutId="nav-active" className="absolute inset-0 rounded-[10px] border border-border bg-surface shadow-[0_1px_2px_rgb(12_17_23/0.05)]" transition={{ type: 'spring', stiffness: 520, damping: 40 }} /> : null}
+                    <item.icon className={cn('relative size-4 shrink-0', isActive ? 'text-accent' : 'text-ink-3')} />
                     <span className="relative flex-1 truncate">{item.label}</span>
-                    {count ? <span className="relative min-w-5 rounded-full bg-ink px-1.5 text-center text-[11px] leading-5 font-bold text-cream tabular" aria-label={`${faNumber(count)} مورد`}>{faNumber(count)}</span> : null}
+                    {count ? <span className="relative min-w-5 rounded-full bg-warning-soft px-1.5 text-center text-[11px] leading-5 font-bold text-warning-soft-foreground tabular" aria-label={`${faNumber(count)} مورد`}>{faNumber(count)}</span> : null}
                   </>
                 )}
               </NavLink>

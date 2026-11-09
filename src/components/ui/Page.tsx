@@ -10,9 +10,9 @@ export function Page({ children, width = 'default', className }: { children: Rea
   return <div className={cn('mx-auto w-full px-4 pb-24 pt-6 sm:px-8 sm:pt-8', WIDTH[width], className)}>{children}</div>;
 }
 
-export function PageHeader({ title, description, crumbs, actions, badge, kicker }: { title: ReactNode; description?: ReactNode; crumbs?: Crumb[]; actions?: ReactNode; badge?: ReactNode; kicker?: ReactNode }) {
+export function PageHeader({ title, description, crumbs, actions, badge }: { title: ReactNode; description?: ReactNode; crumbs?: Crumb[]; actions?: ReactNode; badge?: ReactNode }) {
   return (
-    <header className="mb-7 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+    <header className="mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
       <div className="min-w-0">
         {crumbs?.length ? (
           <Breadcrumbs className="mb-2 text-xs">
@@ -23,12 +23,11 @@ export function PageHeader({ title, description, crumbs, actions, badge, kicker 
             ))}
           </Breadcrumbs>
         ) : null}
-        {kicker ? <div className="serif mb-1 text-[20px] leading-7 text-ink-2">{kicker}</div> : null}
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="display text-[34px] leading-[46px] text-foreground sm:text-[40px] sm:leading-[52px]">{title}</h1>
+          <h1 className="text-[22px] leading-9 font-bold text-foreground">{title}</h1>
           {badge}
         </div>
-        {description ? <p className="mt-1.5 max-w-2xl text-sm leading-7 text-muted">{description}</p> : null}
+        {description ? <p className="mt-1 max-w-2xl text-sm leading-7 text-muted">{description}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
     </header>

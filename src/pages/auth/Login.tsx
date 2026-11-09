@@ -5,7 +5,6 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router';
 import { EASE } from '@/components/motion';
 import { Logo } from '@/components/Logo';
-import { PracticeCard } from '@/components/PracticeCard';
 import { HOME } from '@/components/shell/nav';
 import { TextInput } from '@/components/ui/Fields';
 import { CURRENT } from '@/data/seed';
@@ -128,7 +127,7 @@ function LoginForm({ panel }: { panel: Panel }) {
           <AnimatePresence mode="wait" initial={false}>
             {step === 'mobile' ? (
               <motion.div key="mobile" {...slide}>
-                <h1 className="display text-[38px] leading-[50px]">{COPY[panel].title}</h1>
+                <h1 className="text-2xl font-bold">{COPY[panel].title}</h1>
                 <p className="mt-2 text-sm leading-7 text-ink-2">{COPY[panel].body}</p>
                 <Form className="mt-8 grid gap-5" onSubmit={submitMobile} validationBehavior="aria">
                   <TextInput label="شماره موبایل" value={mobile} onChange={(v) => { setMobile(v); if (mobileErr) setMobileErr(mobileError(v)); }} inputMode="tel" maxLength={11} placeholder="مثلاً ۰۹۱۸۱۲۳۴۵۶۷" error={mobileErr} description="کد ورود به همین شماره پیامک می‌شود." autoComplete="tel" />
@@ -147,7 +146,7 @@ function LoginForm({ panel }: { panel: Panel }) {
               </motion.div>
             ) : step === 'register' ? (
               <motion.div key="register" {...slide}>
-                <h1 className="display text-[38px] leading-[50px]">ساخت حساب زبان‌آموز</h1>
+                <h1 className="text-2xl font-bold">ساخت حساب زبان‌آموز</h1>
                 <p className="mt-2 text-sm leading-7 text-ink-2">حسابی با شماره <bdi className="font-semibold text-foreground tabular">{formatMobile(onlyDigits(mobile))}</bdi> پیدا نشد. چند مشخصه کوتاه وارد کنید.</p>
                 <div className="mt-6 grid gap-4">
                   <TextInput label="نام و نام خانوادگی زبان‌آموز" value={reg.name} onChange={(v) => setReg({ ...reg, name: v })} error={regTouched ? regErrors.name : ''} />
@@ -165,7 +164,7 @@ function LoginForm({ panel }: { panel: Panel }) {
               </motion.div>
             ) : (
               <motion.div key="otp" {...slide}>
-                <h1 className="display text-[38px] leading-[50px]">کد ورود را وارد کنید</h1>
+                <h1 className="text-2xl font-bold">کد ورود را وارد کنید</h1>
                 <p className="mt-2 text-sm leading-7 text-ink-2">
                   کد ۶ رقمی به <bdi className="font-semibold text-foreground tabular">{formatMobile(onlyDigits(mobile))}</bdi> پیامک شد.{' '}
                   <button type="button" className="font-semibold text-link hover:underline" onClick={() => setStep('mobile')}>تغییر شماره</button>
@@ -189,14 +188,12 @@ function LoginForm({ panel }: { panel: Panel }) {
           </AnimatePresence>
         </div>
       </section>
-      <aside className="ground relative hidden overflow-hidden lg:block">
-        <div className="absolute inset-0 grid grid-rows-[auto_1fr] gap-8 p-12 xl:p-16">
-          <div className="max-w-lg">
-            <p className="serif text-[26px] leading-9 text-ink-2">یک پنل برای همه</p>
-            <p className="display text-[54px] leading-[1.12]">کلاس، آزمون ماک، کارنامه و پرداخت</p>
-          </div>
-          <div className="grid place-items-center">
-            <PracticeCard compact className="rotate-2" />
+      <aside className="relative hidden overflow-hidden bg-accent lg:block">
+        <div className="absolute inset-0 grid place-items-center p-16 text-white">
+          <div className="max-w-md">
+            <div className="text-[13px] font-semibold opacity-80">KLS School · خانه زبان کرمانشاه</div>
+            <p className="mt-4 text-[28px] leading-[1.6] font-extrabold">کلاس، آزمون ماک، کارنامه و پرداخت؛ همه در یک پنل.</p>
+            <p className="mt-4 text-[15px] leading-8 opacity-85">زبان‌آموزان، والدین، استادان و کارکنان آموزشگاه هر کدام پنل خودشان را دارند و روی همان داده کار می‌کنند.</p>
           </div>
         </div>
       </aside>

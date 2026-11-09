@@ -22,7 +22,7 @@ export function CriterionPicker({ label, en, value, onChange }: { label: string;
       <div className="ltr flex gap-1" role="radiogroup" aria-label={label}>
         {SCALE.map((n) => (
           <button key={n} type="button" role="radio" aria-checked={value === n} onClick={() => onChange(n)}
-            className={cn('h-8 flex-1 rounded-md border text-[13px] font-bold tabular outline-none transition-colors focus-visible:ring-2 focus-visible:ring-focus', value === n ? 'border-accent bg-accent text-accent-foreground' : 'border-border bg-surface text-ink-2 hover:bg-default', n < 4 && value !== n && 'text-ink-3')}>
+            className={cn('h-8 flex-1 rounded-md border text-[13px] font-bold tabular outline-none transition-colors focus-visible:ring-2 focus-visible:ring-focus', value === n ? 'border-accent bg-accent text-white' : 'border-border bg-surface text-ink-2 hover:bg-default', n < 4 && value !== n && 'text-ink-3')}>
             {n}
           </button>
         ))}

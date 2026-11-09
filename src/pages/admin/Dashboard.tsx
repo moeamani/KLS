@@ -21,7 +21,7 @@ export function BarList({ rows, format = faNumber, tone = 'accent' }: { rows: { 
       {rows.map((r) => (
         <li key={r.label} className="grid grid-cols-[minmax(0,140px)_1fr_auto] items-center gap-3 text-[13px]">
           <span className="truncate text-ink-2">{r.label}</span>
-          <span className="h-3 overflow-hidden rounded-full bg-beige"><span className={cn('block h-full rounded-full', tone === 'success' ? 'bg-ink' : tone === 'warning' ? 'bg-warning' : 'bg-peri')} style={{ width: `${(r.value / max) * 100}%` }} /></span>
+          <span className="h-2.5 overflow-hidden rounded-full bg-default"><span className={cn('block h-full rounded-full', tone === 'success' ? 'bg-success' : tone === 'warning' ? 'bg-warning' : 'bg-accent')} style={{ width: `${(r.value / max) * 100}%` }} /></span>
           <span className="min-w-14 text-end font-semibold tabular">{format(r.value)}{r.hint ? <span className="ms-1 text-xs font-normal text-muted">{r.hint}</span> : null}</span>
         </li>
       ))}

@@ -32,16 +32,16 @@ export function ResultReport({ booking, session, student, staffView = false }: {
   return (
     <div className="grid gap-5">
       <Card className="grid gap-5 p-5 sm:grid-cols-[auto_1fr] sm:items-center sm:p-6">
-        <div className="grid size-[148px] place-items-center rounded-[32px] bg-ink text-cream">
+        <div className="grid size-[124px] place-items-center rounded-2xl bg-accent text-white">
           <div className="text-center">
-            <div className="mono text-[11px] opacity-70">Overall Band</div>
-            <div className="display text-[64px] leading-[72px] tabular">{scores.overall != null && released ? formatBand(scores.overall) : '—'}</div>
+            <div className="text-xs opacity-80">Overall Band</div>
+            <div className="text-[44px] leading-[52px] font-extrabold tabular">{scores.overall != null && released ? formatBand(scores.overall) : '—'}</div>
             {scores.overall != null && released ? <div className="text-xs opacity-90">CEFR {cefrOf(scores.overall)}</div> : null}
           </div>
         </div>
         <div className="min-w-0">
           <div className="text-[13px] text-muted">کارنامه آزمون آزمایشی آیلتس · {MODULE_LABEL[booking.module]}</div>
-          <h2 className="display mt-1 text-[32px] leading-[42px]">{student.name}</h2>
+          <h2 className="mt-1 text-xl font-extrabold">{student.name}</h2>
           <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-2 text-[13px] sm:grid-cols-4">
             <div><dt className="text-muted">کد رزرو</dt><dd className="font-semibold tabular">{booking.code}</dd></div>
             <div><dt className="text-muted">تاریخ آزمون</dt><dd className="font-semibold">{session ? formatDate(session.at) : '—'}</dd></div>
@@ -68,7 +68,7 @@ export function ResultReport({ booking, session, student, staffView = false }: {
       ) : null}
 
       {suggestion ? (
-        <Card className="flex-row flex-wrap items-center gap-3 border-0 bg-peri-mid p-5">
+        <Card className="flex-row flex-wrap items-center gap-3 border-accent-soft-hover bg-accent-soft p-4">
           <div className="min-w-0 flex-1 text-[13.5px] leading-6">
             <span className="font-bold">پیشنهاد برای نمره بالاتر: </span>
             کمترین نمره شما در <span className="ltr font-bold">{weakest!.label}</span> است. کلاس تکمیلی <span className="ltr font-semibold">{suggestion[0]}</span> برای همین مهارت طراحی شده است.
@@ -125,7 +125,7 @@ export function ResultReport({ booking, session, student, staffView = false }: {
                   return (
                     <li key={row.type} className="grid grid-cols-[minmax(0,180px)_1fr_auto] items-center gap-3 text-[13px]">
                       <span className="truncate">{QUESTION_TYPE_LABEL[row.type]}</span>
-                      <span className="h-2.5 overflow-hidden rounded-full bg-default"><span className={cn('block h-full rounded-full', ratio >= 0.75 ? 'bg-ink' : ratio >= 0.5 ? 'bg-peri' : 'bg-warning')} style={{ width: `${ratio * 100}%` }} /></span>
+                      <span className="h-2.5 overflow-hidden rounded-full bg-default"><span className={cn('block h-full rounded-full', ratio >= 0.75 ? 'bg-success' : ratio >= 0.5 ? 'bg-accent' : 'bg-warning')} style={{ width: `${ratio * 100}%` }} /></span>
                       <span className="w-24 text-end tabular text-ink-2">{faNumber(row.correct)} از {faNumber(row.total)} · {faPercent(ratio)}</span>
                     </li>
                   );

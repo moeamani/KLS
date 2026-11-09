@@ -9,7 +9,7 @@ import { useApp } from '@/store/app';
 
 function TopLink({ to, children, end }: { to: string; children: ReactNode; end?: boolean }) {
   return (
-    <NavLink to={to} end={end} className={({ isActive }) => cn('rounded-full px-3.5 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-focus', isActive ? 'bg-cream text-foreground' : 'text-ink-2 hover:text-foreground')}>
+    <NavLink to={to} end={end} className={({ isActive }) => cn('rounded-lg px-3 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-focus', isActive ? 'text-accent' : 'text-ink-2 hover:text-foreground')}>
       {children}
     </NavLink>
   );
@@ -97,7 +97,7 @@ function MobileMenu() {
 export function SiteHeader() {
   const navigate = useNavigate();
   return (
-    <header className="sticky top-0 z-30 bg-canvas/85 backdrop-blur-md print:hidden">
+    <header className="sticky top-0 z-30 border-b border-border bg-surface/90 backdrop-blur print:hidden">
       <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-4 px-4 sm:px-6">
         <div className="flex items-center gap-1">
           <MobileMenu />
@@ -112,7 +112,7 @@ export function SiteHeader() {
               <div className="grid gap-2 p-3 sm:grid-cols-2 lg:grid-cols-4">
                 {SERVICES_MENU.map((group) => (
                   <div key={group.title}>
-                    <div className="kicker px-3 pt-1 pb-1.5" data-dot>{group.title}</div>
+                    <div className="px-3 pt-1 pb-1.5 text-xs font-bold text-accent">{group.title}</div>
                     {group.links.map((link) => <MenuLink key={link.to} {...link} onClick={close} />)}
                   </div>
                 ))}
@@ -136,33 +136,32 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="bg-ink text-cream print:hidden">
-      <div className="mx-auto grid max-w-[1240px] gap-10 px-4 pt-14 pb-10 sm:px-6 md:grid-cols-[1.3fr_repeat(3,1fr)]">
-        <div className="grid content-start gap-4">
-          <Logo tone="cream" />
-          <p className="serif max-w-xs text-[19px] leading-8 text-cream/80">بیست‌وچهار سال آموزش انگلیسی در کرمانشاه؛ از اولین کلمه تا آیلتس.</p>
+    <footer className="border-t border-border bg-surface print:hidden">
+      <div className="mx-auto grid max-w-[1240px] gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.3fr_repeat(3,1fr)]">
+        <div className="grid content-start gap-3">
+          <Logo />
+          <p className="max-w-xs text-[13px] leading-7 text-muted">آموزش زبان انگلیسی برای کودکان، نوجوانان و بزرگسالان، و آمادگی آیلتس در کرمانشاه؛ بیش از ۲۴ سال.</p>
         </div>
         {SERVICES_MENU.slice(0, 2).map((group) => (
           <div key={group.title}>
-            <div className="kicker mb-3 text-cream/60" data-dot>{group.title}</div>
-            <ul className="grid gap-2 text-[13.5px]">
-              {group.links.map((link) => <li key={link.to}><Link href={link.to} className="text-cream/85 no-underline hover:text-cream">{link.label}</Link></li>)}
+            <div className="mb-3 text-sm font-bold">{group.title}</div>
+            <ul className="grid gap-2 text-[13px]">
+              {group.links.map((link) => <li key={link.to}><Link href={link.to} className="text-ink-2 no-underline hover:text-foreground">{link.label}</Link></li>)}
             </ul>
           </div>
         ))}
         <div>
-          <div className="kicker mb-3 text-cream/60" data-dot>تماس</div>
-          <ul className="grid gap-2.5 text-[13.5px] text-cream/85">
-            <li className="flex items-center gap-2"><Handset className="size-4 text-cream/50" /><bdi className="tabular">{CONTACT.phone}</bdi></li>
-            <li className="flex items-start gap-2"><MapPin className="mt-1 size-4 shrink-0 text-cream/50" />{CONTACT.address}</li>
-            <li className="flex items-center gap-2"><PaperPlane className="size-4 text-cream/50" /><bdi className="ltr">{CONTACT.instagram}</bdi> (اینستاگرام)</li>
-            <li className="flex items-center gap-2"><LogoTelegram className="size-4 text-cream/50" /><bdi className="ltr">{CONTACT.telegram}</bdi> (تلگرام)</li>
+          <div className="mb-3 text-sm font-bold">تماس</div>
+          <ul className="grid gap-2.5 text-[13px] text-ink-2">
+            <li className="flex items-center gap-2"><Handset className="size-4 text-ink-3" /><bdi className="tabular">{CONTACT.phone}</bdi></li>
+            <li className="flex items-start gap-2"><MapPin className="mt-1 size-4 shrink-0 text-ink-3" />{CONTACT.address}</li>
+            <li className="flex items-center gap-2"><PaperPlane className="size-4 text-ink-3" /><bdi className="ltr">{CONTACT.instagram}</bdi> (اینستاگرام)</li>
+            <li className="flex items-center gap-2"><LogoTelegram className="size-4 text-ink-3" /><bdi className="ltr">{CONTACT.telegram}</bdi> (تلگرام)</li>
           </ul>
         </div>
       </div>
-      <div aria-hidden className="ltr display overflow-hidden px-4 text-center text-[22vw] leading-[0.85] text-cream/[0.07] select-none">KLS SCHOOL</div>
-      <div className="border-t border-cream/10">
-        <div className="mx-auto flex max-w-[1240px] flex-wrap justify-between gap-2 px-4 py-4 text-xs text-cream/60 sm:px-6">
+      <div className="border-t border-separator">
+        <div className="mx-auto flex max-w-[1240px] flex-wrap justify-between gap-2 px-4 py-4 text-xs text-muted sm:px-6">
           <span>© ۱۴۰۵ KLS School · خانه زبان کرمانشاه</span>
           <span>آزمون‌های ماک آموزشگاه، آزمون رسمی IELTS نیستند و مدرک رسمی صادر نمی‌کنند.</span>
         </div>
