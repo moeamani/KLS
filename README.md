@@ -1,22 +1,46 @@
-# KLS
+# KLS School · خانه زبان کرمانشاه
 
-The system plan for KLS, an educational institute's platform with two parts:
+The platform of KLS School, a language school in Kermanshah. This repository holds an interactive
+prototype of the whole system and its full documentation.
 
-1. **Management side** (پنل اداری): for staff to run terms, courses, class scheduling,
-   enrollment, tuition, payroll and daily teamwork.
-2. **Student side** (سایت و پورتال دانش‌آموز): the public site and the student and parent
-   portal for online registration and payment, live classes, recorded courses, resources,
-   exams, report cards and the book shop.
+- **Public website**, built from the school's site map: general courses (kids, teens, adults,
+  private), IELTS (course, skills classes, **mock exam**, correction service), specialized courses
+  (TTC, corporate), the term calendar, education system, class formats, resources, contact and about.
+- **Student panel:** online enrollment with seat holds, installments and the waitlist; placement
+  test; the IELTS mock exam end to end (booking, the timed Listening, Reading and Writing test,
+  Speaking slot, results with examiner feedback, re-mark); Writing correction; classes and
+  attendance; report cards; payments; books.
+- **Parent panel:** each child's attendance, homework, report cards and payments; enrolling
+  children.
+- **Teacher panel:** attendance, grades, homework, the marking queue (mock Writing, Speaking,
+  re-marks, correction service) and leave.
+- **Admin panel** (manager, reception, finance):
+  - dashboard
+  - mock sessions, bookings and result release; test bank; correction queue
+  - terms and classes with clash checks; students; enrollments; teachers
+  - finance: invoices, ledger, discount codes, teacher pay
+  - approvals inbox; website requests; reports; audit log; users and roles; settings
 
-**[docs/system-map.html](docs/system-map.html)** is the full map, in Persian. It is meant to be
-shown outside the team, so it names no internal project. Each module is tagged ready (آماده),
-ready with changes (با تغییر) or new (ساخت تازه).
+## Run
 
-## Where the ready parts come from (internal)
+```bash
+npm install
+npm run dev        # http://localhost:4173 — use «ابزار نمونه اولیه» to switch roles; the code is 123456
+```
 
-| Part of the map                                                                                                                                                                                                        | Source                                             |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| Online learning and sales: recorded courses, live classes, exams and question bank, book store, packages, discount codes, cash and installment payments, teacher wallets, homepage and blog, comments, support tickets | Greenoly admin panel (Figma: Greenoly Admin Panel) |
-| Institute operations: staff, roles, audit log, attendance, leave, payroll, finance ledger, expenses, approvals, chat, meetings, docs, tasks, reports                                                                   | [nexus](https://github.com/moeamani/nexus)         |
-| Look and feel, mobile + OTP sign-in, exam engine rules                                                                                                                                                                 | [sakoo](https://github.com/moeamani/sakoo)         |
-| Terms, levels, rooms, in-person enrollment, class attendance, assignments, report cards, parent accounts                                                                                                               | New                                                |
+`npm run build` writes a static build to `dist/`.
+
+## Documentation
+
+Start at **[docs/README.md](docs/README.md)**. The most important document is
+[docs/02-ielts-mock.md](docs/02-ielts-mock.md). Walkthroughs for every role are in
+[docs/09-prototype.md](docs/09-prototype.md).
+
+## Where the parts come from (internal)
+
+| Part | Source |
+| --- | --- |
+| Design language: tokens, type, components, mobile OTP sign-in, exam engine rules | [sakoo](https://github.com/moeamani/sakoo) |
+| Staff tools: roles and `can()`, audit log, approvals, leave, finance ledger, payroll, notifications, reports; the recommended production backend | [nexus](https://github.com/moeamani/nexus) |
+| Learning-platform patterns: courses, classes, exams, store, packages, discount codes, wallets, support | Greenoly admin panel |
+| IELTS mock content, scoring, terms, classes, placement, attendance, report cards, parent accounts | New for KLS |

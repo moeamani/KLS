@@ -255,9 +255,9 @@ export function createSeed(): SeedData {
   // ---------- IELTS mock ----------
   const slotsFor = (at: string, count: number, examiners: string[]) =>
     Array.from({ length: count }, (_, i) => ({ id: uid('slot'), at: iso(addMinutes(new Date(at), 240 + Math.floor(i / examiners.length) * 15)), examinerId: examiners[i % examiners.length] }));
-  const todayAt = new Date(now());
-  todayAt.setMinutes(0, 0, 0);
-  todayAt.setHours(Math.max(8, todayAt.getHours() - 1));
+  // The online mock "today" opened an hour ago, so its 8-hour window is open whenever the demo runs.
+  const todayAt = new Date(now().getTime() - 60 * 60_000);
+  todayAt.setSeconds(0, 0);
 
   const mockSessions: MockSession[] = [
     { id: 'ms-past', title: 'آزمون ماک مهر', at: daysFromNow(-24, 9), modules: ['academic', 'general'], deliveries: ['center', 'online'], testIds: { academic: 'test-a-ac', general: 'test-a-gt' }, capacity: 30, price: 1_900_000, regClose: daysFromNow(-26, 23), slots: slotsFor(daysFromNow(-24, 9), 24, ['te1', 'te3', 'te6']) },
