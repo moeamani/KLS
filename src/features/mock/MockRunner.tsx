@@ -216,7 +216,7 @@ function ExamStage({ exam, booking, test, student }: { exam: MockExam; booking: 
       ) : (
         <>
           {parts.length > 1 ? (
-            <div className="ltr flex gap-1 border-b border-border bg-surface px-3 sm:px-5" role="tablist">
+            <div className="exam-text flex gap-1 border-b border-border bg-surface px-3 sm:px-5" role="tablist">
               {parts.map((part, i) => (
                 <button key={part.id} type="button" role="tab" aria-selected={state.part === i} onClick={() => exam.setPart(i)} className={cn('border-b-2 px-3 py-2 text-[13px] font-semibold outline-none focus-visible:bg-default', state.part === i ? 'border-accent text-foreground' : 'border-transparent text-muted hover:text-foreground')}>
                   {section === 'listening' ? `Part ${i + 1}` : `Passage ${i + 1}`}
@@ -341,7 +341,7 @@ function WritingBody({ exam, test }: { exam: MockExam; test: MockTest }) {
   const min = MIN_WORDS[task];
   return (
     <div className="exam-text grid h-full grid-rows-[auto_1fr]">
-      <div className="ltr flex gap-1 border-b border-border bg-surface px-3 sm:px-5" role="tablist">
+      <div className="flex gap-1 border-b border-border bg-surface px-3 sm:px-5" role="tablist">
         {(['t1', 't2'] as const).map((t) => (
           <button key={t} type="button" role="tab" aria-selected={task === t} onClick={() => setTask(t)} className={cn('flex items-center gap-2 border-b-2 px-3 py-2 text-[13px] font-semibold outline-none', task === t ? 'border-accent' : 'border-transparent text-muted')}>
             Task {t === 't1' ? 1 : 2}
@@ -380,7 +380,7 @@ function Navigator({ exam, test, section, onGo }: { exam: MockExam; test: MockTe
   const items = useMemo(() => parts.flatMap((part, partIndex) => part.groups.flatMap((g) => g.questions.map((q) => ({ q, partIndex })))), [parts]);
   const answered = items.filter(({ q }) => state.answers[q.id]?.trim()).length;
   return (
-    <nav aria-label="فهرست سؤال‌ها" className="ltr flex items-center gap-3 overflow-x-auto border-t border-border bg-surface px-3 py-2 sm:px-5">
+    <nav aria-label="فهرست سؤال‌ها" className="exam-text flex items-center gap-3 overflow-x-auto border-t border-border bg-surface px-3 py-2 sm:px-5">
       <span className="shrink-0 text-xs text-muted">{answered}/{items.length}</span>
       <div className="flex gap-1">
         {items.map(({ q, partIndex }) => {

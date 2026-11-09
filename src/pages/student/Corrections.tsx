@@ -14,6 +14,7 @@ import { CORRECTION_META, TASK_LABEL } from '@/data/status';
 import { formatDateTime, formatDay } from '@/lib/dates';
 import { faNumber, toman } from '@/lib/format';
 import { criteriaBand, MIN_WORDS, WRITING_CRITERIA, wordCount } from '@/lib/ielts';
+import { useShallow } from 'zustand/react/shallow';
 import { useApp, useSessionUser } from '@/store/app';
 import type { CorrectionTask, Student } from '@/types';
 
@@ -21,7 +22,7 @@ const PROMPTS: Record<CorrectionTask, string> = { t1_academic: MOCK_TESTS[0].wri
 
 export function StudentCorrectionsPage() {
   const me = useSessionUser() as Student;
-  const corrections = useApp((s) => s.corrections.filter((c) => c.studentId === me?.id));
+  const corrections = useApp(useShallow((s) => s.corrections.filter((c) => c.studentId === me?.id)));
   const navigate = useNavigate();
   return (
     <Page>

@@ -72,3 +72,7 @@ export const relativeTime = (value: string | Date) => {
   if (abs < DAY / 1000) return rtf.format(Math.round(diff / 3600), 'hour');
   return relativeDay(value);
 };
+
+const weekdayFmt = fmt({ weekday: 'long' });
+/** دوشنبه ۱۸ آبان ۱۴۰۵ */
+export const longDate = (value: string | Date = new Date()) => `${weekdayFmt.format(new Date(value))} ${formatDate(value)}`;

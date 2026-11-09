@@ -1,5 +1,5 @@
 import { Bars } from '@gravity-ui/icons';
-import { Button, Drawer } from '@heroui/react';
+import { Button, cn, Drawer } from '@heroui/react';
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { Navigate, useLocation, useOutlet } from 'react-router';
@@ -12,12 +12,12 @@ import type { Panel } from '@/types';
 import { PrototypeMenu } from './PrototypeMenu';
 import { Notifications, Sidebar, SidebarNav, UserMenu } from './Sidebar';
 
-function MobileBar({ panel }: { panel: Panel }) {
+function MobileBar({ panel, hidden }: { panel: Panel; hidden?: boolean }) {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   useEffect(() => setOpen(false), [pathname]);
   return (
-    <div className="sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b border-border bg-surface/90 px-3 backdrop-blur lg:hidden print:hidden">
+    <div className={cn('sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b border-border bg-surface/90 px-3 backdrop-blur lg:hidden print:hidden', hidden && 'hidden')}>
       <div className="flex items-center gap-1">
         <Button isIconOnly variant="ghost" aria-label="باز کردن منو" onPress={() => setOpen(true)}>
           <Bars />
@@ -53,15 +53,15 @@ export function AppShell({ panel }: { panel: Panel }) {
   const outlet = useOutlet();
   useEffect(() => { window.scrollTo({ top: 0 }); }, [location.pathname]);
   if (!session || session.panel !== panel) return <Navigate to={`/login/${panel}`} replace state={{ from: location.pathname }} />;
-  if (focusMode) return <>{outlet}</>;
+  // The element tree stays the same in focus mode (the exam), so the page is never remounted.
   return (
-    <div className="min-h-dvh bg-canvas lg:grid lg:grid-cols-[264px_minmax(0,1fr)] print:block print:bg-surface">
-      <aside className="sticky top-0 hidden h-dvh lg:block print:hidden">
+    <div className={cn('min-h-dvh bg-canvas print:block print:bg-surface', !focusMode && 'lg:grid lg:grid-cols-[264px_minmax(0,1fr)]')}>
+      <aside className={cn('sticky top-0 hidden h-dvh print:hidden', !focusMode && 'lg:block')}>
         <Sidebar panel={panel} />
       </aside>
-      <div className="min-w-0 lg:py-2 lg:pe-2 print:p-0">
-        <MobileBar panel={panel} />
-        <main id="main" className="min-h-[calc(100dvh-3.5rem)] bg-surface lg:min-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border lg:border-border lg:shadow-[0_1px_2px_rgb(12_17_23/0.04)] print:border-0 print:shadow-none">
+      <div className={cn('min-w-0 print:p-0', !focusMode && 'lg:py-2 lg:pe-2')}>
+        <MobileBar panel={panel} hidden={focusMode} />
+        <main id="main" className={cn('bg-surface print:border-0 print:shadow-none', focusMode ? 'min-h-dvh' : 'min-h-[calc(100dvh-3.5rem)] lg:min-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border lg:border-border lg:shadow-[0_1px_2px_rgb(12_17_23/0.04)]')}>
           <motion.div key={location.pathname} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28, ease: EASE }}>
             {outlet}
           </motion.div>
