@@ -1,7 +1,7 @@
 /* ==========================================================================
-   Sakoo · global styles
-   Tailwind v4 + HeroUI v3, themed with the Sakoo design tokens
-   (Figma "Sakoo (OGP)" → Sakoo · Primitives / Color / Dimension / Font).
+   KLS School · global styles
+   Tailwind v4 + HeroUI v3, themed with the Sakoo design language
+   (primitives, semantic roles, type and component tuning).
    ========================================================================== */
 
 @import "tailwindcss";
@@ -229,20 +229,19 @@
 .modal__dialog--lg { max-width: 48rem; }
 .alert-dialog__dialog { border-radius: 1.125rem; }
 
-/* AI actions use the dedicated Sakoo AI role (violet), never the brand blue */
-.button.button--ai { --button-bg: var(--ai); --button-bg-hover: var(--sk-violet-700); --button-bg-pressed: var(--sk-violet-700); --button-fg: #fff; }
+/* Exam content is English: left-to-right islands inside the RTL app */
+.exam-text { direction: ltr; text-align: left; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+.exam-text p { margin-bottom: 0.85rem; }
+.gap-input { direction: ltr; border-bottom: 2px solid var(--sk-gray-300); background: var(--sk-gray-25); padding: 0 0.4rem; min-width: 8rem; border-radius: 0.25rem 0.25rem 0 0; outline: none; }
+.gap-input:focus { border-color: var(--focus); background: #fff; }
 
-/* Shimmer across question cards while the AI review runs */
-.reviewing > * { position: relative; overflow: hidden; border-radius: 0.875rem; }
-.reviewing > *::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(100deg, transparent 30%, color-mix(in oklab, var(--sk-violet-50) 80%, transparent) 50%, transparent 70%);
-  background-size: 200% 100%; animation: sk-shimmer 1.2s linear infinite;
+/* Printed result report and report cards */
+@media print {
+  @page { margin: 14mm; }
+  html, body { background: #fff !important; }
+  .card { box-shadow: none !important; }
+  .no-print { display: none !important; }
 }
-@keyframes sk-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
-
-/* AI-generated content marker — a thin rule, not a gradient banner */
-.ai-block { border-inline-start: 2px solid var(--ai-border); padding-inline-start: 0.875rem; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
