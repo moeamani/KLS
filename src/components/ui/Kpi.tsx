@@ -27,8 +27,8 @@ export function KpiStrip({ items, className }: { items: KpiItem[]; className?: s
             index > 0 && 'lg:border-s lg:border-separator',
           )}
         >
-          <div className="text-[13px] text-muted">{item.label}</div>
-          <div className="mt-1.5 text-[28px] leading-10 font-bold tabular">
+          <div className="kicker text-muted">{item.label}</div>
+          <div className="display mt-1 text-[40px] leading-[52px] tabular">
             <CountUp value={item.value} format={item.format} />
           </div>
           {item.hint ? <div className={cn('mt-0.5 text-xs leading-5', HINT_TONE[item.tone ?? 'default'])}>{item.hint}</div> : null}

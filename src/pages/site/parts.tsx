@@ -20,12 +20,12 @@ export function Container({ children, className }: { children: ReactNode; classN
 
 export function PageHero({ eyebrow, title, lead, children, aside }: { eyebrow?: string; title: string; lead?: string; children?: ReactNode; aside?: ReactNode }) {
   return (
-    <section className="border-b border-border bg-surface">
-      <Container className={cn('grid gap-8 py-10 sm:py-14', aside && 'lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center')}>
+    <section className="ground">
+      <Container className={cn('grid gap-8 py-12 sm:py-16', aside && 'lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center')}>
         <div className="min-w-0">
-          {eyebrow ? <div className="mb-3 text-[13px] font-bold text-accent">{eyebrow}</div> : null}
-          <h1 className="text-[30px] leading-[1.35] font-extrabold text-balance sm:text-[38px]">{title}</h1>
-          {lead ? <p className="mt-4 max-w-[62ch] text-[15.5px] leading-8 text-ink-2">{lead}</p> : null}
+          {eyebrow ? <div className="serif mb-1 text-[24px] leading-8 text-ink-2">{eyebrow}</div> : null}
+          <h1 className="display text-[44px] leading-[1.15] text-balance sm:text-[64px]">{title}</h1>
+          {lead ? <p className="mt-5 max-w-[60ch] text-[16px] leading-8 text-ink-2">{lead}</p> : null}
           {children ? <div className="mt-6">{children}</div> : null}
         </div>
         {aside ? <div className="min-w-0">{aside}</div> : null}
@@ -39,9 +39,9 @@ export function SiteSection({ title, lead, children, className, id }: { title?: 
     <section id={id} className={cn('py-12', className)}>
       <Container>
         {title ? (
-          <div className="mb-6 max-w-2xl">
-            <h2 className="text-[22px] leading-9 font-extrabold text-balance">{title}</h2>
-            {lead ? <p className="mt-1.5 text-[14.5px] leading-7 text-muted">{lead}</p> : null}
+          <div className="mb-7 max-w-2xl">
+            {lead ? <p className="serif text-[21px] leading-8 text-ink-2">{lead}</p> : null}
+            <h2 className="display text-[34px] leading-[1.2] text-balance sm:text-[42px]">{title}</h2>
           </div>
         ) : null}
         {children}
@@ -54,9 +54,9 @@ export function FactList({ facts }: { facts: [string, string][] }) {
   return (
     <dl className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">
       {facts.map(([label, value]) => (
-        <div key={label} className="min-w-0 border-s-2 border-accent-soft-hover ps-3">
-          <dt className="text-xs text-muted">{label}</dt>
-          <dd className="mt-0.5 text-sm font-bold">{value}</dd>
+        <div key={label} className="min-w-0 rounded-2xl bg-cream/70 px-4 py-3">
+          <dt className="kicker" data-dot>{label}</dt>
+          <dd className="mt-1 text-[15px] font-bold">{value}</dd>
         </div>
       ))}
     </dl>
@@ -111,7 +111,7 @@ export function MockSessionCard({ session, compact }: { session: MockSession; co
     <Card className={cn('gap-3', compact ? 'p-4' : 'p-5')}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-[15px] font-bold">{formatDate(session.at)}</div>
+          <div className="display text-[28px] leading-9">{formatDate(session.at)}</div>
           <div className="text-xs text-muted">{relativeDay(session.at)} · ساعت {formatTime(session.at)}</div>
         </div>
         <MetaChip meta={MOCK_SESSION_META[status]} />

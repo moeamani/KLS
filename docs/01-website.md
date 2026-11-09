@@ -53,11 +53,21 @@ required fields. A sent form shows a confirmation and creates a lead
 
 ## Design
 
-The site uses the Sakoo design language:
+The visual language is "lilac and cream":
 
-- light grey canvas, white surfaces with hairlines, one blue accent
-- the Yekan Bakh font, with Vazirmatn as fallback
-- Persian digits throughout, right-to-left layout, logical CSS properties
-- short eased motion that respects `prefers-reduced-motion`
+- **Colors:** a lavender ground (`#E2DCF8`), cream surfaces (`#FFFCF1`), beige pills and tracks
+  (`#F5F1E6`), warm black ink (`#191307`), and periwinkle soundwaves (`#A9AFE3` / `#D5D6F2` /
+  `#EAE7FC`), with mauve and pale-blue speaker dots.
+- **Type:** extra-condensed black headlines (Anton for Latin, Noto Sans Arabic at 62.5% width for
+  Persian); a Markazi serif line above the headline; IBM Plex Sans Arabic for text; IBM Plex Mono
+  for Latin labels; IBM Plex Sans for the English exam content.
+- **Shapes:** black pill buttons for the main action and beige pills for secondary ones; large
+  rounded cream cards on the lavender ground.
+- **The soundwave** is the brand motif (`src/components/Wave.tsx`). It appears in the logo, the
+  practice-phone hero (`PracticeCard`), the Listening player (it moves while the recording plays)
+  and the exam intro.
+- **Layout:** Persian digits, right-to-left layout, logical CSS properties, and short eased motion
+  that respects `prefers-reduced-motion`. The exam and other English content are left-to-right
+  islands, and every page works at phone width.
 
-The exam and other English content are left-to-right islands. Every page works at phone width.
+Tokens are in `src/styles/globals.css`.

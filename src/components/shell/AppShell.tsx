@@ -59,9 +59,9 @@ export function AppShell({ panel }: { panel: Panel }) {
       <aside className={cn('sticky top-0 hidden h-dvh print:hidden', !focusMode && 'lg:block')}>
         <Sidebar panel={panel} />
       </aside>
-      <div className={cn('min-w-0 print:p-0', !focusMode && 'lg:py-2 lg:pe-2')}>
+      <div className={cn('min-w-0 print:p-0', !focusMode && 'lg:py-3 lg:pe-3')}>
         <MobileBar panel={panel} hidden={focusMode} />
-        <main id="main" className={cn('bg-surface print:border-0 print:shadow-none', focusMode ? 'min-h-dvh' : 'min-h-[calc(100dvh-3.5rem)] lg:min-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border lg:border-border lg:shadow-[0_1px_2px_rgb(12_17_23/0.04)]')}>
+        <main id="main" className={cn('bg-surface print:border-0 print:shadow-none', focusMode ? 'min-h-dvh' : 'min-h-[calc(100dvh-3.5rem)] lg:min-h-[calc(100dvh-1.5rem)] lg:rounded-[32px]')}>
           <motion.div key={location.pathname} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28, ease: EASE }}>
             {outlet}
           </motion.div>
