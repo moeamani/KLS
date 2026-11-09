@@ -153,13 +153,15 @@ export function UserMenu({ panel, compact = false }: { panel: Panel; compact?: b
 
 export function Sidebar({ panel }: { panel: Panel }) {
   return (
-    <div className="flex h-full flex-col gap-5 overflow-y-auto px-3 py-5">
+    <div className="flex h-full flex-col gap-4 px-3 py-5">
       <div className="flex items-center justify-between gap-2 px-2">
         <Logo caption={PANEL_LABEL[panel]} />
         <Notifications />
       </div>
-      <SidebarNav panel={panel} />
-      <div className="mt-auto grid gap-3 pt-4">
+      <div className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1">
+        <SidebarNav panel={panel} />
+      </div>
+      <div className="grid gap-3 border-t border-border pt-3">
         <PrototypeMenu inline />
         <UserMenu panel={panel} />
       </div>

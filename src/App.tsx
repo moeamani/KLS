@@ -8,6 +8,10 @@ import { SiteLayout } from '@/components/site/SiteLayout';
 import { SERVICE_PAGES } from '@/data/site';
 import { LoginPage, SwitchPage } from '@/pages/auth/Login';
 import { NotFoundPage } from '@/pages/NotFound';
+import { AdminClassesPage, AdminClassPage, AdminEnrollmentsPage, AdminStudentPage, AdminStudentsPage, AdminTeachersPage } from '@/pages/admin/Academics';
+import { AdminDashboard } from '@/pages/admin/Dashboard';
+import { AdminBookingPage, AdminBookingsPage, AdminCorrectionsPage, AdminMockSessionPage, AdminMockSessionsPage, AdminTestsPage } from '@/pages/admin/Mock';
+import { AdminApprovalsPage, AdminAuditPage, AdminFinancePage, AdminLeadsPage, AdminReportsPage, AdminSettingsPage, AdminUsersPage } from '@/pages/admin/Office';
 import { HomePage } from '@/pages/site/Home';
 import { CorrectionPage, MockPage } from '@/pages/site/Ielts';
 import { AboutPage, CalendarPage, ContactPage, FormatsPage, ResourcesPage, ServicePageView, SystemPage } from '@/pages/site/Pages';
@@ -28,8 +32,6 @@ function Root() {
     </AriaRouterProvider>
   );
 }
-
-const Soon = () => <div className="p-10 text-muted">به‌زودی</div>;
 
 const router = createHashRouter([
   {
@@ -101,7 +103,33 @@ const router = createHashRouter([
           { path: '*', element: <NotFoundPage /> },
         ],
       },
-      { path: 'admin', element: <AppShell panel="admin" />, children: [{ path: '*', element: <Soon /> }, { index: true, element: <Soon /> }] },
+      {
+        path: 'admin',
+        element: <AppShell panel="admin" />,
+        children: [
+          { index: true, element: <AdminDashboard /> },
+          { path: 'mock', element: <AdminMockSessionsPage /> },
+          { path: 'mock/:id', element: <AdminMockSessionPage /> },
+          { path: 'bookings', element: <AdminBookingsPage /> },
+          { path: 'bookings/:id', element: <AdminBookingPage /> },
+          { path: 'tests', element: <AdminTestsPage /> },
+          { path: 'corrections', element: <AdminCorrectionsPage /> },
+          { path: 'classes', element: <AdminClassesPage /> },
+          { path: 'classes/:id', element: <AdminClassPage /> },
+          { path: 'students', element: <AdminStudentsPage /> },
+          { path: 'students/:id', element: <AdminStudentPage /> },
+          { path: 'enrollments', element: <AdminEnrollmentsPage /> },
+          { path: 'teachers', element: <AdminTeachersPage /> },
+          { path: 'finance', element: <AdminFinancePage /> },
+          { path: 'approvals', element: <AdminApprovalsPage /> },
+          { path: 'leads', element: <AdminLeadsPage /> },
+          { path: 'reports', element: <AdminReportsPage /> },
+          { path: 'audit', element: <AdminAuditPage /> },
+          { path: 'users', element: <AdminUsersPage /> },
+          { path: 'settings', element: <AdminSettingsPage /> },
+          { path: '*', element: <NotFoundPage /> },
+        ],
+      },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
