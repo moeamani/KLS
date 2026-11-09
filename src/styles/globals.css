@@ -1,0 +1,249 @@
+/* ==========================================================================
+   Sakoo · global styles
+   Tailwind v4 + HeroUI v3, themed with the Sakoo design tokens
+   (Figma "Sakoo (OGP)" → Sakoo · Primitives / Color / Dimension / Font).
+   ========================================================================== */
+
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@font-face {
+  font-family: "Yekan Bakh";
+  src: url("/fonts/YekanBakh-VF.woff2") format("woff2-variations"), url("/fonts/YekanBakh-VF.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face { font-family: "Vazirmatn"; src: url("/fonts/Vazirmatn-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Vazirmatn"; src: url("/fonts/Vazirmatn-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Vazirmatn"; src: url("/fonts/Vazirmatn-SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Vazirmatn"; src: url("/fonts/Vazirmatn-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
+/* --------------------------------------------------------------------------
+   Sakoo primitives
+   -------------------------------------------------------------------------- */
+:root {
+  --sk-blue-50: #eef8fd;  --sk-blue-100: #d8effa; --sk-blue-200: #b3e0f5;
+  --sk-blue-500: #0095da; --sk-blue-600: #0078b8; --sk-blue-700: #006194;
+  --sk-blue-900: #0b4263; --sk-blue-950: #062a41;
+
+  --sk-gray-25: #fafbfc;  --sk-gray-50: #f4f6f8;  --sk-gray-100: #ebeef2;
+  --sk-gray-200: #dde2e8; --sk-gray-300: #c4cbd5; --sk-gray-400: #99a3b1;
+  --sk-gray-500: #6b7686; --sk-gray-600: #4e5969; --sk-gray-700: #384250;
+  --sk-gray-900: #151b23; --sk-gray-950: #0c1117;
+
+  --sk-green-50: #ecfdf3; --sk-green-200: #a6f2c4; --sk-green-500: #12a85e;
+  --sk-green-600: #0a8549; --sk-green-700: #0a6b3d;
+  --sk-amber-50: #fff8eb; --sk-amber-200: #fdd98a; --sk-amber-500: #f28a0b;
+  --sk-amber-700: #b14c08;
+  --sk-red-50: #fef2f2;   --sk-red-200: #ffc7c7;  --sk-red-500: #f03d3d;
+  --sk-red-600: #de1f1f;  --sk-red-700: #bb1717;
+  --sk-violet-50: #f3f1fe; --sk-violet-200: #d3ccfb; --sk-violet-500: #6e56e8;
+  --sk-violet-600: #5a3fd9; --sk-violet-700: #4a31b8;
+}
+
+/* --------------------------------------------------------------------------
+   HeroUI theme → Sakoo semantic roles. Unlayered so it wins over the default
+   theme, which HeroUI declares inside @layer base.
+   -------------------------------------------------------------------------- */
+:root,
+.light,
+[data-theme="light"] {
+  --font-sans: "Yekan Bakh", "Vazirmatn", Tahoma, sans-serif;
+
+  --background: var(--sk-gray-50);
+  --foreground: var(--sk-gray-900);
+
+  --surface: #ffffff;
+  --surface-foreground: var(--sk-gray-900);
+  --surface-secondary: var(--sk-gray-50);
+  --surface-tertiary: var(--sk-gray-100);
+  --overlay: #ffffff;
+  --overlay-foreground: var(--sk-gray-900);
+
+  /* 5.5:1 on white, 5.1:1 on the canvas */
+  --muted: #5f6978;
+
+  --default: var(--sk-gray-100);
+  --default-foreground: var(--sk-gray-900);
+  --default-hover: var(--sk-gray-200);
+
+  --accent: var(--sk-blue-600);
+  --accent-foreground: #ffffff;
+  --accent-hover: var(--sk-blue-700);
+  --accent-soft: var(--sk-blue-50);
+  --accent-soft-foreground: var(--sk-blue-700);
+  --accent-soft-hover: var(--sk-blue-100);
+
+  --success: var(--sk-green-600);
+  --success-foreground: #ffffff;
+  --success-soft: var(--sk-green-50);
+  --success-soft-foreground: var(--sk-green-700);
+  --success-soft-hover: #d9f7e6;
+
+  --warning: var(--sk-amber-500);
+  --warning-foreground: var(--sk-gray-950);
+  --warning-soft: var(--sk-amber-50);
+  --warning-soft-foreground: var(--sk-amber-700);
+  --warning-soft-hover: #fdefd2;
+
+  --danger: var(--sk-red-600);
+  --danger-foreground: #ffffff;
+  --danger-hover: var(--sk-red-700);
+  --danger-soft: var(--sk-red-50);
+  --danger-soft-foreground: var(--sk-red-700);
+  --danger-soft-hover: #fde3e3;
+
+  --segment: #ffffff;
+  --segment-foreground: var(--sk-gray-900);
+
+  --border: var(--sk-gray-200);
+  --separator: var(--sk-gray-100);
+  --focus: var(--sk-blue-500);
+  --link: var(--sk-blue-700);
+
+  --field-background: #ffffff;
+  --field-foreground: var(--sk-gray-900);
+  --field-placeholder: #8b95a4;
+  --field-border: var(--sk-gray-200);
+  --field-border-width: 1px;
+  --field-border-hover: var(--sk-gray-300);
+  --field-border-focus: var(--sk-blue-500);
+
+  --radius: 0.5rem;
+  --field-radius: 0.625rem;
+
+  --backdrop: rgb(12 17 23 / 40%);
+
+  --surface-shadow: 0 1px 2px 0 rgb(12 17 23 / 4%);
+  --overlay-shadow: 0 1px 3px rgb(12 17 23 / 6%), 0 12px 32px -4px rgb(12 17 23 / 14%);
+  --field-shadow: none;
+
+  /* Sakoo-only roles */
+  --ai: var(--sk-violet-600);
+  --ai-soft: var(--sk-violet-50);
+  --ai-soft-foreground: var(--sk-violet-700);
+  --ai-border: var(--sk-violet-200);
+  --brand: var(--sk-blue-500);
+  --canvas: var(--sk-gray-50);
+}
+
+@theme inline {
+  --color-ai: var(--ai);
+  --color-ai-soft: var(--ai-soft);
+  --color-ai-soft-foreground: var(--ai-soft-foreground);
+  --color-ai-border: var(--ai-border);
+  --color-brand: var(--brand);
+  --color-canvas: var(--canvas);
+  --color-ink-2: var(--sk-gray-600);
+  --color-ink-3: var(--sk-gray-500);
+  --color-line-strong: var(--sk-gray-300);
+
+  --font-sans: "Yekan Bakh", "Vazirmatn", Tahoma, sans-serif;
+
+  /* Type scale: never smaller than 12px */
+  --text-2xs: 0.75rem;
+  --text-2xs--line-height: 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body { min-height: 100dvh; }
+  h1, h2, h3, h4 { font-weight: 700; letter-spacing: 0; }
+  ::selection { background: var(--sk-blue-100); color: var(--sk-gray-900); }
+  :focus-visible { outline-color: var(--focus); }
+}
+
+/* Persian digits align better in tables and timers with tabular figures */
+.tabular { font-variant-numeric: tabular-nums; }
+/* LTR islands inside RTL copy (phone numbers, codes, file names) */
+.ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* --------------------------------------------------------------------------
+   HeroUI component tuning (Sakoo · Dimension)
+   -------------------------------------------------------------------------- */
+.button { font-weight: 600; border-radius: 0.625rem; }
+.button--sm { border-radius: 0.5rem; }
+.button--secondary { --button-fg: var(--foreground); box-shadow: inset 0 0 0 1px var(--sk-gray-200); background: #fff; }
+.button--secondary:hover, .button--secondary[data-hovered="true"] { background: var(--sk-gray-50); }
+
+.chip { font-weight: 600; }
+
+.card { border: 1px solid var(--border); box-shadow: var(--surface-shadow); border-radius: 0.875rem; }
+.card--transparent { border: 0; box-shadow: none; }
+
+/* Tabs (underline): content-width tabs from the start edge, not stretched */
+.tabs--secondary > .tabs__list-container .tabs__list { min-width: 0; gap: 1.75rem; }
+.tabs--secondary > .tabs__list-container .tabs__tab { width: auto; flex: none; padding-inline: 0.125rem; height: 2.75rem; font-size: 0.875rem; }
+.tabs--secondary > .tabs__list-container .tabs__tab[data-selected="true"] { font-weight: 600; }
+
+/* Segmented control (ToggleButtonGroup): a gray track with a white thumb on the selected option */
+.toggle-button-group.segmented { gap: 2px; padding: 3px; border-radius: 0.625rem; background: var(--sk-gray-100); }
+.toggle-button-group.segmented .toggle-button {
+  --toggle-button-bg: transparent;
+  --toggle-button-bg-hover: rgb(12 17 23 / 4%);
+  --toggle-button-bg-pressed: rgb(12 17 23 / 6%);
+  --toggle-button-fg: var(--sk-gray-600);
+  --toggle-button-bg-selected: #fff;
+  --toggle-button-bg-selected-hover: #fff;
+  --toggle-button-bg-selected-pressed: #fff;
+  --toggle-button-fg-selected: var(--foreground);
+  height: 2rem; padding-inline: 0.875rem; border-radius: 0.5rem !important; font-size: 0.8125rem;
+}
+.toggle-button-group.segmented .toggle-button[data-selected="true"] { font-weight: 600; box-shadow: 0 1px 2px rgb(12 17 23 / 10%), 0 0 0 1px rgb(12 17 23 / 4%); }
+.toggle-button-group.segmented .toggle-button-group__separator, .toggle-button-group.segmented [data-slot="toggle-button-group-separator"] { display: none; }
+
+/* Breadcrumbs: links muted, current page in the foreground colour */
+.breadcrumbs .breadcrumbs__link { font-size: 0.8125rem; }
+.breadcrumbs .breadcrumbs__link[data-current="true"] { color: var(--foreground); }
+.breadcrumbs .breadcrumbs__link:not([data-current="true"]):hover { color: var(--foreground); }
+
+/* Alerts: tinted Sakoo surfaces (the default alert is a plain white card) */
+.alert { border-radius: 0.875rem; box-shadow: none; border: 1px solid var(--border); background: var(--sk-gray-25); }
+.alert--accent { background: var(--sk-blue-50); border-color: var(--sk-blue-200); }
+.alert--success { background: var(--sk-green-50); border-color: var(--sk-green-200); }
+.alert--warning { background: var(--sk-amber-50); border-color: var(--sk-amber-200); }
+.alert--danger { background: var(--sk-red-50); border-color: var(--sk-red-200); }
+.alert__title { font-weight: 700; }
+.alert__description { color: var(--sk-gray-600); line-height: 1.85; }
+
+/* Form controls: visible resting borders (WCAG 1.4.11 non-text contrast) */
+.checkbox__control, .radio__control { border-color: var(--sk-gray-400); }
+
+/* Table: quieter header, comfortable rows */
+.table__column { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+.table__row[data-href], .table__row[data-action] { cursor: pointer; }
+
+/* Dialog widths tuned for Persian copy and data tables */
+.modal__dialog { border-radius: 1.125rem; }
+.modal__dialog--md { max-width: 32rem; }
+.modal__dialog--lg { max-width: 48rem; }
+.alert-dialog__dialog { border-radius: 1.125rem; }
+
+/* AI actions use the dedicated Sakoo AI role (violet), never the brand blue */
+.button.button--ai { --button-bg: var(--ai); --button-bg-hover: var(--sk-violet-700); --button-bg-pressed: var(--sk-violet-700); --button-fg: #fff; }
+
+/* Shimmer across question cards while the AI review runs */
+.reviewing > * { position: relative; overflow: hidden; border-radius: 0.875rem; }
+.reviewing > *::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(100deg, transparent 30%, color-mix(in oklab, var(--sk-violet-50) 80%, transparent) 50%, transparent 70%);
+  background-size: 200% 100%; animation: sk-shimmer 1.2s linear infinite;
+}
+@keyframes sk-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* AI-generated content marker — a thin rule, not a gradient banner */
+.ai-block { border-inline-start: 2px solid var(--ai-border); padding-inline-start: 0.875rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
