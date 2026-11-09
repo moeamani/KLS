@@ -53,11 +53,18 @@ required fields. A sent form shows a confirmation and creates a lead
 
 ## Design
 
-The site uses the Sakoo design language:
+The KLS identity is clean and light, with its own palette, type and mark:
 
-- light grey canvas, white surfaces with hairlines, one blue accent
-- the Yekan Bakh font, with Vazirmatn as fallback
-- Persian digits throughout, right-to-left layout, logical CSS properties
-- short eased motion that respects `prefers-reduced-motion`
+- **Colors:**
+  - Firouzeh, the turquoise of Persian tilework (`#0E7F79`), for actions, links, focus and the
+    active menu item.
+  - Saffron (`#E3961A`) for highlights and warnings.
+  - Warm, slightly green-grey stone neutrals: canvas `#F4F5F2`, white surfaces.
+- **Type:** IBM Plex Sans Arabic for the interface; IBM Plex Sans for the English exam content.
+- **Mark:** a speech bubble drawn as a pointed Persian arch, a nod to Taq-e Bostan in Kermanshah,
+  with a saffron keystone (`src/components/Logo.tsx`, `public/kls-mark.svg`).
+- **Layout:** Persian digits, right-to-left layout, logical CSS properties, and short eased motion
+  that respects `prefers-reduced-motion`. The exam and other English content are left-to-right
+  islands, and every page works at phone width.
 
-The exam and other English content are left-to-right islands. Every page works at phone width.
+Tokens are in `src/styles/globals.css`.

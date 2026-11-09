@@ -1,114 +1,106 @@
 /* ==========================================================================
    KLS School · global styles
-   Tailwind v4 + HeroUI v3, themed with the Sakoo design language
-   (primitives, semantic roles, type and component tuning).
+   Tailwind v4 + HeroUI v3 with the KLS identity: firouzeh (Persian turquoise)
+   for actions and state, saffron for highlights, warm stone neutrals,
+   IBM Plex Sans Arabic type.
    ========================================================================== */
 
 @import "tailwindcss";
 @import "@heroui/styles";
 
-@font-face {
-  font-family: "Yekan Bakh";
-  src: url("/fonts/YekanBakh-VF.woff2") format("woff2-variations"), url("/fonts/YekanBakh-VF.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face { font-family: "Vazirmatn"; src: url("/fonts/Vazirmatn-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Vazirmatn"; src: url("/fonts/Vazirmatn-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "Vazirmatn"; src: url("/fonts/Vazirmatn-SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Vazirmatn"; src: url("/fonts/Vazirmatn-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
-
 /* --------------------------------------------------------------------------
-   Sakoo primitives
+   KLS primitives
+   firouzeh  · the turquoise of Persian tilework: actions, links, focus
+   saffron   · highlights and warnings
+   stone     · warm, slightly green-grey neutrals
    -------------------------------------------------------------------------- */
 :root {
-  --sk-blue-50: #eef8fd;  --sk-blue-100: #d8effa; --sk-blue-200: #b3e0f5;
-  --sk-blue-500: #0095da; --sk-blue-600: #0078b8; --sk-blue-700: #006194;
-  --sk-blue-900: #0b4263; --sk-blue-950: #062a41;
+  --kl-teal-50: #ebf6f5;  --kl-teal-100: #d2ecea; --kl-teal-200: #a6d9d5;
+  --kl-teal-500: #13948d; --kl-teal-600: #0e7f79; --kl-teal-700: #0b6762;
+  --kl-teal-900: #0b3f3c; --kl-teal-950: #072927;
 
-  --sk-gray-25: #fafbfc;  --sk-gray-50: #f4f6f8;  --sk-gray-100: #ebeef2;
-  --sk-gray-200: #dde2e8; --sk-gray-300: #c4cbd5; --sk-gray-400: #99a3b1;
-  --sk-gray-500: #6b7686; --sk-gray-600: #4e5969; --sk-gray-700: #384250;
-  --sk-gray-900: #151b23; --sk-gray-950: #0c1117;
+  --kl-stone-25: #fbfbf9;  --kl-stone-50: #f4f5f2;  --kl-stone-100: #eaece8;
+  --kl-stone-200: #dde0db; --kl-stone-300: #c5cac3; --kl-stone-400: #99a19a;
+  --kl-stone-500: #6b746d; --kl-stone-600: #4e5751; --kl-stone-700: #38413b;
+  --kl-stone-900: #161c18; --kl-stone-950: #0c110e;
 
-  --sk-green-50: #ecfdf3; --sk-green-200: #a6f2c4; --sk-green-500: #12a85e;
-  --sk-green-600: #0a8549; --sk-green-700: #0a6b3d;
-  --sk-amber-50: #fff8eb; --sk-amber-200: #fdd98a; --sk-amber-500: #f28a0b;
-  --sk-amber-700: #b14c08;
-  --sk-red-50: #fef2f2;   --sk-red-200: #ffc7c7;  --sk-red-500: #f03d3d;
-  --sk-red-600: #de1f1f;  --sk-red-700: #bb1717;
-  --sk-violet-50: #f3f1fe; --sk-violet-200: #d3ccfb; --sk-violet-500: #6e56e8;
-  --sk-violet-600: #5a3fd9; --sk-violet-700: #4a31b8;
+  --kl-green-50: #edf7ee; --kl-green-200: #b5e0bb; --kl-green-500: #2f9a45;
+  --kl-green-600: #24803a; --kl-green-700: #1d6630;
+  --kl-saffron-50: #fff6e5; --kl-saffron-200: #f9d58e; --kl-saffron-500: #e3961a;
+  --kl-saffron-700: #9c5a00;
+  --kl-red-50: #fdf1f0;   --kl-red-200: #f6c4bf;  --kl-red-500: #e0493c;
+  --kl-red-600: #cc3426;  --kl-red-700: #a92a1e;
+  --kl-ink-50: #eef3f2; --kl-ink-200: #c6d6d4; --kl-ink-500: #2f6f6a;
+  --kl-ink-600: #255b57; --kl-ink-700: #1c4744;
 }
 
 /* --------------------------------------------------------------------------
-   HeroUI theme → Sakoo semantic roles. Unlayered so it wins over the default
+   HeroUI theme → KLS semantic roles. Unlayered so it wins over the default
    theme, which HeroUI declares inside @layer base.
    -------------------------------------------------------------------------- */
 :root,
 .light,
 [data-theme="light"] {
-  --font-sans: "Yekan Bakh", "Vazirmatn", Tahoma, sans-serif;
+  --font-sans: "IBM Plex Sans Arabic", "IBM Plex Sans", Tahoma, sans-serif;
 
-  --background: var(--sk-gray-50);
-  --foreground: var(--sk-gray-900);
+  --background: var(--kl-stone-50);
+  --foreground: var(--kl-stone-900);
 
   --surface: #ffffff;
-  --surface-foreground: var(--sk-gray-900);
-  --surface-secondary: var(--sk-gray-50);
-  --surface-tertiary: var(--sk-gray-100);
+  --surface-foreground: var(--kl-stone-900);
+  --surface-secondary: var(--kl-stone-50);
+  --surface-tertiary: var(--kl-stone-100);
   --overlay: #ffffff;
-  --overlay-foreground: var(--sk-gray-900);
+  --overlay-foreground: var(--kl-stone-900);
 
-  /* 5.5:1 on white, 5.1:1 on the canvas */
-  --muted: #5f6978;
+  /* 5.6:1 on white, 5.2:1 on the canvas */
+  --muted: #5d665f;
 
-  --default: var(--sk-gray-100);
-  --default-foreground: var(--sk-gray-900);
-  --default-hover: var(--sk-gray-200);
+  --default: var(--kl-stone-100);
+  --default-foreground: var(--kl-stone-900);
+  --default-hover: var(--kl-stone-200);
 
-  --accent: var(--sk-blue-600);
+  --accent: var(--kl-teal-600);
   --accent-foreground: #ffffff;
-  --accent-hover: var(--sk-blue-700);
-  --accent-soft: var(--sk-blue-50);
-  --accent-soft-foreground: var(--sk-blue-700);
-  --accent-soft-hover: var(--sk-blue-100);
+  --accent-hover: var(--kl-teal-700);
+  --accent-soft: var(--kl-teal-50);
+  --accent-soft-foreground: var(--kl-teal-700);
+  --accent-soft-hover: var(--kl-teal-100);
 
-  --success: var(--sk-green-600);
+  --success: var(--kl-green-600);
   --success-foreground: #ffffff;
-  --success-soft: var(--sk-green-50);
-  --success-soft-foreground: var(--sk-green-700);
+  --success-soft: var(--kl-green-50);
+  --success-soft-foreground: var(--kl-green-700);
   --success-soft-hover: #d9f7e6;
 
-  --warning: var(--sk-amber-500);
-  --warning-foreground: var(--sk-gray-950);
-  --warning-soft: var(--sk-amber-50);
-  --warning-soft-foreground: var(--sk-amber-700);
+  --warning: var(--kl-saffron-500);
+  --warning-foreground: var(--kl-stone-950);
+  --warning-soft: var(--kl-saffron-50);
+  --warning-soft-foreground: var(--kl-saffron-700);
   --warning-soft-hover: #fdefd2;
 
-  --danger: var(--sk-red-600);
+  --danger: var(--kl-red-600);
   --danger-foreground: #ffffff;
-  --danger-hover: var(--sk-red-700);
-  --danger-soft: var(--sk-red-50);
-  --danger-soft-foreground: var(--sk-red-700);
+  --danger-hover: var(--kl-red-700);
+  --danger-soft: var(--kl-red-50);
+  --danger-soft-foreground: var(--kl-red-700);
   --danger-soft-hover: #fde3e3;
 
   --segment: #ffffff;
-  --segment-foreground: var(--sk-gray-900);
+  --segment-foreground: var(--kl-stone-900);
 
-  --border: var(--sk-gray-200);
-  --separator: var(--sk-gray-100);
-  --focus: var(--sk-blue-500);
-  --link: var(--sk-blue-700);
+  --border: var(--kl-stone-200);
+  --separator: var(--kl-stone-100);
+  --focus: var(--kl-teal-500);
+  --link: var(--kl-teal-700);
 
   --field-background: #ffffff;
-  --field-foreground: var(--sk-gray-900);
-  --field-placeholder: #8b95a4;
-  --field-border: var(--sk-gray-200);
+  --field-foreground: var(--kl-stone-900);
+  --field-placeholder: #8e968f;
+  --field-border: var(--kl-stone-200);
   --field-border-width: 1px;
-  --field-border-hover: var(--sk-gray-300);
-  --field-border-focus: var(--sk-blue-500);
+  --field-border-hover: var(--kl-stone-300);
+  --field-border-focus: var(--kl-teal-500);
 
   --radius: 0.5rem;
   --field-radius: 0.625rem;
@@ -119,13 +111,14 @@
   --overlay-shadow: 0 1px 3px rgb(12 17 23 / 6%), 0 12px 32px -4px rgb(12 17 23 / 14%);
   --field-shadow: none;
 
-  /* Sakoo-only roles */
-  --ai: var(--sk-violet-600);
-  --ai-soft: var(--sk-violet-50);
-  --ai-soft-foreground: var(--sk-violet-700);
-  --ai-border: var(--sk-violet-200);
-  --brand: var(--sk-blue-500);
-  --canvas: var(--sk-gray-50);
+  /* KLS-only roles */
+  --ai: var(--kl-ink-600);
+  --ai-soft: var(--kl-ink-50);
+  --ai-soft-foreground: var(--kl-ink-700);
+  --ai-border: var(--kl-ink-200);
+  --brand: var(--kl-teal-600);
+  --saffron: var(--kl-saffron-500);
+  --canvas: var(--kl-stone-50);
 }
 
 @theme inline {
@@ -135,11 +128,13 @@
   --color-ai-border: var(--ai-border);
   --color-brand: var(--brand);
   --color-canvas: var(--canvas);
-  --color-ink-2: var(--sk-gray-600);
-  --color-ink-3: var(--sk-gray-500);
-  --color-line-strong: var(--sk-gray-300);
+  --color-saffron: var(--saffron);
+  --color-saffron-soft: var(--kl-saffron-50);
+  --color-ink-2: var(--kl-stone-600);
+  --color-ink-3: var(--kl-stone-500);
+  --color-line-strong: var(--kl-stone-300);
 
-  --font-sans: "Yekan Bakh", "Vazirmatn", Tahoma, sans-serif;
+  --font-sans: "IBM Plex Sans Arabic", "IBM Plex Sans", Tahoma, sans-serif;
 
   /* Type scale: never smaller than 12px */
   --text-2xs: 0.75rem;
@@ -159,7 +154,7 @@
   }
   body { min-height: 100dvh; }
   h1, h2, h3, h4 { font-weight: 700; letter-spacing: 0; }
-  ::selection { background: var(--sk-blue-100); color: var(--sk-gray-900); }
+  ::selection { background: var(--kl-teal-100); color: var(--kl-stone-900); }
   :focus-visible { outline-color: var(--focus); }
 }
 
@@ -169,16 +164,16 @@
 .ltr { direction: ltr; unicode-bidi: isolate; }
 
 /* --------------------------------------------------------------------------
-   HeroUI component tuning (Sakoo · Dimension)
+   HeroUI component tuning
    -------------------------------------------------------------------------- */
-.button { font-weight: 600; border-radius: 0.625rem; }
+.button { font-weight: 600; border-radius: 0.75rem; }
 .button--sm { border-radius: 0.5rem; }
-.button--secondary { --button-fg: var(--foreground); box-shadow: inset 0 0 0 1px var(--sk-gray-200); background: #fff; }
-.button--secondary:hover, .button--secondary[data-hovered="true"] { background: var(--sk-gray-50); }
+.button--secondary { --button-fg: var(--foreground); box-shadow: inset 0 0 0 1px var(--kl-stone-200); background: #fff; }
+.button--secondary:hover, .button--secondary[data-hovered="true"] { background: var(--kl-stone-50); }
 
 .chip { font-weight: 600; }
 
-.card { border: 1px solid var(--border); box-shadow: var(--surface-shadow); border-radius: 0.875rem; }
+.card { border: 1px solid var(--border); box-shadow: var(--surface-shadow); border-radius: 1rem; }
 .card--transparent { border: 0; box-shadow: none; }
 
 /* Tabs (underline): content-width tabs from the start edge, not stretched */
@@ -187,12 +182,12 @@
 .tabs--secondary > .tabs__list-container .tabs__tab[data-selected="true"] { font-weight: 600; }
 
 /* Segmented control (ToggleButtonGroup): a gray track with a white thumb on the selected option */
-.toggle-button-group.segmented { gap: 2px; padding: 3px; border-radius: 0.625rem; background: var(--sk-gray-100); }
+.toggle-button-group.segmented { gap: 2px; padding: 3px; border-radius: 0.625rem; background: var(--kl-stone-100); }
 .toggle-button-group.segmented .toggle-button {
   --toggle-button-bg: transparent;
   --toggle-button-bg-hover: rgb(12 17 23 / 4%);
   --toggle-button-bg-pressed: rgb(12 17 23 / 6%);
-  --toggle-button-fg: var(--sk-gray-600);
+  --toggle-button-fg: var(--kl-stone-600);
   --toggle-button-bg-selected: #fff;
   --toggle-button-bg-selected-hover: #fff;
   --toggle-button-bg-selected-pressed: #fff;
@@ -207,17 +202,17 @@
 .breadcrumbs .breadcrumbs__link[data-current="true"] { color: var(--foreground); }
 .breadcrumbs .breadcrumbs__link:not([data-current="true"]):hover { color: var(--foreground); }
 
-/* Alerts: tinted Sakoo surfaces (the default alert is a plain white card) */
-.alert { border-radius: 0.875rem; box-shadow: none; border: 1px solid var(--border); background: var(--sk-gray-25); }
-.alert--accent { background: var(--sk-blue-50); border-color: var(--sk-blue-200); }
-.alert--success { background: var(--sk-green-50); border-color: var(--sk-green-200); }
-.alert--warning { background: var(--sk-amber-50); border-color: var(--sk-amber-200); }
-.alert--danger { background: var(--sk-red-50); border-color: var(--sk-red-200); }
+/* Alerts: tinted surfaces (the default alert is a plain white card) */
+.alert { border-radius: 0.875rem; box-shadow: none; border: 1px solid var(--border); background: var(--kl-stone-25); }
+.alert--accent { background: var(--kl-teal-50); border-color: var(--kl-teal-200); }
+.alert--success { background: var(--kl-green-50); border-color: var(--kl-green-200); }
+.alert--warning { background: var(--kl-saffron-50); border-color: var(--kl-saffron-200); }
+.alert--danger { background: var(--kl-red-50); border-color: var(--kl-red-200); }
 .alert__title { font-weight: 700; }
-.alert__description { color: var(--sk-gray-600); line-height: 1.85; }
+.alert__description { color: var(--kl-stone-600); line-height: 1.85; }
 
 /* Form controls: visible resting borders (WCAG 1.4.11 non-text contrast) */
-.checkbox__control, .radio__control { border-color: var(--sk-gray-400); }
+.checkbox__control, .radio__control { border-color: var(--kl-stone-400); }
 
 /* Table: quieter header, comfortable rows */
 .table__column { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
@@ -230,9 +225,9 @@
 .alert-dialog__dialog { border-radius: 1.125rem; }
 
 /* Exam content is English: left-to-right islands inside the RTL app */
-.exam-text { direction: ltr; text-align: left; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+.exam-text { direction: ltr; text-align: left; font-family: "IBM Plex Sans", system-ui, -apple-system, Roboto, Arial, sans-serif; }
 .exam-text p { margin-bottom: 0.85rem; }
-.gap-input { direction: ltr; border-bottom: 2px solid var(--sk-gray-300); background: var(--sk-gray-25); padding: 0 0.4rem; min-width: 8rem; border-radius: 0.25rem 0.25rem 0 0; outline: none; }
+.gap-input { direction: ltr; border-bottom: 2px solid var(--kl-stone-300); background: var(--kl-stone-25); padding: 0 0.4rem; min-width: 8rem; border-radius: 0.25rem 0.25rem 0 0; outline: none; }
 .gap-input:focus { border-color: var(--focus); background: #fff; }
 
 /* Printed result report and report cards */

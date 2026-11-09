@@ -10,7 +10,7 @@ export function BarChart({ spec }: { spec: ChartSpec }) {
   const plotW = W - padL - 10, plotH = H - padT - padB;
   const groupW = plotW / spec.categories.length;
   const barW = (groupW * 0.7) / spec.series.length;
-  const colors = ['var(--sk-blue-600)', 'var(--sk-gray-400)', 'var(--sk-amber-500)'];
+  const colors = ['var(--kl-teal-600)', 'var(--kl-stone-400)', 'var(--kl-saffron-500)'];
   const y = (v: number) => padT + plotH - (v / max) * plotH;
   const ticks = Array.from({ length: max / 10 + 1 }, (_, i) => i * 10);
   return (
@@ -19,8 +19,8 @@ export function BarChart({ spec }: { spec: ChartSpec }) {
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={spec.title} direction="ltr">
         {ticks.map((t) => (
           <g key={t}>
-            <line x1={padL} x2={W - 10} y1={y(t)} y2={y(t)} stroke="var(--sk-gray-100)" />
-            <text x={padL - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--sk-gray-500)">{t}</text>
+            <line x1={padL} x2={W - 10} y1={y(t)} y2={y(t)} stroke="var(--kl-stone-100)" />
+            <text x={padL - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--kl-stone-500)">{t}</text>
           </g>
         ))}
         {spec.categories.map((cat, ci) => (
@@ -31,17 +31,17 @@ export function BarChart({ spec }: { spec: ChartSpec }) {
               return (
                 <g key={series.name}>
                   <rect x={x} y={y(v)} width={barW - 3} height={padT + plotH - y(v)} rx="2" fill={colors[si]} />
-                  <text x={x + (barW - 3) / 2} y={y(v) - 4} textAnchor="middle" fontSize="10" fill="var(--sk-gray-700)">{v}</text>
+                  <text x={x + (barW - 3) / 2} y={y(v) - 4} textAnchor="middle" fontSize="10" fill="var(--kl-stone-700)">{v}</text>
                 </g>
               );
             })}
-            <text x={padL + ci * groupW + groupW / 2} y={H - padB + 16} textAnchor="middle" fontSize="11" fill="var(--sk-gray-700)">{cat}</text>
+            <text x={padL + ci * groupW + groupW / 2} y={H - padB + 16} textAnchor="middle" fontSize="11" fill="var(--kl-stone-700)">{cat}</text>
           </g>
         ))}
         {spec.series.map((series, si) => (
           <g key={series.name} transform={`translate(${W / 2 - 60 + si * 70}, ${H - 14})`}>
             <rect width="10" height="10" y="-9" fill={colors[si]} rx="2" />
-            <text x="14" fontSize="11" fill="var(--sk-gray-700)">{series.name}</text>
+            <text x="14" fontSize="11" fill="var(--kl-stone-700)">{series.name}</text>
           </g>
         ))}
       </svg>

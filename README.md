@@ -40,7 +40,7 @@ Start at **[docs/README.md](docs/README.md)**. The most important document is
 
 | Part | Source |
 | --- | --- |
-| Design language: tokens, type, components, mobile OTP sign-in, exam engine rules | [sakoo](https://github.com/moeamani/sakoo) |
+| Component base, mobile OTP sign-in, exam engine rules (the visual identity is KLS's own: see docs/01-website.md) | [sakoo](https://github.com/moeamani/sakoo) |
 | Staff tools: roles and `can()`, audit log, approvals, leave, finance ledger, payroll, notifications, reports; the recommended production backend | [nexus](https://github.com/moeamani/nexus) |
 | Learning-platform patterns: courses, classes, exams, store, packages, discount codes, wallets, support | Greenoly admin panel |
 | IELTS mock content, scoring, terms, classes, placement, attendance, report cards, parent accounts | New for KLS |
