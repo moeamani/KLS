@@ -304,11 +304,11 @@ function ListeningBody({ exam, test, transcript }: { exam: MockExam; test: MockT
           <Button isIconOnly size="lg" aria-label={playing ? 'Stop' : 'Play recording'} isDisabled={played && !playing && !transcript} onPress={playing ? () => { window.speechSynthesis?.cancel(); setPlaying(false); } : play}>
             {playing ? <Stop /> : <PlayFill />}
           </Button>
-          <div className="min-w-0 flex-1">
+          <div className="min-w-[180px] flex-1">
             <div className="text-[15px] font-bold">{part.title}</div>
             <div className="text-[13px] text-ink-2">{part.context}</div>
           </div>
-          <span className="text-xs text-muted">{playing ? 'Playing…' : played ? 'Recording played' : 'You will hear the recording once.'}</span>
+          <span className="w-full text-xs text-muted sm:w-auto">{playing ? 'Playing…' : played ? 'Recording played' : 'You will hear the recording once.'}</span>
         </div>
         {transcript ? <div className="rounded-xl border border-dashed border-line-strong bg-surface-secondary p-4 text-[14px] leading-7 text-ink-2">{part.script}</div> : null}
         {part.groups.map((group, i) => <GroupView key={i} group={group} answers={state.answers} onAnswer={exam.setAnswer} flags={state.flags} onFlag={exam.toggleFlag} />)}

@@ -45,7 +45,7 @@ export function StudentHome() {
         {examNow ? (
           <Card className="flex-row flex-wrap items-center gap-4 border-accent bg-accent-soft p-5">
             <span className="grid size-11 place-items-center rounded-xl bg-accent text-white"><Ticket className="size-5" /></span>
-            <div className="min-w-0 flex-1">
+            <div className="min-w-[200px] flex-1">
               <div className="text-base font-extrabold">{examNow.status === 'in_progress' ? 'آزمون ماک شما نیمه‌تمام است' : 'آزمون ماک آنلاین شما باز است'}</div>
               <div className="text-[13px] text-ink-2">کد {examNow.code} · لیسنینگ، ریدینگ و رایتینگ در یک نشست؛ حدود ۲ ساعت و ۳۰ دقیقه.</div>
             </div>
