@@ -1,7 +1,7 @@
 import { Persons } from '@gravity-ui/icons';
 import { Alert, Button, Card, Chip, Tabs } from '@heroui/react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { Empty } from '@/components/ui/Empty';
 import { SelectField } from '@/components/ui/Fields';
 import { Page, PageHeader, Section } from '@/components/ui/Page';
@@ -87,13 +87,14 @@ export function ParentEnrollPage() {
   const me = useSessionUser() as Parent;
   const children = s.students.filter((st) => me.childIds.includes(st.id));
   const [childId, setChildId] = useState(children[0]?.id ?? '');
+  const { search } = useLocation();
   const child = children.find((c) => c.id === childId);
   return (
     <Page width="narrow">
       <PageHeader title="ثبت‌نام فرزند" description="کلاس‌های ترم آینده را برای هر فرزند انتخاب و پرداخت کنید." />
       <div className="grid gap-4">
         <Section><SelectField label="فرزند" value={childId} onChange={setChildId} options={children.map((c) => ({ id: c.id, label: c.name, description: `متولد ${faNumber(c.birthYear)}` }))} /></Section>
-        {child ? <EnrollWizard key={child.id} student={child} by="parent" /> : null}
+        {child ? <EnrollWizard key={`${child.id}${search}`} student={child} by="parent" /> : null}
       </div>
     </Page>
   );

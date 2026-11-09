@@ -12,13 +12,14 @@ import type { PaymentMethod } from '@/types';
 
 /** Seconds left on a seat hold, live. */
 export function useCountdown(until?: string) {
-  const [left, setLeft] = useState(() => (until ? Math.max(0, Math.round((new Date(until).getTime() - Date.now()) / 1000)) : 0));
+  const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
+    setNow(Date.now());
     if (!until) return;
-    const t = setInterval(() => setLeft(Math.max(0, Math.round((new Date(until).getTime() - Date.now()) / 1000))), 1000);
+    const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
   }, [until]);
-  return left;
+  return until ? Math.max(0, Math.round((new Date(until).getTime() - now) / 1000)) : 0;
 }
 
 export function HoldTimer({ until, label = 'صندلی برای شما نگه داشته شده است' }: { until?: string; label?: string }) {

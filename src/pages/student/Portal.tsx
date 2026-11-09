@@ -1,7 +1,7 @@
 import { ArrowLeft, Book, Calendar, CircleCheck, Display, FileText, GraduationCap, Pencil, Receipt, Ticket, VolumeFill, Video } from '@gravity-ui/icons';
 import { Alert, Button, Card, Chip, cn, Radio, RadioGroup, toast } from '@heroui/react';
 import { useMemo, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router';
 import { BandBadge } from '@/components/ui/Band';
 import { ConfirmDialog, FormDialog } from '@/components/ui/Dialog';
 import { Empty } from '@/components/ui/Empty';
@@ -93,10 +93,11 @@ export function StudentHome() {
 
 export function StudentEnrollPage() {
   const me = useSessionUser() as Student;
+  const { search } = useLocation();
   return (
     <Page width="narrow">
       <PageHeader title="ثبت‌نام ترم جدید" description="دوره و کلاس را انتخاب کنید؛ با پرداخت، ثبت‌نام همان لحظه قطعی می‌شود." />
-      <EnrollWizard student={me} by="student" />
+      <EnrollWizard key={search} student={me} by="student" />
     </Page>
   );
 }
