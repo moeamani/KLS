@@ -31,7 +31,8 @@ export function AdminMockSessionsPage() {
   const [open, setOpen] = useState(false);
   const examiners = s.teachers.filter((t) => t.skills.includes('examiner'));
   const [form, setForm] = useState({ title: 'آزمون ماک', days: '14', time: '09:00', capacity: 24, price: 1_900_000, academic: true, general: true, center: true, online: false, slotCount: 16, examiners: examiners.map((e) => e.id) });
-  const rows = [...s.mockSessions].sort((a, b) => b.at.localeCompare(a.at));
+  // Instant mocks are one-seat sessions bought by a single candidate; they are listed under bookings.
+  const rows = s.mockSessions.filter((m) => !m.onDemand).sort((a, b) => b.at.localeCompare(a.at));
   const create = () => {
     const at = addDays(new Date(), Number(form.days));
     const [h, m] = form.time.split(':').map(Number);
@@ -46,7 +47,7 @@ export function AdminMockSessionsPage() {
   const valid = form.title.trim().length > 2 && (form.academic || form.general) && (form.center || form.online) && form.examiners.length > 0;
   return (
     <Page width="wide">
-      <PageHeader title="جلسات آزمون ماک" description="هر جلسه یک تاریخ آزمون کتبی با ظرفیت، قیمت و زمان‌های اسپیکینگ است." actions={me.role === 'manager' ? <Button onPress={() => setOpen(true)}><Plus />جلسه جدید</Button> : null} />
+      <PageHeader title="جلسات آزمون ماک" description="هر جلسه یک تاریخ آزمون کتبی با ظرفیت، قیمت و زمان‌های اسپیکینگ است. آزمون‌های فوری (یک‌نفره) در فهرست رزروها آمده‌اند." actions={me.role === 'manager' ? <Button onPress={() => setOpen(true)}><Plus />جلسه جدید</Button> : null} />
       <DataTable label="جلسات" rows={rows} getId={(m) => m.id} href={(m) => `/admin/mock/${m.id}`} minWidth={900}
         columns={[
           { key: 'title', label: 'جلسه', render: (m) => <div><div className="font-semibold">{m.title}</div><div className="text-xs text-muted">{m.modules.map((x) => MODULE_LABEL[x]).join('، ')} · {m.deliveries.map((d) => DELIVERY_LABEL[d]).join('، ')}</div></div> },

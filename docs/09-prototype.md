@@ -39,18 +39,28 @@ Prototype tools also offer **reset all demo data**, which returns everything to 
 
 ### 1. A full mock exam (about 5 minutes)
 
-1. As **زبان‌آموز**, the home page shows "آزمون ماک آنلاین شما باز است". Press **شروع آزمون**.
-2. Play the sound check, then **شروع Listening**.
+The quickest way in is **`/try-mock`** (also «امتحان آزمون ماک (زبان‌آموز نمونه)» in prototype tools, «امتحان یک آزمون
+نمونه» on the public mock page and the link under the home page buttons). It signs in as the demo
+student and opens a fresh, paid instant mock, so the exam can be taken any time and as often as you
+like. As the student, the «آزمون ماک فوری» card on the mock page does the same through the payment
+dialog, or for free with «شروع آزمون نمونه رایگان».
+
+1. Read the briefing, play the sound check, tick «قواعد آزمون را خواندم» and press **شروع Listening**.
+   (The seeded "today" session also works: as **زبان‌آموز** the home page shows "آزمون ماک آنلاین شما
+   باز است"; it stays open for 8 hours after the data is reset.)
+2. In Listening:
    - Press play on Part 1; the browser reads the recording aloud.
    - Answer a few questions and flag one.
    - Open **ابزار نمونه اولیه** → «پر کردن خودکار این بخش» to fill the section.
 3. **پایان Listening** → confirm → **شروع Reading** → fill → end.
 4. **Writing:** «پر کردن خودکار» writes sample essays; watch the word counts. Then **ثبت نهایی آزمون**.
-5. Listening and Reading bands appear at once. Open the booking to see the Speaking slot.
+5. The finish page shows the Listening and Reading bands at once, the next steps (Writing examiner,
+   Speaking slot) and the event log. «یک آزمون نمونه دیگر» starts another one.
 
 Things to try during the exam:
 
-- Switch on «شبیه‌سازی قطع اتصال» to see the grace bar.
+- Switch on «شبیه‌سازی قطع اتصال» to see the connection dialog and its grace countdown.
+- Use the guide button (ⓘ) in the top bar.
 - Reload the page: a resume screen appears and a resume is counted.
 - Open the same exam in a second tab: the first tab is locked.
 - Use «رساندن زمان بخش به ۵ ثانیه» to see the automatic move to the next section.

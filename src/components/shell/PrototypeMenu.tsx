@@ -1,4 +1,4 @@
-import { ArrowRotateLeft, Globe, Sliders } from '@gravity-ui/icons';
+import { ArrowRotateLeft, Globe, PlayFill, Sliders } from '@gravity-ui/icons';
 import { Button, cn, Popover, Separator, toast } from '@heroui/react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -46,6 +46,10 @@ export function PrototypeMenu({ inline = false }: { inline?: boolean }) {
                 ))}
               </div>
             </div>
+            <Button size="sm" variant="ghost" className="justify-start" onPress={() => navigate('/try-mock')}>
+              <PlayFill />
+              امتحان آزمون ماک (زبان‌آموز نمونه)
+            </Button>
             <Button size="sm" variant="ghost" className="justify-start" onPress={() => navigate('/')}>
               <Globe />
               رفتن به سایت عمومی

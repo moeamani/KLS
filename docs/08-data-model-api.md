@@ -22,7 +22,7 @@ the API the frontend will call. Types are in `src/types.ts`.
 | `AttendanceSheet` | classId, session, date, marks {studentId: mark}, by, at | Unique (classId, session) |
 | `Homework` | classId, title, due, detail | |
 | `MockTest` | title, module, status, listening[] {parts → groups → questions}, reading[] {passages → groups}, writing {t1 {prompt, chart?, letter?}, t2}, speaking {p1[], p2 {topic, bullets, closing}, p3[]} | Answer keys must never reach the candidate's browser in production |
-| `MockSession` | title, at, modules[], deliveries[], testIds, capacity, price, regClose, slots[], cancelled?, note? | |
+| `MockSession` | title, at, modules[], deliveries[], testIds, capacity, price, regClose, slots[], cancelled?, note?, onDemand? (instant mock) | |
 | `SpeakingSlot` | at, examinerId, bookingId? | Unique bookingId |
 | `MockBooking` | code, studentId, sessionId, module, delivery, slotId?, status, heldUntil?, invoiceId?, attempt?, writingExaminerId?, writing?, speaking?, speakingNoShow?, releasedAt?, remark?, events[] | |
 | `MockAttempt` | answers {questionId: text}, writing {t1, t2}, startedAt, submittedAt, log[], endReason | Write-once after submit |

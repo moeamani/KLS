@@ -208,7 +208,12 @@ export function AdminReportsPage() {
   const data = useMemo(() => {
     const released = s.bookings.filter((b) => b.status === 'released').map((b) => bookingScores(b, s.mockSessions.find((m) => m.id === b.sessionId)));
     const avg = (key: 'listening' | 'reading' | 'writing' | 'speaking' | 'overall') => { const vals = released.map((r) => (key === 'listening' || key === 'reading' ? r[key]?.band : r[key])).filter((v): v is number => v != null); return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0; };
-    const bySession = s.mockSessions.filter((m) => !m.cancelled).map((m) => ({ label: m.title, value: s.bookings.filter((b) => b.sessionId === m.id && ['confirmed', 'in_progress', 'awaiting_grading', 'graded', 'released', 'no_show'].includes(b.status)).length }));
+    const seated = (ids: string[]) => s.bookings.filter((b) => ids.includes(b.sessionId) && ['confirmed', 'in_progress', 'awaiting_grading', 'graded', 'released', 'no_show'].includes(b.status)).length;
+    const instant = s.mockSessions.filter((m) => m.onDemand).map((m) => m.id);
+    const bySession = [
+      ...s.mockSessions.filter((m) => !m.cancelled && !m.onDemand).map((m) => ({ label: m.title, value: seated([m.id]) })),
+      ...(instant.length ? [{ label: 'آزمون‌های فوری', value: seated(instant) }] : []),
+    ];
     const fill = s.classes.filter((c) => s.terms.find((t) => t.id === c.termId)?.title.includes('زمستان')).map((c) => ({ label: c.code, value: s.enrollments.filter((e) => e.classId === c.id && ['confirmed', 'held'].includes(e.status)).length, hint: `از ${faNumber(c.capacity)}` }));
     const absences = s.students.map((st) => ({ label: st.name, value: s.attendance.filter((a) => a.marks[st.id] === 'absent').length })).filter((r) => r.value >= 2).sort((a, b) => b.value - a.value).slice(0, 8);
     return { released: released.length, skills: (['listening', 'reading', 'writing', 'speaking', 'overall'] as const).map((k) => ({ label: k === 'overall' ? 'Overall' : k[0].toUpperCase() + k.slice(1), value: Math.round(avg(k) * 10) / 10 })), bySession, fill, absences };
@@ -301,6 +306,7 @@ export function AdminSettingsPage() {
             <NumberInput label="هزینه بازبینی (تومان)" value={m.remarkFee} onChange={(v) => setM({ ...m, remarkFee: v })} min={0} step={50_000} />
             <NumberInput label="تصحیح عادی (تومان)" value={m.correctionPrice} onChange={(v) => setM({ ...m, correctionPrice: v })} min={0} step={50_000} />
             <NumberInput label="تصحیح فوری (تومان)" value={m.correctionExpressPrice} onChange={(v) => setM({ ...m, correctionExpressPrice: v })} min={0} step={50_000} />
+            <NumberInput label="آزمون ماک فوری (تومان)" value={m.onDemandPrice} onChange={(v) => setM({ ...m, onDemandPrice: v })} min={0} step={100_000} description="آزمون آنلاینی که زبان‌آموز همان لحظه می‌خرد و شروع می‌کند." />
           </div>
           <div className="mt-5 grid gap-3">
             {toggle('یک پنجره در هر زمان', m.singleSession, (v) => setM({ ...m, singleSession: v }), 'با باز شدن آزمون در پنجره دیگر، پنجره قبلی قفل می‌شود.')}

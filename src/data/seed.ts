@@ -24,7 +24,7 @@ export const DEFAULT_SETTINGS: Settings = {
   seatHoldMin: 15,
   mock: {
     listeningMin: 30, readingMin: 60, writingMin: 60, graceMin: 10, timerOnDisconnect: 'run', singleSession: true, maxResumes: 2,
-    instantLR: true, autoRelease: false, cancelHours: 48, refundPercent: 80, remarkFee: 600_000, correctionPrice: 450_000, correctionExpressPrice: 750_000,
+    instantLR: true, autoRelease: false, cancelHours: 48, refundPercent: 80, remarkFee: 600_000, correctionPrice: 450_000, correctionExpressPrice: 750_000, onDemandPrice: 1_700_000,
   },
   grades: { activity: 15, homework: 15, midterm: 30, final: 40, pass: 70 },
   installmentMin: 6_000_000,

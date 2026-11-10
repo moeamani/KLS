@@ -3,7 +3,8 @@
 The mock exam is the school's most important product. It has three parts that share one
 scoring engine:
 
-1. **Mock exam** (آزمون ماک): a full four-skill test on a scheduled date.
+1. **Mock exam** (آزمون ماک): a full four-skill test on a scheduled date, or an **instant mock**
+   (آزمون ماک فوری) that a student buys and starts online at once (§ 1).
 2. **Correction service** (خدمات تصحیح و بازخورد): a student sends one Writing task and an
    examiner returns band scores and feedback.
 3. **Re-mark** (بازبینی نمره): a second examiner re-scores Writing or Speaking after a released result.
@@ -30,6 +31,7 @@ A session is one date of the written test.
 | `regClose` | Booking closes at this time (default: 2 days before) |
 | `slots[]` | Speaking slots: `{ at, examinerId, bookingId? }`, 15 minutes each, starting 4 hours after the written test |
 | `cancelled`, `note` | Set when the school cancels the session |
+| `onDemand` | Set on an instant mock: a one-seat session created for one student at purchase |
 
 ### Session states (derived, never stored)
 
@@ -44,6 +46,24 @@ A session is one date of the written test.
 
 A seat is taken by every booking that is not cancelled, expired or a no-show
 (`bookingTakesSeat`). An unpaid hold therefore takes a seat until it expires.
+
+### Instant mock (آزمون ماک فوری)
+
+A student who cannot wait for a session date buys an instant online mock from the student panel
+(«آزمون ماک فوری» card on the mock page; the public mock page links to it).
+
+- `holdOnDemand(studentId, module)` creates a one-seat session that starts now (`onDemand: true`,
+  online only, price `mock.onDemandPrice`, default 1,700,000 toman) with eight Speaking slots the
+  next day from 10:00, shared among the active examiners. It then holds a booking for it exactly
+  as § 2 does.
+- Paying confirms the booking and assigns a Speaking slot; the student goes straight to the exam.
+- The written test is open for 8 hours from purchase, like any online session.
+- Instant sessions are left out of the public date lists, the dashboard's upcoming mocks and the
+  admin session table; their bookings appear in the bookings list, and reports group them as
+  «آزمون‌های فوری».
+- **Prototype only:** `demoMock` does the same and records the payment, so the exam can be tried
+  without the payment dialog. `/try-mock` signs in as the demo student and opens it
+  (`/try-mock?module=general` for General Training).
 
 ### Creating a session (manager)
 
@@ -115,10 +135,28 @@ Reading, then Writing.
 
 ### When the test is available
 
-- **Online delivery:** from the session start for 8 hours (`examWindow`).
+- **Online delivery:** from the session start for 8 hours (`examWindow`). For an instant mock the
+  session starts at purchase.
 - **Center delivery:** the same window. Staff seat the candidate at a school computer.
 - Before the window opens, the exam page shows when it opens. After it closes, it says the time has
   passed. A booking that is not `confirmed` or `in_progress` cannot open the exam.
+
+### Before the test
+
+The exam page opens on a briefing, not on the test:
+
+- a blue summary card: module, delivery, candidate, booking code, total written time, the three
+  sections with their minutes and question counts, and the Speaking slot and examiner
+- the five test rules, numbered
+- what happens if the connection drops (grace, timer behaviour, resumes, one window), built from the
+  current settings
+- a sound check that plays a short English sentence; it shows level bars while playing and a tick
+  once heard
+- a "I have read the rules" checkbox; **شروع Listening** stays disabled until it is ticked, and
+  «بعداً» returns to the booking
+
+A test that was already started opens on a **resume** page instead: the current section, time left,
+questions answered and resumes left, with «ادامه آزمون» and «بازگشت به رزرو».
 
 ### Sections and timing
 
@@ -129,37 +167,56 @@ Reading, then Writing.
 | Writing | 60 min | `mock.writingMin` |
 | Speaking | 11–14 min, separately | Speaking slot |
 
-- Each section has its own countdown. The timer turns amber at 5 minutes and red at 1 minute.
-- When a section's time ends, its answers are saved and the candidate sees a "next section" screen.
-  The next section's time starts when they open it.
-- "پایان بخش" ends a section early, after a confirmation that shows how many questions are
-  unanswered. Ending Writing shows a warning if either task is under its word minimum.
+- Each section has its own countdown. At 5 minutes the timer turns amber and an amber band appears
+  under the top bar; at 1 minute both turn red and the timer pulses.
+- When a section's time ends, its answers are saved and the candidate sees a "next section" card:
+  how many questions of the finished section were answered, what the next section contains and how
+  long it is. The next section's time starts when they press «شروع …».
+- "پایان بخش" ends a section early, after a confirmation that shows answered, unanswered and flagged
+  counts. Ending Writing shows both word counts and a warning if either task is under its minimum.
 - A finished section can never be reopened.
 - Ending Writing, or Writing's time running out, submits the test (`submitAttempt`).
 
 ### Layout (computer-delivered style)
 
-- Top bar: candidate name, booking code, the three sections, connection state, timer and the end
-  button. Part tabs sit below it: Part 1–4 for Listening, Passage 1–3 for Reading, Task 1/2 for
-  Writing.
-- **Listening:** play button, part context, then the questions. In the prototype the recording is
-  read by the browser's English text-to-speech, and each part plays once.
-- **Reading:** passage on one side, questions on the other, each scrolling on its own.
-- **Writing:** prompt on one side (the Academic Task 1 chart is drawn as an SVG), editor on the other
-  with a live word count against the minimum (150 / 250).
-- **Navigator** (Listening and Reading): one numbered button per question, filled when answered,
-  with a dot when flagged. Clicking one jumps to that question and part.
-- Every question can be flagged for review.
-- The exam is English and left-to-right; the surrounding chrome stays Persian.
+The test fills the whole screen; the panel's sidebar and menus are hidden until it ends.
+
+- **Top bar:** school mark, candidate name and booking code; the section timer, large and centred,
+  with «زمان باقی‌مانده»; a short «ذخیره شد» note after each answer; connection state; a guide
+  button (how the screen works and the connection rules) and «پایان بخش».
+- **Section steps** under the top bar: Listening, Reading and Writing, each with a progress bar.
+  Finished sections are ticked, the current one fills as questions are answered (Writing: as both
+  tasks approach their minimum), and later ones show their length.
+- **Part tabs:** Part 1–4 or Passage 1–3, each with its answered count.
+- **Listening:** an audio card with a large play button, the part and question range, the situation,
+  level bars and a progress bar while playing, and "You will hear the recording ONCE only". After
+  playing, the button shows a tick and cannot be pressed again. In the prototype the recording is
+  read by the browser's English text-to-speech.
+- **Reading:** passage on one side (paragraph letters set apart), questions on the other, each
+  scrolling on its own. On a phone a «Passage / Questions» switch shows one at a time; jumping to a
+  question switches to the questions.
+- **Writing:** a Task 1 / Task 2 switch with each task's word count (ticked once it reaches the
+  minimum); prompt on one side (the Academic Task 1 chart is drawn as an SVG); the editor on the
+  other with a word meter against the minimum (150 / 250).
+- **Question groups** are cards: the question range, the instructions, and the answered count.
+- **Navigator** (Listening and Reading): previous/next part buttons and one numbered button per
+  question, grouped by part, filled when answered and with an amber dot when flagged. Clicking one
+  jumps to that question and part and focuses its answer.
+- Every question can be flagged for review; a flagged question gets an amber edge.
+- Part changes slide in; motion is reduced when the system asks for it.
+- The exam is English (IBM Plex Sans) and left-to-right; the surrounding chrome stays Persian.
 
 ### Question types
 
 | Type | UI | Correct when |
 | --- | --- | --- |
-| `gap` | Inline text field | The trimmed, lower-cased answer, with any trailing punctuation removed, equals one of `answer[]` (several spellings or forms can be accepted) |
-| `mcq` | A/B/C radio list | The chosen letter equals `answer[0]` |
-| `tfng` / `ynng` | TRUE/FALSE/NOT GIVEN or YES/NO/NOT GIVEN | The text matches exactly |
-| `match` | Select from the group's options (letters A–E or headings i–vi) | The first token of the chosen option matches |
+| `gap` | Inline field showing the question number; tinted once filled | The trimmed, lower-cased answer, with any trailing punctuation removed, equals one of `answer[]` (several spellings or forms can be accepted) |
+| `mcq` | Option cards with a lettered circle (A/B/C) | The chosen letter equals `answer[0]` |
+| `tfng` / `ynng` | A segmented TRUE / FALSE / NOT GIVEN (or YES / NO / NOT GIVEN) control | The text matches exactly |
+| `match` | Select from the group's options (letters A–E or headings i–vi); long option lists are shown above the questions | The first token of the chosen option matches |
+
+The same components draw the answer key on the result report, where the correct option is green,
+a wrong choice red, and each question shows "Correct" or "Answer: …".
 
 ### Saving, reloads and connection loss
 
@@ -170,13 +227,13 @@ already played, an event log, the owning tab and `lastTick`.
 | Situation | Behaviour |
 | --- | --- |
 | Every answer or keystroke | Saved at once |
-| Network lost (`offline` event, or the prototype switch) | A red bar shows the grace countdown (`graceMin`, default 10 min). The timer keeps running (`timerOnDisconnect = run`, like the real test) or pauses (`pause`). |
+| Network lost (`offline` event, or the prototype switch) | A dialog that cannot be dismissed covers the test with the grace countdown and its bar (`graceMin`, default 10 min). The timer keeps running (`timerOnDisconnect = run`, like the real test) or pauses (`pause`). |
 | Back online within the grace | A "connected" toast; the test continues where it was, and the event is logged |
 | Grace runs out | The test is submitted with the answers so far (`endReason = connection`) |
 | Reload or closed tab | On return, the time away is deducted (when the timer runs). If away longer than the grace, the test is submitted. Otherwise a resume screen appears. |
 | Resume | Uses one of `maxResumes` (default 2). With none left, the test is submitted. |
-| Second window (`singleSession`) | Opening the test elsewhere locks the first window ("opened in another window"). Continuing there counts as a resume. |
-| Leaving the page | The browser asks for confirmation (`beforeunload`) |
+| Second window (`singleSession`) | Opening the test elsewhere locks the first window with a dialog ("opened in another window") offering «ادامه در این پنجره» or «بازگشت به رزرو». Continuing there counts as a resume and picks up the answers saved by the other window. |
+| Leaving the page | Closing or reloading the tab asks for confirmation (`beforeunload`). Navigating away inside the app asks too, and explains that leaving uses up a resume. |
 
 Every event (start, section start/submit/timeout, disconnect, resume, completed) goes into
 `attempt.log`, which staff see on the booking page.
@@ -184,7 +241,11 @@ Every event (start, section start/submit/timeout, disconnect, resume, completed)
 ### After submission
 
 - Listening and Reading are marked at once (§ 4).
-- If `instantLR` is on (the default), the candidate sees both bands straight away.
+- The finish page says how the test ended (submitted, time ran out, or connection lost) and shows:
+  the Listening and Reading bands with raw scores if `instantLR` is on (the default), Writing and
+  Speaking as pending; answered counts, word counts, time used and resumes; the next steps
+  (Writing marking and its examiner, the Speaking slot and examiner, how the full result is
+  released); and the event log with times.
 - Writing goes to the examiner with the fewest unmarked scripts.
 - The booking becomes `awaiting_grading`.
 
@@ -351,4 +412,4 @@ the admin page lists forms and previews their structure.
 
 Section times, connection grace, timer on disconnect, maximum resumes, one window at a time,
 instant Listening and Reading, auto-release, cancellation window and refund percentage, re-mark fee,
-and correction prices.
+correction prices, and the instant mock price.

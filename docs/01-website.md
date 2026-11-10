@@ -8,14 +8,14 @@ footer, mobile drawer), `src/pages/site/*`.
 
 | Menu | Page | Route | Content and data |
 | --- | --- | --- | --- |
-| خانه | Home | `/` | Hero focused on the IELTS mock with the next three open sessions (live seats); the four service groups; a "registration is open" band for the open term; the four steps of a mock; class formats; school figures and news |
+| خانه | Home | `/` | Hero focused on the IELTS mock with the next three open sessions (live seats) and a link to try a sample mock; the four service groups; a "registration is open" band for the open term; the four steps of a mock; class formats; school figures and news |
 | خدمات آموزشی · دوره‌های عمومی | رده سنی کودکان | `/courses/kids` | Service page: highlights, facts, the open term's classes for the course (live seats; enrolment goes through the parent panel), FAQ |
 | | رده سنی نوجوانان | `/courses/teens` | Same template; the call to action is the placement test |
 | | رده سنی بزرگسالان | `/courses/adults` | Same template |
 | | کلاس‌های خصوصی | `/courses/private` | Same template + private-class request form |
 | خدمات آموزشی · آموزش آیلتس | کلاس آموزش آیلتس | `/ielts/course` | Same template |
 | | کلاس‌های تکمیلی مهارت‌ها | `/ielts/skills` | Same template |
-| | برگزاری آزمون آزمایشی آیلتس (ماک) | `/ielts/mock` | What the report contains; every upcoming session (open, full, closed, cancelled with its reason); the four sections with timing; test-day rules; FAQ generated from the current settings (refund window, re-mark fee, instant results); disclaimer |
+| | برگزاری آزمون آزمایشی آیلتس (ماک) | `/ielts/mock` | What the report contains; «امتحان یک آزمون نمونه»; every upcoming session (open, full, closed, cancelled with its reason); an instant-mock band for visitors who find no suitable date; the four sections with timing; test-day rules; FAQ generated from the current settings (refund window, re-mark fee, instant results); disclaimer |
 | | خدمات تصحیح و بازخورد | `/ielts/correction` | Normal and express prices (from settings), the four criteria, call to action to send a text |
 | خدمات آموزشی · دوره‌های تخصصی | دوره TTC | `/specialized/ttc` | Service page + TTC application form |
 | | دوره‌های خارج از موسسه ویژه شرکت‌ها | `/specialized/corporate` | Service page + company request form |

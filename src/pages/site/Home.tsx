@@ -48,6 +48,10 @@ export function HomePage() {
               </Button>
               <Button size="lg" variant="secondary" onPress={() => navigate('/courses/adults')}>دوره‌های زبان</Button>
             </div>
+            <button type="button" onClick={() => navigate('/try-mock')} className="mt-4 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-link outline-none hover:underline focus-visible:ring-2 focus-visible:ring-focus">
+              همین حالا یک آزمون نمونه کامل را امتحان کنید
+              <ArrowLeft className="size-3.5" />
+            </button>
           </div>
           <div className="grid gap-3">
             <div className="flex items-baseline justify-between">

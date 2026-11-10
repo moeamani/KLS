@@ -40,7 +40,7 @@ export function AdminDashboard() {
     const bySource = (['enrollment', 'mock', 'correction', 'book', 'remark'] as const).map((kind) => ({ kind, value: payments.filter(({ i }) => i.ref.kind === kind).reduce((sum, { p }) => sum + p.amount, 0) }));
     const running = s.terms.find((t) => termState(t) === 'running');
     const activeStudents = new Set(s.enrollments.filter((e) => e.status === 'confirmed' && s.classes.find((c) => c.id === e.classId)?.termId === running?.id).map((e) => e.studentId)).size;
-    const upcomingMocks = s.mockSessions.filter((m) => ['open', 'full', 'closed', 'today'].includes(mockSessionState(s, m)));
+    const upcomingMocks = s.mockSessions.filter((m) => !m.onDemand && ['open', 'full', 'closed', 'today'].includes(mockSessionState(s, m)));
     const released = s.bookings.filter((b) => b.status === 'released').map((b) => bookingScores(b, s.mockSessions.find((m) => m.id === b.sessionId)).overall).filter((v): v is number => v != null);
     const bands = [[4, 5], [5, 6], [6, 7], [7, 8], [8, 9.5]].map(([lo, hi]) => ({ label: `${formatBand(lo)} تا ${formatBand(hi === 9.5 ? 9 : hi - 0.5)}`, value: released.filter((b) => b >= lo && b < hi).length }));
     const next = s.terms.find((t) => termState(t) === 'registration');

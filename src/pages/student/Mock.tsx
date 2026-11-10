@@ -1,12 +1,13 @@
-import { ArrowLeft, Calendar, CircleCheck, Clock, Microphone, Printer, Ticket } from '@gravity-ui/icons';
-import { Alert, Button, Card, Chip, cn, Radio, RadioGroup, toast } from '@heroui/react';
-import { useEffect, useMemo, useState } from 'react';
+import { ArrowLeft, Calendar, CircleCheck, Clock, Microphone, Printer, Thunderbolt, Ticket } from '@gravity-ui/icons';
+import { Alert, Button, Card, Chip, cn, Radio, RadioGroup, Spinner, toast } from '@heroui/react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router';
 import { BandBadge } from '@/components/ui/Band';
 import { ConfirmDialog, FormDialog } from '@/components/ui/Dialog';
 import { Empty } from '@/components/ui/Empty';
 import { SelectField, TextAreaField } from '@/components/ui/Fields';
 import { Page, PageHeader, Section } from '@/components/ui/Page';
+import { Segmented } from '@/components/ui/Segmented';
 import { MetaChip } from '@/components/ui/StatusChip';
 import { Timeline } from '@/components/ui/Timeline';
 import { HoldTimer, PaymentDialog } from '@/features/enroll/Payment';
@@ -75,6 +76,85 @@ function BookingCard({ booking }: { booking: MockBooking }) {
   );
 }
 
+/** Instant online mock: bought and started at once, without waiting for a session date. */
+function InstantMockCard() {
+  const me = useSessionUser() as Student;
+  const navigate = useNavigate();
+  const price = useApp((s) => s.settings.mock.onDemandPrice);
+  const holdOnDemand = useApp((s) => s.holdOnDemand);
+  const demoMock = useApp((s) => s.demoMock);
+  const [module, setModule] = useState<MockModule>('academic');
+  const [bookingId, setBookingId] = useState<string | null>(null);
+  const [paid, setPaid] = useState(false);
+  const booking = useApp((s) => s.bookings.find((b) => b.id === bookingId));
+  const buy = () => {
+    const result = holdOnDemand(me.id, module);
+    if (!result.ok) return toast.danger(result.error);
+    setPaid(false);
+    setBookingId(result.id);
+  };
+  const tryFree = () => {
+    const id = demoMock(me.id, module);
+    if (id) navigate(`/portal/mock/${id}/exam`);
+  };
+  return (
+    <Card className="gap-0 overflow-hidden p-0 ring-1 ring-[var(--kl-blue-200)]">
+      <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
+        <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-accent text-white shadow-[0_8px_18px_rgb(47_49_148/0.28)]"><Thunderbolt className="size-6" /></span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="text-[15px] font-bold">آزمون ماک فوری</h2>
+            <Chip size="sm" color="accent" variant="soft">آنلاین · همین حالا</Chip>
+          </div>
+          <p className="mt-1 text-[13px] leading-6 text-muted">بدون انتظار برای تاریخ آزمون: Listening، Reading و Writing را همین الان آنلاین بدهید و اسپیکینگ را از فردا با ممتحن آموزشگاه. هزینه <b className="font-semibold text-foreground">{toman(price)}</b></p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 sm:flex-col sm:items-end">
+          <Segmented label="ماژول" fullWidth={false} value={module} onChange={setModule} options={[{ id: 'academic', label: 'آکادمیک' }, { id: 'general', label: 'جنرال' }]} />
+          <Button onPress={buy}>خرید و شروع آزمون<ArrowLeft /></Button>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-dashed border-line-strong bg-surface-secondary px-5 py-2.5 text-[12.5px] text-muted">
+        <span>نمونه اولیه: آزمون را بدون پرداخت از ابتدا تا انتها امتحان کنید.</span>
+        <Button size="sm" variant="ghost" onPress={tryFree}>شروع آزمون نمونه رایگان</Button>
+      </div>
+      <PaymentDialog
+        invoiceId={booking?.invoiceId}
+        isOpen={Boolean(bookingId)}
+        onOpenChange={(open) => {
+          if (open) return;
+          if (paid && bookingId) navigate(`/portal/mock/${bookingId}/exam`);
+          else if (bookingId) toast('رزرو تا پایان مهلت برای شما نگه داشته می‌شود');
+          setBookingId(null);
+        }}
+        onPaid={() => setPaid(true)}
+        heldUntil={booking?.heldUntil}
+        allowInstallments={false}
+      />
+    </Card>
+  );
+}
+
+/** Prototype shortcut: signs in as the demo student and opens a ready-to-start mock. */
+export function TryMockPage() {
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const ran = useRef(false);
+  useEffect(() => {
+    if (ran.current) return;
+    ran.current = true;
+    const app = useApp.getState();
+    if (app.session?.panel !== 'student') app.login('student', 'st1');
+    const studentId = useApp.getState().session!.userId;
+    const id = useApp.getState().demoMock(studentId, params.get('module') === 'general' ? 'general' : 'academic');
+    navigate(id ? `/portal/mock/${id}/exam` : '/portal/mock', { replace: true });
+  }, [navigate, params]);
+  return (
+    <div className="grid min-h-dvh place-items-center bg-canvas">
+      <div className="grid justify-items-center gap-3 text-sm text-muted"><Spinner />آماده‌سازی آزمون نمونه…</div>
+    </div>
+  );
+}
+
 export function StudentMockPage() {
   const bookings = useMyBookings();
   const state = useApp();
@@ -86,6 +166,7 @@ export function StudentMockPage() {
     <Page>
       <PageHeader title="آزمون ماک آیلتس" description="رزرو، شرکت در آزمون و کارنامه با بازخورد ممتحن." actions={<Button onPress={() => navigate('/portal/mock/book')}><Ticket />رزرو آزمون جدید</Button>} />
       <div className="grid gap-6">
+        <InstantMockCard />
         <section className="grid gap-3">
           <h2 className="text-[15px] font-bold">رزروهای فعال</h2>
           {active.length ? <div className="grid gap-3 lg:grid-cols-2">{active.map((b) => <BookingCard key={b.id} booking={b} />)}</div> : (

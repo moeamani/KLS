@@ -17,7 +17,7 @@ import { CorrectionPage, MockPage } from '@/pages/site/Ielts';
 import { AboutPage, CalendarPage, ContactPage, FormatsPage, ResourcesPage, ServicePageView, SystemPage } from '@/pages/site/Pages';
 import { ParentEnrollPage, ParentHome, ParentPaymentsPage } from '@/pages/parent/Parent';
 import { StudentCorrectionNewPage, StudentCorrectionPage, StudentCorrectionsPage } from '@/pages/student/Corrections';
-import { StudentMockBookingPage, StudentMockBookPage, StudentMockExamPage, StudentMockPage, StudentMockResultPage } from '@/pages/student/Mock';
+import { StudentMockBookingPage, StudentMockBookPage, StudentMockExamPage, StudentMockPage, StudentMockResultPage, TryMockPage } from '@/pages/student/Mock';
 import { StudentClassesPage, StudentClassPage, StudentEnrollPage, StudentGradesPage, StudentHome, StudentPaymentsPage, StudentPlacementPage, StudentProfilePage, StudentResourcesPage } from '@/pages/student/Portal';
 import { TeacherCorrectionPage, TeacherGradingPage, TeacherSpeakingPage, TeacherWritingPage } from '@/pages/teacher/Grading';
 import { TeacherClassesPage, TeacherClassPage, TeacherHome, TeacherLeavePage } from '@/pages/teacher/Teacher';
@@ -54,6 +54,7 @@ const router = createHashRouter([
       },
       { path: 'login/:panel', element: <LoginPage /> },
       { path: 'switch/:who', element: <SwitchPage /> },
+      { path: 'try-mock', element: <TryMockPage /> },
       {
         path: 'portal',
         element: <AppShell panel="student" />,

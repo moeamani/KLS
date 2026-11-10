@@ -175,6 +175,8 @@ export interface MockSession {
   regClose: string;
   slots: SpeakingSlot[];
   cancelled?: boolean;
+  /** An instant online mock bought for one candidate; its window opens at purchase. */
+  onDemand?: boolean;
   note?: string;
 }
 
@@ -340,6 +342,7 @@ export interface Settings {
     remarkFee: number;
     correctionPrice: number;
     correctionExpressPrice: number;
+    onDemandPrice: number;
   };
   grades: { activity: number; homework: number; midterm: number; final: number; pass: number };
   installmentMin: number;

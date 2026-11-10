@@ -13,7 +13,7 @@ import type {
 } from '@/types';
 
 export const MOCK_SESSION_KEY = 'kls.mockExam';
-const STORE_VERSION = 4;
+const STORE_VERSION = 5;
 
 export type Result<T = string> = { ok: true; id: T } | { ok: false; error: string; code?: 'full' | 'closed' | 'conflict' | 'duplicate' | 'expired' };
 
@@ -52,6 +52,10 @@ interface AppState extends SeedData {
 
   // IELTS mock
   holdBooking: (studentId: string, sessionId: string, module: MockModule, delivery: MockDelivery) => Result;
+  /** Instant online mock: a one-seat session that opens now, plus a held booking for it. */
+  holdOnDemand: (studentId: string, module: MockModule) => Result;
+  /** Prototype only: an instant mock that is already paid, so the exam can be tried at once. */
+  demoMock: (studentId: string, module: MockModule) => string;
   chooseSlot: (bookingId: string, slotId: string) => void;
   cancelBooking: (bookingId: string, reason: string, by: string) => void;
   startAttempt: (bookingId: string) => void;
@@ -359,6 +363,29 @@ export const useApp = create<AppState>()(
             bookings: [...st.bookings, { id, code, studentId, sessionId, module, delivery, status: 'held', heldUntil: iso(addMinutes(new Date(), st.settings.seatHoldMin)), invoiceId, createdAt: now(), events: [event('رزرو ثبت شد', `تا ${faNumber(st.settings.seatHoldMin)} دقیقه برای پرداخت`)] }],
           }));
           return { ok: true, id };
+        },
+        holdOnDemand: (studentId, module) => {
+          const s = get();
+          const examiners = s.teachers.filter((t) => t.skills.includes('examiner') && t.status === 'active');
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          tomorrow.setHours(10, 0, 0, 0);
+          const id = uid('od');
+          const session: MockSession = {
+            id, title: 'آزمون ماک فوری', at: now(), modules: [module], deliveries: ['online'],
+            testIds: { academic: 'test-a-ac', general: 'test-a-gt' }, capacity: 1, price: s.settings.mock.onDemandPrice,
+            regClose: iso(addDays(new Date(), 1)), onDemand: true, note: 'آزمون کتبی تا ۸ ساعت پس از خرید باز است؛ اسپیکینگ از فردا.',
+            slots: Array.from({ length: 8 }, (_, i) => ({ id: uid('slot'), at: iso(addMinutes(tomorrow, i * 30)), examinerId: examiners[i % Math.max(1, examiners.length)]?.id ?? 'te1' })),
+          };
+          set((st) => ({ mockSessions: [...st.mockSessions, session] }));
+          return get().holdBooking(studentId, id, module, 'online');
+        },
+        demoMock: (studentId, module) => {
+          const result = get().holdOnDemand(studentId, module);
+          if (!result.ok) return '';
+          const booking = get().bookings.find((b) => b.id === result.id)!;
+          get().payInvoice(booking.invoiceId!, get().settings.mock.onDemandPrice, 'online');
+          return booking.id;
         },
         chooseSlot: (bookingId, slotId) =>
           set((s) => {

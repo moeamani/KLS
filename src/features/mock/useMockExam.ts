@@ -4,6 +4,7 @@ import { questionsOf } from '@/lib/ielts';
 import { faNumber } from '@/lib/format';
 import { MOCK_SESSION_KEY, useApp } from '@/store/app';
 import type { ExamLog, MockAttempt, MockBooking, MockTest } from '@/types';
+import { wordCount } from '@/lib/ielts';
 
 // One candidate's written test (Listening → Reading → Writing). The live state is kept on
 // its own storage key, as the server would hold it, so a reload, a closed tab or a second
@@ -47,6 +48,16 @@ const save = (state: ExamState | null) => {
 };
 
 export type Phase = 'intro' | 'resume' | 'running' | 'locked' | 'done';
+
+/** What the finish screen shows once the live state has been handed to the server. */
+export interface ExamSummary {
+  endReason: MockAttempt['endReason'];
+  answered: Record<'listening' | 'reading', number>;
+  words: { t1: number; t2: number };
+  resumesUsed: number;
+  spent: number;
+  log: ExamLog[];
+}
 export type Connection = 'online' | 'offline' | 'reconnecting';
 
 export function useMockExam(booking: MockBooking, test: MockTest) {
@@ -73,6 +84,8 @@ export function useMockExam(booking: MockBooking, test: MockTest) {
   const graceRef = useRef(GRACE);
   const simulated = useRef(false);
   const [simulatedOffline, setSimulatedOfflineState] = useState(false);
+  const [lastSaved, setLastSaved] = useState<number | null>(null);
+  const [summary, setSummary] = useState<ExamSummary | null>(null);
   const isOnline = () => navigator.onLine && !simulated.current;
 
   const questions = useMemo(() => ({ listening: questionsOf(test, 'listening'), reading: questionsOf(test, 'reading') }), [test]);
@@ -83,6 +96,10 @@ export function useMockExam(booking: MockBooking, test: MockTest) {
     if (!e) return;
     setRunning(false);
     offlineSince.current = null;
+    const answeredIn = (section: 'listening' | 'reading') => questions[section].filter((q) => e.answers[q.id]?.trim()).length;
+    const total = DURATION.listening + DURATION.reading + DURATION.writing;
+    const left = e.remaining.listening + e.remaining.reading + e.remaining.writing;
+    setSummary({ endReason: reason, answered: { listening: answeredIn('listening'), reading: answeredIn('reading') }, words: { t1: wordCount(e.writing.t1), t2: wordCount(e.writing.t2) }, resumesUsed: e.resumesUsed, spent: Math.max(0, total - left), log: e.log });
     submitAttempt(booking.id, { answers: e.answers, writing: e.writing, startedAt: new Date(e.startedAt).toISOString(), log: [...e.log, { type: reason ?? 'completed', at: new Date().toISOString() }], endReason: reason });
     commit(null);
     setFinished(true);
@@ -189,6 +206,9 @@ export function useMockExam(booking: MockBooking, test: MockTest) {
     setRunning(true);
   };
   const resume = () => {
+    // Another window may have written newer answers; continue from what was saved last.
+    const saved = load(booking.id);
+    if (saved) ref.current = saved;
     const e = ref.current;
     if (!e) return start();
     if (e.resumesUsed >= settings.maxResumes) return finish('connection');
@@ -200,8 +220,8 @@ export function useMockExam(booking: MockBooking, test: MockTest) {
     toast[left > 0 ? 'success' : 'warning']('آزمون از همان جا ادامه یافت', { description: left > 0 ? `${faNumber(left)} فرصت بازگشت دیگر دارید.` : 'این آخرین فرصت بازگشت بود.' });
   };
   const openSection = () => patch((e) => ({ ...e, between: false, lastTick: Date.now(), log: [...e.log, { type: `${e.section}_start`, at: new Date().toISOString() }] }));
-  const setAnswer = (questionId: string, value: string) => patch((e) => ({ ...e, answers: { ...e.answers, [questionId]: value } }));
-  const setWriting = (task: 't1' | 't2', value: string) => patch((e) => ({ ...e, writing: { ...e.writing, [task]: value } }));
+  const setAnswer = (questionId: string, value: string) => { patch((e) => ({ ...e, answers: { ...e.answers, [questionId]: value } })); setLastSaved(Date.now()); };
+  const setWriting = (task: 't1' | 't2', value: string) => { patch((e) => ({ ...e, writing: { ...e.writing, [task]: value } })); setLastSaved(Date.now()); };
   const toggleFlag = (questionId: string) => patch((e) => ({ ...e, flags: e.flags.includes(questionId) ? e.flags.filter((f) => f !== questionId) : [...e.flags, questionId] }));
   const setPart = (part: number) => patch((e) => ({ ...e, part }));
   const markPlayed = (partId: string) => patch((e) => ({ ...e, played: e.played.includes(partId) ? e.played : [...e.played, partId] }));
@@ -217,14 +237,21 @@ export function useMockExam(booking: MockBooking, test: MockTest) {
   const autoFill = (writing: { t1: string; t2: string }) =>
     patch((e) => {
       const answers = { ...e.answers };
-      if (e.section === 'listening' || e.section === 'reading') questions[e.section].forEach((q, i) => { answers[q.id] = i % 4 === 3 ? (q.options ? 'A' : 'wrong') : q.answer[0]; });
+      // Every fourth answer is wrong (but still a valid choice) so the result report has something to show.
+      const wrong = (q: (typeof questions)['listening'][number]) => {
+        if (q.type === 'gap') return 'wrong';
+        if (q.type === 'mcq') return ['A', 'B', 'C', 'D'].find((l) => !q.answer.includes(l)) ?? 'A';
+        if (q.type === 'match') return q.answer[0];
+        return q.options?.find((o) => !q.answer.some((a) => a.toLowerCase() === o.toLowerCase())) ?? q.answer[0];
+      };
+      if (e.section === 'listening' || e.section === 'reading') questions[e.section].forEach((q, i) => { answers[q.id] = i % 4 === 3 ? wrong(q) : q.answer[0]; });
       return { ...e, answers, writing: e.section === 'writing' ? writing : e.writing };
     });
 
   const phase: Phase = finished ? 'done' : locked ? 'locked' : running ? 'running' : exam ? 'resume' : 'intro';
 
   return {
-    phase, exam, questions, connection, graceLeft, GRACE, settings, simulatedOffline,
+    phase, exam, questions, connection, graceLeft, GRACE, DURATION, settings, simulatedOffline, lastSaved, summary,
     start, resume, openSection, nextSection: () => nextSection('early'), setAnswer, setWriting, toggleFlag, setPart, markPlayed, leave, setSimulatedOffline, fastForward, autoFill,
   };
 }

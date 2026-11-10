@@ -1,4 +1,4 @@
-import { ArrowLeft, CircleCheck, Headphones, Microphone, Pencil, BookOpen } from '@gravity-ui/icons';
+import { ArrowLeft, CircleCheck, Headphones, Microphone, Pencil, BookOpen, PlayFill, Thunderbolt } from '@gravity-ui/icons';
 import { Accordion, Button, Card } from '@heroui/react';
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
@@ -23,15 +23,17 @@ const REPORT = [
 ];
 
 export function MockPage() {
+  const navigate = useNavigate();
   const state = useApp();
   const m = state.settings.mock;
   useEffect(() => { document.title = 'آزمون آزمایشی آیلتس (ماک) · KLS School'; }, []);
-  const sessions = useMemo(() => state.mockSessions.filter((s) => mockSessionState(state, s) !== 'done').sort((a, b) => a.at.localeCompare(b.at)), [state]);
+  const sessions = useMemo(() => state.mockSessions.filter((s) => !s.onDemand && mockSessionState(state, s) !== 'done').sort((a, b) => a.at.localeCompare(b.at)), [state]);
   const faq = [
     { q: 'آزمون ماک چه تفاوتی با آزمون رسمی دارد؟', a: 'ساختار، زمان‌بندی و معیارهای نمره‌دهی همان آزمون رسمی است، اما آزمون را آموزشگاه برگزار می‌کند و مدرک رسمی IELTS صادر نمی‌شود.' },
     { q: 'نتیجه کی آماده می‌شود؟', a: m.instantLR ? 'نمره لیسنینگ و ریدینگ بلافاصله پس از ثبت آزمون نمایش داده می‌شود. کارنامه کامل با رایتینگ و اسپیکینگ معمولاً تا ۵ روز کاری منتشر می‌شود.' : 'کارنامه کامل معمولاً تا ۵ روز کاری منتشر می‌شود.' },
     { q: 'اگر نتوانم شرکت کنم؟', a: `تا ${faNumber(m.cancelHours)} ساعت پیش از آزمون می‌توانید لغو کنید و ${faNumber(m.refundPercent)}٪ مبلغ بازگردانده می‌شود. پس از آن بازپرداختی انجام نمی‌شود.` },
     { q: 'اگر به نمره رایتینگ یا اسپیکینگ اعتراض داشته باشم؟', a: `می‌توانید درخواست بازبینی بدهید (هزینه ${toman(m.remarkFee)}). برگه شما را ممتحن دیگری تصحیح می‌کند و اگر نمره تغییر کند، هزینه بازگردانده می‌شود.` },
+    { q: 'اگر هیچ‌کدام از تاریخ‌ها برایم مناسب نبود؟', a: `آزمون ماک فوری را از پنل زبان‌آموز بخرید (${toman(m.onDemandPrice)}). بخش کتبی همان لحظه آنلاین باز می‌شود و تا ۸ ساعت فرصت شروع دارید؛ اسپیکینگ را از روز بعد با یکی از ممتحن‌ها رزرو می‌کنید.` },
     { q: 'آزمون آنلاین از خانه چطور برگزار می‌شود؟', a: 'آزمون از ساعت اعلام‌شده تا ۸ ساعت باز است. در طول آزمون فقط یک پنجره مرورگر مجاز است؛ اگر اتصال قطع شود، تا چند دقیقه می‌توانید از همان سؤال ادامه دهید.' },
   ];
   return (
@@ -50,10 +52,22 @@ export function MockPage() {
         }
       >
         <Button size="lg" onPress={() => document.getElementById('dates')?.scrollIntoView({ behavior: 'smooth' })}>انتخاب تاریخ آزمون<ArrowLeft /></Button>
+        <Button size="lg" variant="secondary" onPress={() => navigate('/try-mock')}><PlayFill />امتحان یک آزمون نمونه</Button>
       </PageHero>
 
       <SiteSection id="dates" title="تاریخ‌های پیش رو" lead="ظرفیت هر آزمون محدود است. با پرداخت آنلاین، رزرو قطعی و زمان اسپیکینگ شما تعیین می‌شود.">
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">{sessions.map((s) => <MockSessionCard key={s.id} session={s} />)}</div>
+        <Card className="mt-4 flex-row flex-wrap items-center gap-4 p-5 ring-1 ring-[var(--kl-blue-200)]">
+          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white"><Thunderbolt className="size-5" /></span>
+          <div className="min-w-[220px] flex-1">
+            <div className="text-[15px] font-bold">تاریخ مناسب پیدا نکردید؟ آزمون ماک فوری</div>
+            <p className="text-[13px] leading-6 text-muted">بخش کتبی را همین حالا آنلاین بدهید و اسپیکینگ را از فردا. هزینه {toman(m.onDemandPrice)}.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" onPress={() => navigate('/try-mock')}>آزمون نمونه رایگان</Button>
+            <Button onPress={() => navigate('/portal/mock')}>خرید آزمون فوری<ArrowLeft /></Button>
+          </div>
+        </Card>
       </SiteSection>
 
       <SiteSection title="بخش‌های آزمون" className="pt-0">
