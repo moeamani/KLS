@@ -1,28 +1,37 @@
 /* ==========================================================================
    KLS School · global styles
-   Tailwind v4 + HeroUI v3 with the KLS identity: firouzeh (Persian turquoise)
-   for actions and state, saffron for highlights, warm stone neutrals,
-   IBM Plex Sans Arabic type.
+   Tailwind v4 + HeroUI v3 with the KLS identity: the school's royal blue
+   (from its hexagon mark) for actions and state, saffron for highlights,
+   indigo-tinted neutrals, Yekan Bakh type.
    ========================================================================== */
 
 @import "tailwindcss";
 @import "@heroui/styles";
 
+@font-face {
+  font-family: "Yekan Bakh";
+  src: url("/fonts/YekanBakh-VF.woff2") format("woff2-variations"), url("/fonts/YekanBakh-VF.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* --------------------------------------------------------------------------
    KLS primitives
-   firouzeh  · the turquoise of Persian tilework: actions, links, focus
-   saffron   · highlights and warnings
-   stone     · warm, slightly green-grey neutrals
+   blue     · the school's royal blue (logo #2F3194): actions, links, focus
+   saffron  · highlights and warnings
+   stone    · neutrals with a faint indigo tint, to sit with the blue
+   (the --kl-blue-* names are kept as the "brand" ramp so components need no change)
    -------------------------------------------------------------------------- */
 :root {
-  --kl-teal-50: #ebf6f5;  --kl-teal-100: #d2ecea; --kl-teal-200: #a6d9d5;
-  --kl-teal-500: #13948d; --kl-teal-600: #0e7f79; --kl-teal-700: #0b6762;
-  --kl-teal-900: #0b3f3c; --kl-teal-950: #072927;
+  --kl-blue-50: #eef0fb;  --kl-blue-100: #dfe1f6; --kl-blue-200: #bec2ec;
+  --kl-blue-500: #4447b8; --kl-blue-600: #2f3194; --kl-blue-700: #25277a;
+  --kl-blue-900: #191a50; --kl-blue-950: #101136;
 
-  --kl-stone-25: #fbfbf9;  --kl-stone-50: #f4f5f2;  --kl-stone-100: #eaece8;
-  --kl-stone-200: #dde0db; --kl-stone-300: #c5cac3; --kl-stone-400: #99a19a;
-  --kl-stone-500: #6b746d; --kl-stone-600: #4e5751; --kl-stone-700: #38413b;
-  --kl-stone-900: #161c18; --kl-stone-950: #0c110e;
+  --kl-stone-25: #fbfbfd;  --kl-stone-50: #f4f4f8;  --kl-stone-100: #ebebf2;
+  --kl-stone-200: #dedee8; --kl-stone-300: #c6c6d3; --kl-stone-400: #9a9aab;
+  --kl-stone-500: #6c6c7d; --kl-stone-600: #4f4f5f; --kl-stone-700: #393948;
+  --kl-stone-900: #171720; --kl-stone-950: #0d0d14;
 
   --kl-green-50: #edf7ee; --kl-green-200: #b5e0bb; --kl-green-500: #2f9a45;
   --kl-green-600: #24803a; --kl-green-700: #1d6630;
@@ -30,8 +39,8 @@
   --kl-saffron-700: #9c5a00;
   --kl-red-50: #fdf1f0;   --kl-red-200: #f6c4bf;  --kl-red-500: #e0493c;
   --kl-red-600: #cc3426;  --kl-red-700: #a92a1e;
-  --kl-ink-50: #eef3f2; --kl-ink-200: #c6d6d4; --kl-ink-500: #2f6f6a;
-  --kl-ink-600: #255b57; --kl-ink-700: #1c4744;
+  --kl-ink-50: #f0f0fa; --kl-ink-200: #cfd0ee; --kl-ink-500: #4f52b8;
+  --kl-ink-600: #3c3fa0; --kl-ink-700: #2d2f80;
 }
 
 /* --------------------------------------------------------------------------
@@ -41,7 +50,7 @@
 :root,
 .light,
 [data-theme="light"] {
-  --font-sans: "IBM Plex Sans Arabic", "IBM Plex Sans", Tahoma, sans-serif;
+  --font-sans: "Yekan Bakh", Tahoma, sans-serif;
 
   --background: var(--kl-stone-50);
   --foreground: var(--kl-stone-900);
@@ -53,19 +62,19 @@
   --overlay: #ffffff;
   --overlay-foreground: var(--kl-stone-900);
 
-  /* 5.6:1 on white, 5.2:1 on the canvas */
-  --muted: #5d665f;
+  /* 5.7:1 on white, 5.2:1 on the canvas */
+  --muted: #5e5e6e;
 
   --default: var(--kl-stone-100);
   --default-foreground: var(--kl-stone-900);
   --default-hover: var(--kl-stone-200);
 
-  --accent: var(--kl-teal-600);
+  --accent: var(--kl-blue-600);
   --accent-foreground: #ffffff;
-  --accent-hover: var(--kl-teal-700);
-  --accent-soft: var(--kl-teal-50);
-  --accent-soft-foreground: var(--kl-teal-700);
-  --accent-soft-hover: var(--kl-teal-100);
+  --accent-hover: var(--kl-blue-700);
+  --accent-soft: var(--kl-blue-50);
+  --accent-soft-foreground: var(--kl-blue-700);
+  --accent-soft-hover: var(--kl-blue-100);
 
   --success: var(--kl-green-600);
   --success-foreground: #ffffff;
@@ -91,16 +100,16 @@
 
   --border: var(--kl-stone-200);
   --separator: var(--kl-stone-100);
-  --focus: var(--kl-teal-500);
-  --link: var(--kl-teal-700);
+  --focus: var(--kl-blue-500);
+  --link: var(--kl-blue-700);
 
   --field-background: #ffffff;
   --field-foreground: var(--kl-stone-900);
-  --field-placeholder: #8e968f;
+  --field-placeholder: #8e8ea0;
   --field-border: var(--kl-stone-200);
   --field-border-width: 1px;
   --field-border-hover: var(--kl-stone-300);
-  --field-border-focus: var(--kl-teal-500);
+  --field-border-focus: var(--kl-blue-500);
 
   --radius: 0.5rem;
   --field-radius: 0.625rem;
@@ -116,7 +125,7 @@
   --ai-soft: var(--kl-ink-50);
   --ai-soft-foreground: var(--kl-ink-700);
   --ai-border: var(--kl-ink-200);
-  --brand: var(--kl-teal-600);
+  --brand: var(--kl-blue-600);
   --saffron: var(--kl-saffron-500);
   --canvas: var(--kl-stone-50);
 }
@@ -134,7 +143,7 @@
   --color-ink-3: var(--kl-stone-500);
   --color-line-strong: var(--kl-stone-300);
 
-  --font-sans: "IBM Plex Sans Arabic", "IBM Plex Sans", Tahoma, sans-serif;
+  --font-sans: "Yekan Bakh", Tahoma, sans-serif;
 
   /* Type scale: never smaller than 12px */
   --text-2xs: 0.75rem;
@@ -154,7 +163,7 @@
   }
   body { min-height: 100dvh; }
   h1, h2, h3, h4 { font-weight: 700; letter-spacing: 0; }
-  ::selection { background: var(--kl-teal-100); color: var(--kl-stone-900); }
+  ::selection { background: var(--kl-blue-100); color: var(--kl-stone-900); }
   :focus-visible { outline-color: var(--focus); }
 }
 
@@ -204,7 +213,7 @@
 
 /* Alerts: tinted surfaces (the default alert is a plain white card) */
 .alert { border-radius: 0.875rem; box-shadow: none; border: 1px solid var(--border); background: var(--kl-stone-25); }
-.alert--accent { background: var(--kl-teal-50); border-color: var(--kl-teal-200); }
+.alert--accent { background: var(--kl-blue-50); border-color: var(--kl-blue-200); }
 .alert--success { background: var(--kl-green-50); border-color: var(--kl-green-200); }
 .alert--warning { background: var(--kl-saffron-50); border-color: var(--kl-saffron-200); }
 .alert--danger { background: var(--kl-red-50); border-color: var(--kl-red-200); }

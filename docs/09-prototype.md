@@ -1,7 +1,7 @@
 # Running the prototype and walkthroughs
 
 The prototype is a complete clickable app with every panel, built in React 19, Vite 7, TypeScript,
-HeroUI v3 and Tailwind v4, in KLS's own visual identity (firouzeh and saffron). All data is mock data in the browser's
+HeroUI v3 and Tailwind v4, in KLS School's own identity (its hexagon logo, royal blue and Yekan Bakh). All data is mock data in the browser's
 local storage. There is no backend. It shows the school how the system will work, and it is the
 specification for building the real one.
 

@@ -10,7 +10,7 @@ export function BarChart({ spec }: { spec: ChartSpec }) {
   const plotW = W - padL - 10, plotH = H - padT - padB;
   const groupW = plotW / spec.categories.length;
   const barW = (groupW * 0.7) / spec.series.length;
-  const colors = ['var(--kl-teal-600)', 'var(--kl-stone-400)', 'var(--kl-saffron-500)'];
+  const colors = ['var(--kl-blue-600)', 'var(--kl-stone-400)', 'var(--kl-saffron-500)'];
   const y = (v: number) => padT + plotH - (v / max) * plotH;
   const ticks = Array.from({ length: max / 10 + 1 }, (_, i) => i * 10);
   return (
