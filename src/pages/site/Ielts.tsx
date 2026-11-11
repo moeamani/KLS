@@ -51,8 +51,10 @@ export function MockPage() {
           </Card>
         }
       >
-        <Button size="lg" onPress={() => document.getElementById('dates')?.scrollIntoView({ behavior: 'smooth' })}>انتخاب تاریخ آزمون<ArrowLeft /></Button>
-        <Button size="lg" variant="secondary" onPress={() => navigate('/try-mock')}><PlayFill />امتحان یک آزمون نمونه</Button>
+        <div className="flex flex-wrap gap-3">
+          <Button size="lg" onPress={() => document.getElementById('dates')?.scrollIntoView({ behavior: 'smooth' })}>انتخاب تاریخ آزمون<ArrowLeft /></Button>
+          <Button size="lg" variant="secondary" onPress={() => navigate('/try-mock')}><PlayFill />امتحان یک آزمون نمونه</Button>
+        </div>
       </PageHero>
 
       <SiteSection id="dates" title="تاریخ‌های پیش رو" lead="ظرفیت هر آزمون محدود است. با پرداخت آنلاین، رزرو قطعی و زمان اسپیکینگ شما تعیین می‌شود.">
