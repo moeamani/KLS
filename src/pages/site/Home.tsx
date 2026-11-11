@@ -84,7 +84,9 @@ export function HomePage() {
           <div className="min-w-0">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-3 py-1 text-[13px] font-semibold text-ink-2">
               <span className="size-1.5 rounded-full bg-success" />
-              خانه زبان کرمانشاه · {faNumber(24)} سال آموزش زبان
+              <span>خانه زبان کرمانشاه</span>
+              <span aria-hidden className="text-ink-3">•</span>
+              <span>{faNumber(24)} سال آموزش زبان</span>
             </div>
             <h1 className="text-[32px] leading-[1.35] font-extrabold text-balance sm:text-[44px]">آزمون آزمایشی آیلتس، با همان زمان‌بندی و سخت‌گیری روز آزمون</h1>
             <p className="mt-5 max-w-[56ch] text-[16px] leading-8 text-ink-2">

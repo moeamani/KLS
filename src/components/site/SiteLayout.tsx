@@ -3,6 +3,7 @@ import { Button, cn, Drawer, Link, Popover } from '@heroui/react';
 import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router';
 import { Logo } from '@/components/Logo';
+import { PrototypeMenu } from '@/components/shell/PrototypeMenu';
 import { HOME } from '@/components/shell/nav';
 import { CONTACT, ONLINE_MENU, SERVICES_MENU } from '@/data/site';
 
@@ -175,6 +176,7 @@ export function SiteFooter() {
         <div className="mx-auto flex max-w-[1240px] flex-wrap justify-between gap-2 px-4 py-4 text-xs text-muted sm:px-6">
           <span>© ۱۴۰۵ KLS School · خانه زبان کرمانشاه</span>
           <span>آزمون‌های ماک آموزشگاه، آزمون رسمی IELTS نیستند و مدرک رسمی صادر نمی‌کنند.</span>
+          <div className="w-full sm:w-52"><PrototypeMenu inline /></div>
         </div>
       </div>
     </footer>

@@ -75,11 +75,13 @@ export function PrototypeMenu({ inline = false }: { inline?: boolean }) {
   );
 }
 
-/** Floating variant for pages without the app shell. */
+/** Floating variant for the sign-in pages. */
 export function PrototypeBar() {
   const { pathname } = useLocation();
   const focusMode = useUi((s) => s.focusMode);
-  if (focusMode || /^\/(portal|parent|teacher|admin)/.test(pathname)) return null;
+  // Only the sign-in pages float it; the public site carries it in the footer and the panels in the sidebar,
+  // so it never covers page content.
+  if (focusMode || !/^\/login\//.test(pathname)) return null;
   return (
     <div className="fixed bottom-4 left-4 z-40 print:hidden">
       <PrototypeMenu />

@@ -168,7 +168,6 @@ function ExamIntro({ exam, booking, test, student }: { exam: MockExam; booking: 
       <Stagger className="grid gap-4">
         <StaggerItem>
           <div className="relative overflow-hidden rounded-2xl bg-[var(--kl-blue-600)] p-5 text-white shadow-[0_12px_32px_rgb(47_49_148/0.25)] sm:p-6">
-            <LogoMark className="pointer-events-none absolute -bottom-14 -left-10 size-56 opacity-[0.07] [--brand:#fff]" />
             <div className="relative flex flex-wrap items-start justify-between gap-4">
               <div className="min-w-0">
                 <div className="latin w-fit text-[11.5px] font-semibold tracking-[0.18em] text-white/65">IELTS MOCK TEST</div>
