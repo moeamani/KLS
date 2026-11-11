@@ -1,6 +1,6 @@
 # Public website
 
-The site follows the school's site map. The team section that was crossed out is left out. Code:
+The site follows the school's site map and the content brief («راهنما»: menu design, page copy, home page and footer). Where the two differ, the brief's copy is used and the site map's structure. The team section is now included. Code:
 `src/data/site.ts` (structure and copy), `src/components/site/SiteLayout.tsx` (header, mega menu,
 footer, mobile drawer), `src/pages/site/*`.
 
@@ -8,7 +8,7 @@ footer, mobile drawer), `src/pages/site/*`.
 
 | Menu | Page | Route | Content and data |
 | --- | --- | --- | --- |
-| خانه | Home | `/` | Hero focused on the IELTS mock with the next three open sessions (live seats) and a link to try a sample mock; the four service groups; a "registration is open" band for the open term; the four steps of a mock; class formats; school figures and news |
+| خانه | Home | `/` | Banner carousel (four slides, each linking to a service group), eight entry boxes (TTC, IELTS, private, general, calendar, online services, gallery, why), hero focused on the IELTS mock with the next three open sessions (live seats) and a link to try a sample mock; the four service groups; a "registration is open" band for the open term; the four steps of a mock; class formats; school figures, news and three Instagram post tiles |
 | خدمات آموزشی · دوره‌های عمومی | رده سنی کودکان | `/courses/kids` | Service page: highlights, facts, the open term's classes for the course (live seats; enrolment goes through the parent panel), FAQ |
 | | رده سنی نوجوانان | `/courses/teens` | Same template; the call to action is the placement test |
 | | رده سنی بزرگسالان | `/courses/adults` | Same template |
@@ -22,14 +22,19 @@ footer, mobile drawer), `src/pages/site/*`.
 | خدمات آموزشی · سایر خدمات | تقویم آموزشی | `/calendar` | Terms with registration and class dates and state; holidays; upcoming mocks |
 | | سیستم آموزشی | `/system` | Levels and CEFR per course; grading weights and pass mark (from settings); progression steps |
 | | الگوهای کلاسی | `/formats` | In-person group, online group, private, semi-private, intensive workshop |
-| | منابع آموزشی | `/resources` | Books (price, stock, "out of stock"), files, audio and video; buying happens in the student panel |
+| | کارگاه‌ها | `/workshops` | Specialised workshops and free complementary workshops |
+| | منابع آموزشی | `/resources` | Books (price, stock, "out of stock"), files, audio and video of each age group's books; buying happens in the student panel |
+| تیم خانه زبان | Team | `/team` | Five groups from the site map: مدیریت (موسسه، واحد), اداری (سرپرست، کارمندان), آموزشی (کارشناس یک و دو، کارمند آموزش، آموزگاران), توسعه و پژوهش, ارتباط عمومی. Names and photos are placeholders |
 | خدمات آنلاین | ثبت‌نام آنلاین | `/portal/enroll` | Asks the visitor to sign in or register, then opens the enrollment wizard |
 | | مشاهده نمرات | `/portal/grades` | Asks the visitor to sign in, then shows report cards |
+| | کلاس آنلاین | `/portal/classes` | Asks the visitor to sign in, then shows the student's classes |
 | | رزرو آزمون ماک | `/portal/mock/book` | Asks the visitor to sign in, then opens the booking wizard |
 | تماس با ما | Contact | `/contact` | Phone, mobile, Instagram, Telegram, address, hours, contact form |
-| درباره ما | About | `/about` | Founded 1381 (24 years), history, founders, policies |
+| درباره ما | About | `/about` | Founded 1380 (24 years): history, founders (موسسین), policy (خط‌مشی) and «چرا خانه زبان کرمانشاه؟» |
+| (home box) | چرا خانه زبان؟ | `/why` | The school's 20 reasons |
+| (home box) | گالری | `/gallery` | Photo grid (placeholders until the school supplies photos) |
 
-The header shows "ورود / ثبت‌نام" (or "پنل من" when signed in) and a primary "رزرو آزمون ماک"
+The footer lists the courses, quick links (why, calendar, gallery, team, about, contact) and the contact details. The header shows "ورود / ثبت‌نام" (or "پنل من" when signed in) and a primary "رزرو آزمون ماک"
 button. On phones the menu is a drawer with the same groups.
 
 ## Content the school must supply

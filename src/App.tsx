@@ -14,7 +14,7 @@ import { AdminBookingPage, AdminBookingsPage, AdminCorrectionsPage, AdminMockSes
 import { AdminApprovalsPage, AdminAuditPage, AdminFinancePage, AdminLeadsPage, AdminReportsPage, AdminSettingsPage, AdminUsersPage } from '@/pages/admin/Office';
 import { HomePage } from '@/pages/site/Home';
 import { CorrectionPage, MockPage } from '@/pages/site/Ielts';
-import { AboutPage, CalendarPage, ContactPage, FormatsPage, ResourcesPage, ServicePageView, SystemPage } from '@/pages/site/Pages';
+import { AboutPage, CalendarPage, ContactPage, FormatsPage, GalleryPage, ResourcesPage, ServicePageView, SystemPage, TeamPage, WhyPage } from '@/pages/site/Pages';
 import { ParentEnrollPage, ParentHome, ParentPaymentsPage } from '@/pages/parent/Parent';
 import { StudentCorrectionNewPage, StudentCorrectionPage, StudentCorrectionsPage } from '@/pages/student/Corrections';
 import { StudentMockBookingPage, StudentMockBookPage, StudentMockExamPage, StudentMockPage, StudentMockResultPage, TryMockPage } from '@/pages/student/Mock';
@@ -50,6 +50,9 @@ const router = createHashRouter([
           { path: 'resources', element: <ResourcesPage /> },
           { path: 'contact', element: <ContactPage /> },
           { path: 'about', element: <AboutPage /> },
+          { path: 'team', element: <TeamPage /> },
+          { path: 'why', element: <WhyPage /> },
+          { path: 'gallery', element: <GalleryPage /> },
         ],
       },
       { path: 'login/:panel', element: <LoginPage /> },

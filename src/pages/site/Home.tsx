@@ -1,9 +1,9 @@
-import { ArrowLeft, BookOpen, Briefcase, Calendar, GraduationCap, Headphones, Microphone, Pencil, Ticket } from '@gravity-ui/icons';
+import { ArrowLeft, BookOpen, Briefcase, Calendar, CircleCheck, GraduationCap, Headphones, Microphone, Pencil, Persons, Ticket, Video } from '@gravity-ui/icons';
 import { Button, Card } from '@heroui/react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Stagger, StaggerItem } from '@/components/motion';
-import { CLASS_FORMATS, SERVICES_MENU } from '@/data/site';
+import { BANNERS, CLASS_FORMATS, CONTACT, HOME_BOXES, SERVICES_MENU } from '@/data/site';
 import { termState } from '@/data/status';
 import { formatDate, formatDay } from '@/lib/dates';
 import { faNumber } from '@/lib/format';
@@ -12,6 +12,39 @@ import { mockSessionState, openTerm } from '@/store/selectors';
 import { Container, MockSessionCard, SiteSection } from './parts';
 
 const GROUP_ICON = [GraduationCap, Ticket, Briefcase, BookOpen];
+
+const BOX_ICON = { ttc: GraduationCap, ielts: Ticket, private: Persons, general: BookOpen, calendar: Calendar, online: Video, gallery: Briefcase, why: CircleCheck };
+
+function BannerCarousel() {
+  const navigate = useNavigate();
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (paused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = window.setInterval(() => setIndex((i) => (i + 1) % BANNERS.length), 6000);
+    return () => window.clearInterval(id);
+  }, [paused]);
+  const banner = BANNERS[index];
+  return (
+    <section aria-roledescription="carousel" aria-label="بنرهای آموزشگاه" className="bg-surface pt-6" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}>
+      <Container>
+        <div className={`relative overflow-hidden rounded-3xl bg-gradient-to-l ${banner.tone} p-8 text-white transition-colors sm:p-12`}>
+          <div className="max-w-xl">
+            <div className="mb-3 text-[13px] font-bold opacity-80">{banner.eyebrow}</div>
+            <h2 className="text-[26px] leading-[1.5] font-extrabold text-balance sm:text-[34px]">{banner.title}</h2>
+            <Button className="mt-6 bg-white text-[#2F3194]" size="lg" onPress={() => navigate(banner.to)}>{banner.cta}<ArrowLeft /></Button>
+          </div>
+          <div aria-hidden className="pointer-events-none absolute -start-10 -bottom-16 size-64 rounded-full bg-white/10" />
+          <div className="mt-8 flex gap-2" role="group" aria-label="انتخاب بنر">
+            {BANNERS.map((item, i) => (
+              <button key={item.to} type="button" aria-label={`بنر ${faNumber(i + 1)}`} aria-current={i === index} onClick={() => setIndex(i)} className={`h-2 rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-white ${i === index ? 'w-8 bg-white' : 'w-2 bg-white/50'}`} />
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
 
 const MOCK_STEPS = [
   { icon: Ticket, title: 'رزرو و پرداخت آنلاین', text: 'تاریخ، ماژول آکادمیک یا جنرال و نوع برگزاری را انتخاب می‌کنید و زمان اسپیکینگ همان لحظه تعیین می‌شود.' },
@@ -30,6 +63,22 @@ export function HomePage() {
 
   return (
     <>
+      <BannerCarousel />
+      <section className="border-b border-border bg-surface pb-8 pt-6">
+        <Container>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {HOME_BOXES.map((box) => {
+              const Icon = BOX_ICON[box.icon];
+              return (
+                <button key={box.to + box.label} type="button" onClick={() => navigate(box.to)} className="flex items-center gap-3 rounded-2xl border border-border bg-canvas px-4 py-4 text-start outline-none transition-colors hover:border-accent focus-visible:ring-2 focus-visible:ring-focus">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent"><Icon className="size-5" /></span>
+                  <span className="text-[14px] font-bold">{box.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
       <section className="border-b border-border bg-surface">
         <Container className="grid gap-10 py-10 sm:py-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center">
           <div className="min-w-0">
@@ -153,6 +202,16 @@ export function HomePage() {
               </div>
             ))}
           </Card>
+        </div>
+      </SiteSection>
+
+      <SiteSection title="تازه‌ترین‌ها در اینستاگرام" className="pt-0">
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[1, 2, 3].map((n) => (
+            <a key={n} href={`https://instagram.com/${CONTACT.instagram.replace('@', '')}`} target="_blank" rel="noreferrer" className="grid aspect-square place-items-center rounded-2xl border border-dashed border-warning/60 bg-warning-soft text-sm text-warning-soft-foreground outline-none focus-visible:ring-2 focus-visible:ring-focus">
+              پست یا ریلز {faNumber(n)} · لینک به اینستاگرام
+            </a>
+          ))}
         </div>
       </SiteSection>
     </>

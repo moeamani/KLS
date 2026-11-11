@@ -1,11 +1,11 @@
-import { ArrowLeft, Book, FileText, Handset, LogoTelegram, MapPin, PaperPlane, Clock, Video, VolumeFill } from '@gravity-ui/icons';
+import { ArrowLeft, Book, CircleCheck, FileText, Handset, LogoTelegram, MapPin, PaperPlane, Clock, Video, VolumeFill } from '@gravity-ui/icons';
 import { Accordion, Button, Card, Chip } from '@heroui/react';
 import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Placeholder } from '@/components/ui/Empty';
 import { MetaChip } from '@/components/ui/StatusChip';
 import { COURSES } from '@/data/catalog';
-import { ABOUT, CLASS_FORMATS, CONTACT, servicePage } from '@/data/site';
+import { ABOUT, CALENDAR_KINDS, CLASS_FORMATS, CONTACT, servicePage, TEAM, WHY_US } from '@/data/site';
 import { TERM_META, termState } from '@/data/status';
 import { formatDate, formatDay } from '@/lib/dates';
 import { faNumber, toman } from '@/lib/format';
@@ -29,7 +29,12 @@ export function ServicePageView() {
           <div><Button size="lg" onPress={goCta}>{page.cta.label}<ArrowLeft /></Button></div>
         </div>
       </PageHero>
-      <SiteSection>
+      {page.body ? (
+        <SiteSection className="pb-0">
+          <div className="grid max-w-3xl gap-4 text-[15px] leading-8 text-ink-2">{page.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+        </SiteSection>
+      ) : null}
+      <SiteSection title={page.highlightsTitle}>
         <div className="grid gap-4 md:grid-cols-3">
           {page.highlights.map((item) => (
             <Card key={item.title} className="gap-2 p-5">
@@ -73,7 +78,18 @@ export function CalendarPage() {
   return (
     <>
       <PageHero eyebrow="سایر خدمات آموزشی" title="تقویم آموزشی" lead="تاریخ ثبت‌نام و برگزاری ترم‌ها، تعطیلی‌ها و آزمون‌های ماک پیش رو." />
-      <SiteSection title="ترم‌ها">
+      <SiteSection title="تقویم‌های آموزشی" lead="هر الگوی کلاسی تقویم خودش را دارد.">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {CALENDAR_KINDS.map((kind) => (
+            <div key={kind.title} className="rounded-2xl border border-border bg-surface p-4">
+              <div className="text-xs text-muted">تقویم</div>
+              <div className="mt-1 text-[14.5px] font-bold leading-7">{kind.title}</div>
+              <div className="text-[13px] text-ink-2">{kind.audience}</div>
+            </div>
+          ))}
+        </div>
+      </SiteSection>
+      <SiteSection title="ترم‌ها" className="pt-0">
         <div className="grid gap-3 md:grid-cols-3">
           {terms.map((term) => (
             <Card key={term.id} className="gap-3 p-5">
@@ -111,7 +127,15 @@ export function SystemPage() {
   return (
     <>
       <PageHero eyebrow="سایر خدمات آموزشی" title="سیستم آموزشی" lead="سطح‌ها، معادل چارچوب اروپایی (CEFR)، نحوه ارزشیابی و مسیر پیشرفت از یک سطح به سطح بعد." />
-      <SiteSection title="سطح‌ها و معادل CEFR">
+      <SiteSection>
+        <div className="grid max-w-3xl gap-4 text-[15px] leading-8 text-ink-2">
+          <p>کلاس‌های خانه زبان کرمانشاه با محوریت مکالمه و رویکردی متدمحور طراحی شده‌اند تا زبان‌آموزان تجربه‌ای متفاوت از یادگیری داشته باشند.</p>
+          <p>دوره‌ها در سه رده سنی کودک، نوجوان و بزرگسال، از سطح پایه تا پیشرفته ارائه می‌شوند و تمرکز اصلی بر تقویت مهارت گفتگو در موقعیت‌های واقعی است. چهار مهارت اصلی زبان (Reading، Listening، Speaking و Writing) به‌طور کامل پوشش داده می‌شود.</p>
+          <p>با برگزاری هفت ترم آموزشی در طول سال و ارائه تقویم آموزشی سال آینده در پایان هر سال، مسیر یادگیری زبان‌آموزان منظم، پیوسته و هدفمند خواهد بود.</p>
+        </div>
+        <div className="mt-6"><PhotoGrid count={6} /></div>
+      </SiteSection>
+      <SiteSection title="سطح‌ها و معادل CEFR" className="pt-0">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {COURSES.filter((c) => ['kids', 'teens', 'adults', 'ielts'].includes(c.category)).map((course) => (
             <Card key={course.id} className="gap-3 p-5">
@@ -173,7 +197,7 @@ export function ResourcesPage() {
   useEffect(() => { document.title = 'منابع آموزشی · KLS School'; }, []);
   return (
     <>
-      <PageHero eyebrow="سایر خدمات آموزشی" title="منابع آموزشی" lead="کتاب‌های هر سطح را آنلاین بخرید و در آموزشگاه تحویل بگیرید. فایل‌ها و پادکست‌ها در پنل زبان‌آموزان در دسترس است." />
+      <PageHero eyebrow="سایر خدمات آموزشی" title="منابع آموزشی" lead="کتاب‌های هر سطح را آنلاین بخرید و در آموزشگاه تحویل بگیرید. فایل صوتی و تصویری کتاب‌های هر سه رده سنی در پنل زبان‌آموزان در دسترس است." />
       <SiteSection>
         <div className="grid gap-3 md:grid-cols-2">
           {resources.map((r) => {
@@ -234,27 +258,98 @@ export function ContactPage() {
   );
 }
 
+export function PhotoGrid({ count }: { count: number }) {
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      {Array.from({ length: count }, (_, i) => (
+        <div key={i} className="grid aspect-[4/3] w-full place-items-center rounded-xl border border-dashed border-warning/60 bg-warning-soft text-xs text-warning-soft-foreground">تصویر محیط آموزشگاه</div>
+      ))}
+    </div>
+  );
+}
+
+function WhyList() {
+  return (
+    <ul className="grid gap-x-8 gap-y-3 md:grid-cols-2">
+      {WHY_US.map((item) => (
+        <li key={item} className="flex items-start gap-2.5 text-[14px] leading-7 text-ink-2"><CircleCheck className="mt-1.5 size-4 shrink-0 text-accent" />{item}</li>
+      ))}
+    </ul>
+  );
+}
+
 export function AboutPage() {
   useEffect(() => { document.title = 'درباره ما · KLS School'; }, []);
   const years = useMemo(() => faNumber(ABOUT.years), []);
   return (
     <>
       <PageHero eyebrow={`از ${ABOUT.founded}`} title="درباره خانه زبان کرمانشاه" lead={`${years} سال آموزش زبان انگلیسی به کودکان، نوجوانان و بزرگسالان کرمانشاه.`} />
+      <SiteSection title="تاریخچه">
+        <div className="grid max-w-3xl gap-4 text-[15px] leading-8 text-ink-2">{ABOUT.story.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+      </SiteSection>
+      <SiteSection title="موسسین" className="pt-0">
+        <p className="max-w-3xl text-[15px] leading-8 text-ink-2">{ABOUT.founders}</p>
+      </SiteSection>
+      <SiteSection title="خط‌مشی" className="pt-0">
+        <p className="mb-5 max-w-3xl text-[15px] leading-8 text-ink-2">{ABOUT.policyLead}</p>
+        <ul className="grid gap-2.5 sm:grid-cols-2">
+          {ABOUT.policies.map((item) => <li key={item} className="flex gap-2 rounded-xl border border-border bg-surface px-4 py-3 text-[14px] leading-7 text-ink-2"><span className="mt-2.5 size-1.5 shrink-0 rounded-full bg-accent" />{item}</li>)}
+        </ul>
+      </SiteSection>
+      <SiteSection title="چرا خانه زبان کرمانشاه؟" className="pt-0">
+        <WhyList />
+      </SiteSection>
+    </>
+  );
+}
+
+export function WhyPage() {
+  useEffect(() => { document.title = 'چرا خانه زبان کرمانشاه؟ · KLS School'; }, []);
+  return (
+    <>
+      <PageHero title="چرا خانه زبان کرمانشاه؟" lead="بزرگ‌ترین و مجهزترین موسسه استان کرمانشاه، با مجوز رسمی و مدرک قابل استعلام." />
+      <SiteSection><WhyList /></SiteSection>
+    </>
+  );
+}
+
+export function TeamPage() {
+  useEffect(() => { document.title = 'تیم خانه زبان · KLS School'; }, []);
+  return (
+    <>
+      <PageHero title="تیم خانه زبان" lead="مدیریت، کادر اداری و آموزشی، توسعه و پژوهش، و ارتباط عمومی." />
       <SiteSection>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card className="gap-3 p-6">
-            <h2 className="text-base font-bold">تاریخچه</h2>
-            <p className="text-[14px] leading-8 text-ink-2">{ABOUT.story}</p>
-            <h2 className="pt-2 text-base font-bold">بنیان‌گذاران</h2>
-            <p className="text-[14px] leading-8 text-ink-2"><Placeholder>{ABOUT.founders}</Placeholder></p>
-          </Card>
-          <Card className="gap-3 p-6">
-            <h2 className="text-base font-bold">خط‌مشی آموزشی</h2>
-            <ul className="grid gap-2.5 text-[14px] leading-7 text-ink-2">
-              {ABOUT.policies.map((item) => <li key={item} className="flex gap-2"><span className="mt-2.5 size-1.5 shrink-0 rounded-full bg-accent" />{item.startsWith('[') ? <Placeholder>{item}</Placeholder> : item}</li>)}
-            </ul>
-          </Card>
+        <div className="grid gap-8">
+          {TEAM.map((group) => (
+            <div key={group.id} id={group.id}>
+              <h2 className="mb-3 text-lg font-extrabold">{group.title}</h2>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {group.roles.map((role) => (
+                  <Card key={role.title} className="gap-3 p-4">
+                    <div className="grid aspect-square w-full place-items-center rounded-xl border border-dashed border-warning/60 bg-warning-soft text-xs text-warning-soft-foreground">عکس</div>
+                    <div>
+                      <div className="text-[14.5px] font-bold">{role.title}</div>
+                      <div className="text-[13px] text-muted"><Placeholder>[نام و معرفی کوتاه]</Placeholder></div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
+      </SiteSection>
+    </>
+  );
+}
+
+export function GalleryPage() {
+  useEffect(() => { document.title = 'گالری · KLS School'; }, []);
+  return (
+    <>
+      <PageHero title="گالری" lead="تصویرهایی از محیط آموزشگاه، کلاس‌ها و رویدادها." />
+      <SiteSection>
+        <p className="mb-4 text-xs text-muted"><Placeholder>تصویرها را آموزشگاه تحویل می‌دهد.</Placeholder></p>
+        <PhotoGrid count={9} />
       </SiteSection>
     </>
   );

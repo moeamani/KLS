@@ -5,6 +5,15 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router';
 import { Logo } from '@/components/Logo';
 import { HOME } from '@/components/shell/nav';
 import { CONTACT, ONLINE_MENU, SERVICES_MENU } from '@/data/site';
+
+const FOOTER_COURSES: [string, string][] = [
+  ['رده سنی کودکان', '/courses/kids'], ['رده سنی نوجوانان', '/courses/teens'], ['رده سنی بزرگسالان', '/courses/adults'],
+  ['کلاس‌های آیلتس', '/ielts/course'], ['آزمون آزمایشی آیلتس (ماک)', '/ielts/mock'], ['دوره تربیت مدرس (TTC)', '/specialized/ttc'],
+  ['کلاس‌های خصوصی', '/courses/private'], ['کارگاه‌ها', '/workshops'],
+];
+const FOOTER_QUICK: [string, string][] = [
+  ['چرا خانه زبان؟', '/why'], ['تقویم آموزشی', '/calendar'], ['گالری', '/gallery'], ['تیم خانه زبان', '/team'], ['درباره ما', '/about'], ['تماس با ما', '/contact'],
+];
 import { useApp } from '@/store/app';
 
 function TopLink({ to, children, end }: { to: string; children: ReactNode; end?: boolean }) {
@@ -79,6 +88,7 @@ function MobileMenu() {
                     </div>
                   </div>
                 ))}
+                <button type="button" className="text-start font-bold" onClick={() => go('/team')}>تیم خانه زبان</button>
                 <div>
                   <div className="mb-1.5 text-xs font-bold text-muted">خدمات آنلاین</div>
                   <div className="grid gap-1">{ONLINE_MENU.map((link) => <button key={link.to} type="button" className="py-1 text-start font-semibold" onClick={() => go(link.to)}>{link.label}</button>)}</div>
@@ -119,6 +129,7 @@ export function SiteHeader() {
               </div>
             )}
           </MenuButton>
+          <TopLink to="/team">تیم خانه زبان</TopLink>
           <MenuButton label="خدمات آنلاین">
             {(close) => <div className="p-2">{ONLINE_MENU.map((link) => <MenuLink key={link.to} {...link} onClick={close} />)}</div>}
           </MenuButton>
@@ -142,11 +153,11 @@ export function SiteFooter() {
           <Logo />
           <p className="max-w-xs text-[13px] leading-7 text-muted">آموزش زبان انگلیسی برای کودکان، نوجوانان و بزرگسالان، و آمادگی آیلتس در کرمانشاه؛ بیش از ۲۴ سال.</p>
         </div>
-        {SERVICES_MENU.slice(0, 2).map((group) => (
-          <div key={group.title}>
-            <div className="mb-3 text-sm font-bold">{group.title}</div>
+        {[['دوره‌ها', FOOTER_COURSES], ['دسترسی سریع', FOOTER_QUICK]].map(([title, links]) => (
+          <div key={title as string}>
+            <div className="mb-3 text-sm font-bold">{title as string}</div>
             <ul className="grid gap-2 text-[13px]">
-              {group.links.map((link) => <li key={link.to}><Link href={link.to} className="text-ink-2 no-underline hover:text-foreground">{link.label}</Link></li>)}
+              {(links as [string, string][]).map(([label, to]) => <li key={to}><Link href={to} className="text-ink-2 no-underline hover:text-foreground">{label}</Link></li>)}
             </ul>
           </div>
         ))}

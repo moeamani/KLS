@@ -5,15 +5,15 @@ const levels = (prefix: string, titles: [string, string?][]): Level[] => titles.
 // Prices are placeholders the school edits in the admin panel (docs/03-academics.md).
 export const COURSES: Course[] = [
   {
-    id: 'kids', category: 'kids', title: 'انگلیسی کودکان', ageHint: '۵ تا ۱۱ سال', sessions: 20, minutes: 75, price: 3_800_000, priceUnit: 'term', needsPlacement: false,
+    id: 'kids', category: 'kids', title: 'انگلیسی کودکان', ageHint: '۷ تا ۱۱ سال', sessions: 20, minutes: 75, price: 3_800_000, priceUnit: 'term', needsPlacement: false,
     levels: levels('k', [['کودکان ۱', 'Pre-A1'], ['کودکان ۲', 'Pre-A1'], ['کودکان ۳', 'A1'], ['کودکان ۴', 'A1'], ['کودکان ۵', 'A2'], ['کودکان ۶', 'A2']]),
   },
   {
-    id: 'teens', category: 'teens', title: 'انگلیسی نوجوانان', ageHint: '۱۲ تا ۱۷ سال', sessions: 20, minutes: 90, price: 4_200_000, priceUnit: 'term', needsPlacement: true,
+    id: 'teens', category: 'teens', title: 'انگلیسی نوجوانان', ageHint: '۱۲ تا ۱۸ سال', sessions: 20, minutes: 90, price: 4_200_000, priceUnit: 'term', needsPlacement: true,
     levels: levels('t', [['نوجوانان ۱', 'A1'], ['نوجوانان ۲', 'A1'], ['نوجوانان ۳', 'A2'], ['نوجوانان ۴', 'A2'], ['نوجوانان ۵', 'B1'], ['نوجوانان ۶', 'B1'], ['نوجوانان ۷', 'B2'], ['نوجوانان ۸', 'B2']]),
   },
   {
-    id: 'adults', category: 'adults', title: 'انگلیسی بزرگسالان', ageHint: '۱۸ سال به بالا', sessions: 20, minutes: 90, price: 4_800_000, priceUnit: 'term', needsPlacement: true,
+    id: 'adults', category: 'adults', title: 'انگلیسی بزرگسالان', ageHint: '۲۰ سال به بالا', sessions: 20, minutes: 90, price: 4_800_000, priceUnit: 'term', needsPlacement: true,
     levels: levels('a', [['Elementary', 'A1'], ['Pre-Intermediate', 'A2'], ['Intermediate', 'B1'], ['Upper-Intermediate', 'B2'], ['Advanced', 'C1']]),
   },
   {
